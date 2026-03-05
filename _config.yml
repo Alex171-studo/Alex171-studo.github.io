@@ -1,0 +1,7 @@
+title: "Alex | Pentest & AI Security"
+description: "Write-ups TryHackMe, PortSwigger labs et sécurité offensive"
+author: "Alex171-studo"
+theme: minima
+
+plugins:
+  - jekyll-feed
