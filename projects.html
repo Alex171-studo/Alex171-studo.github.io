@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projets — Alex171</title>
+    <meta name="description" content="Projets techniques d'Alex171-studo en cybersécurité et développement." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+    <nav class="navbar">
+        <a class="nav-logo" href="index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a><a href="about.html">À propos</a>
+            <a href="writeups.html">Writeups</a><a href="certifications.html">Certifications</a>
+            <a href="projects.html" class="active">Projets</a><a href="resources.html">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html">Accueil</a><a href="about.html">À propos</a>
+        <a href="writeups.html">Writeups</a><a href="certifications.html">Certifications</a>
+        <a href="projects.html">Projets</a><a href="resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <div class="section-label">Développement & Outils</div>
+                    <h1 class="section-title">Mes <span>Projets</span></h1>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5rem;">
+
+                    <!-- Portfolio -->
+                    <div class="card fade-in gradient-border">
+                        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
+                            <span style="font-size:2rem;">🌐</span>
+                            <div style="display:flex;gap:0.5rem;">
+                                <span class="tag">HTML/CSS/JS</span>
+                                <span class="tag blue">Live</span>
+                            </div>
+                        </div>
+                        <h3 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">
+                            Portfolio Cybersec</h3>
+                        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;margin-bottom:1rem;">
+                            Ce portfolio — vitrine de mes writeups, certifications et projets. Design dark cybersec
+                            avec terminal interactif, matrix effect, animations CSS et filtre writeups dynamique.
+                        </p>
+                        <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:1rem;">
+                            <span class="tag">Matrix Rain</span><span class="tag">Terminal JS</span><span
+                                class="tag">GitHub Pages</span>
+                        </div>
+                        <a href="https://github.com/Alex171-studo/Alex171-studo.github.io" target="_blank"
+                            class="btn btn-outline" style="font-size:0.78rem;padding:0.5rem 1rem;">
+                            Voir sur GitHub →
+                        </a>
+                    </div>
+
+                    <!-- XOR Solver -->
+                    <div class="card fade-in fade-in-delay-1">
+                        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
+                            <span style="font-size:2rem;">🔓</span>
+                            <div><span class="tag">Python</span></div>
+                        </div>
+                        <h3 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">XOR
+                            Solver — Bookstore</h3>
+                        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;margin-bottom:1rem;">
+                            Script Python qui parse du code C décompilé par Ghidra, extrait automatiquement les
+                            constantes XOR
+                            et calcule le nombre magique pour l'escalade de privilèges. Développé lors du lab Bookstore
+                            (THM).
+                        </p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>solveur.py</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-bash">python3</span> solveur.py challenge.c
+<span class="hl-out">[*] Valeur cible : 0x5dcd21f4
+[-] Magic Number : 1573743953</span></pre>
+                        </div>
+                    </div>
+
+                    <!-- Next Project -->
+                    <div class="card fade-in fade-in-delay-2" style="border-style:dashed;opacity:0.6;">
+                        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;">
+                            <span style="font-size:2rem;">⚙️</span>
+                            <span class="tag red">Bientôt</span>
+                        </div>
+                        <h3 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin-bottom:0.5rem;">
+                            Prochain projet</h3>
+                        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">
+                            D'autres projets à venir au fur et à mesure de ma progression...
+                            Scripts d'automatisation, outils d'aide au pentest, notes de cours.
+                        </p>
+                        <div class="terminal-window" style="margin-top:1rem;">
+                            <div class="terminal-body" style="font-size:0.75rem;padding:0.75rem 1rem;">
+                                <div class="terminal-line"><span class="t-prompt">$</span><span class="t-cmd">&nbsp;echo
+                                        "En construction..."</span></div>
+                                <div class="terminal-line"><span class="t-output">Restez connectés 🚀</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links"><a href="writeups.html">Writeups</a><a href="resources.html">Ressources</a>
+                </div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+    <script src="js/main.js"></script>
+    <script src="js/terminal.js"></script>
+</body>
+
+</html>

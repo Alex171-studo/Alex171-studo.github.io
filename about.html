@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>À propos — Alex171</title>
+    <meta name="description"
+        content="À propos d'Alex171-studo — étudiant en prépa, futur ingénieur IA Security, passionné de pentest web." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+
+    <nav class="navbar">
+        <a class="nav-logo" href="index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="about.html" class="active">À propos</a>
+            <a href="writeups.html">Writeups</a>
+            <a href="certifications.html">Certifications</a>
+            <a href="projects.html">Projets</a>
+            <a href="resources.html">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html">Accueil</a><a href="about.html">À propos</a>
+        <a href="writeups.html">Writeups</a><a href="certifications.html">Certifications</a>
+        <a href="projects.html">Projets</a><a href="resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <!-- HEADER -->
+                <div class="section-header fade-in">
+                    <div class="section-label">À propos de moi</div>
+                    <h1 class="section-title">Alex171-<span>studo</span></h1>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;" class="about-grid">
+                    <!-- LEFT: BIO + TERMINAL -->
+                    <div>
+                        <div class="terminal-window fade-in" style="margin-bottom:2rem;">
+                            <div class="terminal-titlebar">
+                                <div class="terminal-dot dot-red"></div>
+                                <div class="terminal-dot dot-yellow"></div>
+                                <div class="terminal-dot dot-green"></div>
+                                <span class="terminal-title">about.sh</span>
+                            </div>
+                            <div class="terminal-body" style="font-size:0.8rem;">
+                                <div class="terminal-line"><span class="t-prompt">$</span><span class="t-cmd">&nbsp;cat
+                                        /home/alex/profile.json</span></div>
+                                <br />
+                                <div style="padding-left:1rem;line-height:2;">
+                                    <div><span class="t-key">"nom"</span><span class="t-output">:
+                                            "Alex171-studo",</span></div>
+                                    <div><span class="t-key">"niveau"</span><span class="t-output">: "Prépa CPGE 2ème
+                                            année",</span></div>
+                                    <div><span class="t-key">"objectif"</span><span class="t-output">: "École Ingénieur
+                                            IA & Big Data",</span></div>
+                                    <div><span class="t-key">"spécialité"</span><span class="t-output">: "Sécurité des
+                                            systèmes IA",</span></div>
+                                    <div><span class="t-key">"plateformes"</span><span class="t-output">:
+                                            ["TryHackMe","PortSwigger"],</span></div>
+                                    <div><span class="t-key">"focus"</span><span class="t-output">: "Pentest
+                                            Web",</span></div>
+                                    <div><span class="t-key">"langue"</span><span class="t-output">: ["Français",
+                                            "English"]</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card fade-in">
+                            <h3 style="font-size:1.1rem;font-weight:700;color:var(--text-primary);margin-bottom:1rem;">
+                                Mon parcours en quelques mots</h3>
+                            <p style="color:var(--text-secondary);line-height:1.8;font-size:0.92rem;">
+                                Je suis passionné par la cybersécurité offensive depuis que j'ai découvert TryHackMe et
+                                PortSwigger Web Academy.
+                                En parallèle de ma prépa CPGE, je pratique régulièrement le pentest web sur des labs
+                                contrôlés pour développer
+                                des compétences concrètes.
+                            </p>
+                            <p
+                                style="color:var(--text-secondary);line-height:1.8;font-size:0.92rem;margin-top:0.75rem;">
+                                Mon ambition est de rejoindre une école d'ingénieur spécialisée en <span
+                                    style="color:var(--green)">IA &amp; Big Data</span>,
+                                avec pour horizon la <span style="color:var(--blue)">sécurité des systèmes
+                                    d'intelligence artificielle</span> — une discipline
+                                encore émergente mais cruciale pour l'avenir.
+                            </p>
+                            <p
+                                style="color:var(--text-secondary);line-height:1.8;font-size:0.92rem;margin-top:0.75rem;">
+                                Ce portfolio est ma vitrine : writeups de labs, certifications, projets et ressources.
+                                L'objectif est de
+                                documenter ma progression et de construire une vraie présence dans la communauté
+                                cybersec.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: TIMELINE + SKILLS -->
+                    <div>
+                        <div class="section-header fade-in" style="margin-bottom:1.5rem;">
+                            <div class="section-label">Parcours</div>
+                            <h2 class="section-title" style="font-size:1.6rem;">Timeline</h2>
+                        </div>
+
+                        <div class="timeline fade-in">
+                            <div class="timeline-item">
+                                <div class="timeline-date">2026 — Présent</div>
+                                <div class="timeline-title">🔴 TryHackMe — Pentester Web</div>
+                                <div class="timeline-sub">Parcours en cours. Labs avancés : SSRF, XXE, CORS,
+                                    Deserialization, OAuth.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2025 — 2026</div>
+                                <div class="timeline-title">🟠 PortSwigger Web Academy</div>
+                                <div class="timeline-sub">Complété : XSS, SQL Injection, Server-Side Vulnerabilities.
+                                    Tous les labs pratiques effectués.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2025</div>
+                                <div class="timeline-title">🔴 TryHackMe — Jr Pentester & Web Fundamentals</div>
+                                <div class="timeline-sub">Parcours complétés avec succès. Bases solides en pentest web,
+                                    réseau et Linux.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2024 — 2025</div>
+                                <div class="timeline-title">🔴 TryHackMe — Pre-Security</div>
+                                <div class="timeline-sub">Premier parcours officiel. Fondamentaux réseau, web, Linux,
+                                    cryptographie.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2023 — Présent</div>
+                                <div class="timeline-title">🎓 CPGE — Classes Préparatoires</div>
+                                <div class="timeline-sub">2ème année. Préparation aux concours grandes écoles,
+                                    spécialité Maths-Info. Objectif : école ingénieur IA & Big Data.</div>
+                            </div>
+                        </div>
+
+                        <!-- SKILLS BARS -->
+                        <div class="card fade-in" style="margin-top:2rem;">
+                            <div class="section-label" style="margin-bottom:1rem;">Compétences techniques</div>
+                            <div style="display:flex;flex-direction:column;gap:1rem;">
+                                <div>
+                                    <div
+                                        style="display:flex;justify-content:space-between;margin-bottom:0.35rem;font-size:0.82rem;">
+                                        <span style="font-family:var(--font-mono);color:var(--text-secondary);">Pentest
+                                            Web</span>
+                                        <span style="font-family:var(--font-mono);color:var(--green);">75%</span>
+                                    </div>
+                                    <div class="cert-progress">
+                                        <div class="cert-progress-fill" data-width="75" style="width:0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        style="display:flex;justify-content:space-between;margin-bottom:0.35rem;font-size:0.82rem;">
+                                        <span style="font-family:var(--font-mono);color:var(--text-secondary);">Linux /
+                                            Bash</span>
+                                        <span style="font-family:var(--font-mono);color:var(--green);">70%</span>
+                                    </div>
+                                    <div class="cert-progress">
+                                        <div class="cert-progress-fill" data-width="70" style="width:0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        style="display:flex;justify-content:space-between;margin-bottom:0.35rem;font-size:0.82rem;">
+                                        <span
+                                            style="font-family:var(--font-mono);color:var(--text-secondary);">Python</span>
+                                        <span style="font-family:var(--font-mono);color:var(--green);">65%</span>
+                                    </div>
+                                    <div class="cert-progress">
+                                        <div class="cert-progress-fill" data-width="65" style="width:0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        style="display:flex;justify-content:space-between;margin-bottom:0.35rem;font-size:0.82rem;">
+                                        <span
+                                            style="font-family:var(--font-mono);color:var(--text-secondary);">Exploitation
+                                            Web (XSS, SQLi, LFI...)</span>
+                                        <span style="font-family:var(--font-mono);color:var(--green);">80%</span>
+                                    </div>
+                                    <div class="cert-progress">
+                                        <div class="cert-progress-fill" data-width="80" style="width:0%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        style="display:flex;justify-content:space-between;margin-bottom:0.35rem;font-size:0.82rem;">
+                                        <span
+                                            style="font-family:var(--font-mono);color:var(--text-secondary);">Privilege
+                                            Escalation</span>
+                                        <span style="font-family:var(--font-mono);color:var(--green);">60%</span>
+                                    </div>
+                                    <div class="cert-progress">
+                                        <div class="cert-progress-fill" data-width="60" style="width:0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links">
+                    <a href="https://github.com/Alex171-studo" target="_blank">GitHub</a>
+                    <a href="writeups.html">Writeups</a>
+                    <a href="resources.html">Ressources</a>
+                </div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+
+    <style>
+        @media(max-width:768px) {
+            .about-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+    <script src="js/main.js"></script>
+    <script src="js/terminal.js"></script>
+</body>
+
+</html>

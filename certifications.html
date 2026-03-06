@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certifications — Alex171</title>
+    <meta name="description"
+        content="Certifications et parcours de Alex171 sur TryHackMe et PortSwigger Web Academy." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+    <nav class="navbar">
+        <a class="nav-logo" href="index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a><a href="about.html">À propos</a>
+            <a href="writeups.html">Writeups</a><a href="certifications.html" class="active">Certifications</a>
+            <a href="projects.html">Projets</a><a href="resources.html">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html">Accueil</a><a href="about.html">À propos</a>
+        <a href="writeups.html">Writeups</a><a href="certifications.html">Certifications</a>
+        <a href="projects.html">Projets</a><a href="resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <div class="section-label">Parcours & Badges</div>
+                    <h1 class="section-title">Mes <span>Certifications</span></h1>
+                </div>
+
+                <!-- THM -->
+                <div style="margin-bottom:3rem;">
+                    <div class="section-label fade-in" style="margin-bottom:1.5rem;font-size:0.9rem;">
+                        🔴 TryHackMe — Learning Paths
+                    </div>
+                    <div class="cert-grid">
+
+                        <div class="card cert-card fade-in gradient-border">
+                            <div class="cert-platform">TryHackMe</div>
+                            <div class="cert-name">Pre-Security</div>
+                            <div class="cert-status done">✔ Complété</div>
+                            <div class="cert-desc">Fondamentaux cybersécurité : réseau, Linux, web, cryptographie.
+                                Premier parcours officiel.</div>
+                            <div class="cert-progress">
+                                <div class="cert-progress-fill" data-width="100" style="width:0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="card cert-card fade-in fade-in-delay-1">
+                            <div class="cert-platform">TryHackMe</div>
+                            <div class="cert-name">Jr Penetration Tester</div>
+                            <div class="cert-status done">✔ Complété</div>
+                            <div class="cert-desc">Méthodologie pentest, enumération, exploitation web, privesc
+                                Linux/Windows. Labs pratiques.</div>
+                            <div class="cert-progress">
+                                <div class="cert-progress-fill" data-width="100" style="width:0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="card cert-card fade-in fade-in-delay-2">
+                            <div class="cert-platform">TryHackMe</div>
+                            <div class="cert-name">Web Fundamentals</div>
+                            <div class="cert-status done">✔ Complété</div>
+                            <div class="cert-desc">HTTP, OWASP Top 10, SQLi, XSS, CSRF, authentification, upload, SSRF.
+                                Bases solides en sécurité web.</div>
+                            <div class="cert-progress">
+                                <div class="cert-progress-fill" data-width="100" style="width:0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="card cert-card fade-in fade-in-delay-3">
+                            <div class="cert-platform">TryHackMe</div>
+                            <div class="cert-name">Pentester Web 🔄</div>
+                            <div class="cert-status wip">⟳ En cours</div>
+                            <div class="cert-desc">Pentest web avancé : SSRF, XXE, CORS, Deserialization, OAuth, JWT,
+                                race conditions.</div>
+                            <div class="cert-progress">
+                                <div class="cert-progress-fill" data-width="45" style="width:0%"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- PortSwigger -->
+                <div>
+                    <div class="section-label fade-in" style="margin-bottom:1.5rem;font-size:0.9rem;">
+                        🟠 PortSwigger Web Academy — Learning Paths
+                    </div>
+                    <div class="cert-grid">
+
+                        <div class="card cert-card fade-in">
+                            <div class="cert-platform">PortSwigger</div>
+                            <div class="cert-name">Cross-Site Scripting (XSS)</div>
+                            <div class="cert-status done">✔ Complété</div>
+                            <div class="cert-desc">Reflected, stored, DOM-based XSS. Contournement de filtres,
+                                exfiltration de cookies, bypass CSP.</div>
+                            <div class="cert-progress">
+                                <div class="cert-progress-fill" data-width="100" style="width:0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="card cert-card fade-in fade-in-delay-1">
+                            <div class="cert-platform">PortSwigger</div>
+                            <div class="cert-name">SQL Injection</div>
+                            <div class="cert-status done">✔ Complété</div>
+                            <div class="cert-desc">Union-based, blind (boolean/time), error-based. Extraction de
+                                données, bypass d'authentification.</div>
+                            <div class="cert-progress">
+                                <div class="cert-progress-fill" data-width="100" style="width:0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="card cert-card fade-in fade-in-delay-2">
+                            <div class="cert-platform">PortSwigger</div>
+                            <div class="cert-name">Server-Side Vulnerabilities</div>
+                            <div class="cert-status done">✔ Complété</div>
+                            <div class="cert-desc">Path traversal, OS command injection, broken access control, SSRF,
+                                file upload vulnerabilities.</div>
+                            <div class="cert-progress">
+                                <div class="cert-progress-fill" data-width="100" style="width:0%"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- SUMMARY TERMINAL -->
+                <div class="terminal-window fade-in" style="max-width:600px;margin:3rem auto 0;">
+                    <div class="terminal-titlebar">
+                        <div class="terminal-dot dot-red"></div>
+                        <div class="terminal-dot dot-yellow"></div>
+                        <div class="terminal-dot dot-green"></div>
+                        <span class="terminal-title">certs_summary.sh</span>
+                    </div>
+                    <div class="terminal-body" style="font-size:0.8rem;">
+                        <div class="terminal-line"><span class="t-prompt">$</span><span
+                                class="t-cmd">&nbsp;./check_certs.sh</span></div>
+                        <br />
+                        <div class="terminal-line"><span class="t-success">[✔] Pre-Security</span><span
+                                class="t-output">&emsp;— TryHackMe</span></div>
+                        <div class="terminal-line"><span class="t-success">[✔] Jr Pentester</span><span
+                                class="t-output">&emsp;— TryHackMe</span></div>
+                        <div class="terminal-line"><span class="t-success">[✔] Web Fundamentals</span><span
+                                class="t-output">— TryHackMe</span></div>
+                        <div class="terminal-line"><span class="t-key">[⟳] Pentester Web</span><span
+                                class="t-output">&emsp;— TryHackMe (45%)</span></div>
+                        <br />
+                        <div class="terminal-line"><span class="t-success">[✔] XSS</span><span
+                                class="t-output">&emsp;&emsp;&emsp;&emsp;&emsp;— PortSwigger</span></div>
+                        <div class="terminal-line"><span class="t-success">[✔] SQL Injection</span><span
+                                class="t-output">&emsp;— PortSwigger</span></div>
+                        <div class="terminal-line"><span class="t-success">[✔] Server-Side</span><span
+                                class="t-output">&emsp;&emsp;— PortSwigger</span></div>
+                        <br />
+                        <div class="terminal-line"><span class="t-output">Total complétés : <span class="t-success">6 /
+                                    7</span></span></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links"><a href="writeups.html">Writeups</a><a href="resources.html">Ressources</a>
+                </div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+    <script src="js/main.js"></script>
+    <script src="js/terminal.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alex171 | Cybersec & AI Security</title>
+  <meta name="description" content="Portfolio de Alex171-studo — Étudiant en prépa, passionné de pentest web, TryHackMe et PortSwigger. Writeups, certifications et ressources cybersécurité."/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>"/>
+</head>
+<body>
+<canvas id="matrix-canvas"></canvas>
+<div class="grid-bg"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a class="nav-logo" href="index.html">&gt;_<span> alex171</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Accueil</a>
+    <a href="about.html">À propos</a>
+    <a href="writeups.html">Writeups</a>
+    <a href="certifications.html">Certifications</a>
+    <a href="projects.html">Projets</a>
+    <a href="resources.html">Ressources</a>
+  </div>
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">Accueil</a>
+  <a href="about.html">À propos</a>
+  <a href="writeups.html">Writeups</a>
+  <a href="certifications.html">Certifications</a>
+  <a href="projects.html">Projets</a>
+  <a href="resources.html">Ressources</a>
+</div>
+
+<main>
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero section">
+  <div class="hero-glow"></div>
+  <div class="hero-line"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-eyebrow fade-in">
+        <span>Bienvenue sur mon portfolio</span>
+      </div>
+      <h1 class="hero-title fade-in fade-in-delay-1">
+        Bonjour, je suis<br/>
+        <span class="green">Alex171</span>
+      </h1>
+      <div class="hero-subtitle fade-in fade-in-delay-2">
+        <span id="typing-text" data-texts='["Pentest Web Enthusiast", "TryHackMe Player", "Future AI Security Engineer", "PortSwigger Labs Solver", "CTF Writeup Writer"]'></span><span class="cursor"></span>
+      </div>
+      <p class="hero-desc fade-in fade-in-delay-3">
+        Étudiant en 2ème année de CPGE, je me prépare à intégrer une école d'ingénieur
+        spécialisée en IA &amp; Big Data avec une vision claire : devenir ingénieur
+        en <strong style="color:var(--green)">sécurité des systèmes IA</strong>.<br/>
+        Je pratique le pentest web sur TryHackMe et PortSwigger Web Academy.
+      </p>
+      <div class="hero-cta fade-in fade-in-delay-4">
+        <a href="writeups.html" class="btn btn-primary">⚡ Voir mes Writeups</a>
+        <a href="certifications.html" class="btn btn-outline">🏆 Certifications</a>
+        <a href="about.html" class="btn btn-blue">→ À propos</a>
+      </div>
+      <div class="hero-stats fade-in fade-in-delay-4">
+        <div class="stat">
+          <span class="stat-number" data-target="7" data-suffix="">7</span>
+          <span class="stat-label">Labs résolus</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="3" data-suffix="">3</span>
+          <span class="stat-label">Parcours THM</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="3" data-suffix="">3</span>
+          <span class="stat-label">Certifs PortSwigger</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number" data-target="7" data-suffix="">7</span>
+          <span class="stat-label">Writeups publiés</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ TERMINAL PREVIEW ══════════════ -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="terminal-window fade-in" style="max-width:680px;margin:0 auto;">
+      <div class="terminal-titlebar">
+        <div class="terminal-dot dot-red"></div>
+        <div class="terminal-dot dot-yellow"></div>
+        <div class="terminal-dot dot-green"></div>
+        <span class="terminal-title">alex@portfolio:~</span>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line"><span class="t-prompt">alex@portfolio:~$</span><span class="t-cmd">&nbsp;whoami</span></div>
+        <div class="terminal-line"><span class="t-output">Alex171-studo — Pentester en formation, futur ingénieur IA Security</span></div>
+        <br/>
+        <div class="terminal-line"><span class="t-prompt">alex@portfolio:~$</span><span class="t-cmd">&nbsp;cat skills.txt</span></div>
+        <div class="terminal-line"><span class="t-key">pentest</span><span class="t-output">&nbsp;: Burp Suite · Nmap · SQLmap · Metasploit · ffuf · gobuster</span></div>
+        <div class="terminal-line"><span class="t-key">vulns&nbsp;&nbsp;&nbsp;</span><span class="t-output">&nbsp;: XSS · SQLi · LFI/RFI · RCE · IDOR · Command Injection</span></div>
+        <div class="terminal-line"><span class="t-key">systèmes</span><span class="t-output">&nbsp;: Linux · SSH · SMB · Docker</span></div>
+        <div class="terminal-line"><span class="t-key">code&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="t-output">&nbsp;: Python · Bash · HTML/CSS/JS</span></div>
+        <br/>
+        <div class="terminal-line"><span class="t-prompt">alex@portfolio:~$</span><span class="t-cmd">&nbsp;ls writeups/</span></div>
+        <div class="terminal-line"><span class="t-success">gamezone.html&nbsp;&nbsp; easy-ctf.html&nbsp;&nbsp; chill-hack.html</span></div>
+        <div class="terminal-line"><span class="t-success">blog.html&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; daily-bugle.html bookstore.html&nbsp;&nbsp; skynet.html</span></div>
+        <br/>
+        <div class="terminal-line"><span class="t-prompt">alex@portfolio:~$</span><span class="t-cmd">&nbsp;<span class="cursor"></span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ DERNIERS WRITEUPS ══════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Dernières publications</div>
+      <h2 class="section-title">Writeups <span>récents</span></h2>
+    </div>
+    <div class="writeup-grid">
+      <!-- Skynet -->
+      <article class="card writeup-card fade-in" data-platform="thm" data-tags="smb,rfi,tar,wildcard,linux">
+        <div class="writeup-card-header">
+          <span class="writeup-platform">TryHackMe</span>
+          <span class="diff diff-medium">Medium</span>
+        </div>
+        <h3 class="writeup-title">Skynet</h3>
+        <p class="writeup-desc">Enumération SMB, bruteforce SquirrelMail, RFI via Cuppa CMS, escalade par Tar Wildcard Injection.</p>
+        <div class="writeup-tags">
+          <span class="tag">SMB</span><span class="tag">RFI</span><span class="tag">Tar Wildcard</span><span class="tag">Linux</span>
+        </div>
+        <div class="writeup-footer">
+          <span>05 Mar 2026</span>
+          <a href="writeups/skynet.html" class="writeup-link">Lire →</a>
+        </div>
+      </article>
+      <!-- Blog -->
+      <article class="card writeup-card fade-in fade-in-delay-1" data-platform="thm" data-tags="wordpress,rce,suid,linux">
+        <div class="writeup-card-header">
+          <span class="writeup-platform">TryHackMe</span>
+          <span class="diff diff-medium">Medium</span>
+        </div>
+        <h3 class="writeup-title">Blog</h3>
+        <p class="writeup-desc">WordPress 5.0, exploitation CVE-2019-8942 via Metasploit, SUID binary avec variable d'env.</p>
+        <div class="writeup-tags">
+          <span class="tag">WordPress</span><span class="tag">RCE</span><span class="tag">SUID</span>
+        </div>
+        <div class="writeup-footer">
+          <span>04 Mar 2026</span>
+          <a href="writeups/blog.html" class="writeup-link">Lire →</a>
+        </div>
+      </article>
+      <!-- Chill Hack -->
+      <article class="card writeup-card fade-in fade-in-delay-2" data-platform="thm" data-tags="ftp,command injection,docker,linux">
+        <div class="writeup-card-header">
+          <span class="writeup-platform">TryHackMe</span>
+          <span class="diff diff-easy">Easy</span>
+        </div>
+        <h3 class="writeup-title">Chill Hack</h3>
+        <p class="writeup-desc">Contournement de filtre bash, command injection via variable vide, stéganographie, escalade Docker.</p>
+        <div class="writeup-tags">
+          <span class="tag">Command Injection</span><span class="tag">Stéganographie</span><span class="tag">Docker</span>
+        </div>
+        <div class="writeup-footer">
+          <span>02 Mar 2026</span>
+          <a href="writeups/chill-hack.html" class="writeup-link">Lire →</a>
+        </div>
+      </article>
+    </div>
+    <div style="text-align:center;margin-top:2rem;" class="fade-in">
+      <a href="writeups.html" class="btn btn-outline">Voir tous les writeups →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ OUTILS ══════════════ -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Stack</div>
+      <h2 class="section-title">Outils <span>&amp; Arsenal</span></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item fade-in"><div class="skill-icon">🔍</div><div class="skill-name">Nmap</div></div>
+      <div class="skill-item fade-in fade-in-delay-1"><div class="skill-icon">🕷️</div><div class="skill-name">Burp Suite</div></div>
+      <div class="skill-item fade-in fade-in-delay-2"><div class="skill-icon">💉</div><div class="skill-name">SQLmap</div></div>
+      <div class="skill-item fade-in fade-in-delay-3"><div class="skill-icon">🎯</div><div class="skill-name">Metasploit</div></div>
+      <div class="skill-item fade-in"><div class="skill-icon">🌀</div><div class="skill-name">ffuf</div></div>
+      <div class="skill-item fade-in fade-in-delay-1"><div class="skill-icon">🔓</div><div class="skill-name">Gobuster</div></div>
+      <div class="skill-item fade-in fade-in-delay-2"><div class="skill-icon">🔑</div><div class="skill-name">John / Hash</div></div>
+      <div class="skill-item fade-in fade-in-delay-3"><div class="skill-icon">🐍</div><div class="skill-name">Python</div></div>
+      <div class="skill-item fade-in"><div class="skill-icon">🐧</div><div class="skill-name">Linux</div></div>
+      <div class="skill-item fade-in fade-in-delay-1"><div class="skill-icon">🔐</div><div class="skill-name">Ghidra</div></div>
+      <div class="skill-item fade-in fade-in-delay-2"><div class="skill-icon">📡</div><div class="skill-name">Netcat</div></div>
+      <div class="skill-item fade-in fade-in-delay-3"><div class="skill-icon">🐳</div><div class="skill-name">Docker</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ PLATFORMS ══════════════ -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Plateformes</div>
+      <h2 class="section-title">Où je <span>m'entraîne</span></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
+      <div class="card fade-in">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;">
+          <span style="font-size:2rem;">🔴</span>
+          <div>
+            <div style="font-weight:700;color:var(--text-primary);">TryHackMe</div>
+            <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--green);">Active Learner</div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">
+          Parcours complétés : Pre-Security, Jr Pentester, Web Fundamentals. En cours : Pentester Web.
+        </p>
+        <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span class="tag">Pre-Security ✓</span>
+          <span class="tag">Jr Pentester ✓</span>
+          <span class="tag">Web Fund. ✓</span>
+        </div>
+      </div>
+      <div class="card fade-in fade-in-delay-1">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;">
+          <span style="font-size:2rem;">🟠</span>
+          <div>
+            <div style="font-weight:700;color:var(--text-primary);">PortSwigger Web Academy</div>
+            <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--blue);">Web Hacker</div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">
+          Parcours terminés : XSS, SQL Injection, Server-Side Vulnerabilities avec tous les labs pratiques.
+        </p>
+        <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span class="tag blue">XSS ✓</span>
+          <span class="tag blue">SQLi ✓</span>
+          <span class="tag blue">Server-Side ✓</span>
+        </div>
+      </div>
+      <div class="card fade-in fade-in-delay-2">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.75rem;">
+          <span style="font-size:2rem;">🎓</span>
+          <div>
+            <div style="font-weight:700;color:var(--text-primary);">Formation Académique</div>
+            <div style="font-family:var(--font-mono);font-size:0.72rem;color:var(--red);">CPGE → Ingénieur IA</div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;">
+          2ème année de Classes Préparatoires. Objectif : école d'ingénieur IA & Big Data, spécialisation en sécurité des systèmes IA.
+        </p>
+        <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.35rem;">
+          <span class="tag red">Prépa 2A</span>
+          <span class="tag red">IA Security</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-name">&gt;_ alex171-studo</div>
+      <div class="footer-links">
+        <a href="https://github.com/Alex171-studo" target="_blank">GitHub</a>
+        <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
+        <a href="writeups.html">Writeups</a>
+        <a href="resources.html">Ressources</a>
+      </div>
+      <div class="footer-copy">© 2026 Alex171-studo — Cybersec Portfolio</div>
+    </div>
+  </div>
+</footer>
+
+<!-- INTERACTIVE TERMINAL -->
+<div id="interactive-terminal" class="terminal-window">
+  <div class="terminal-titlebar">
+    <div class="terminal-dot dot-red"></div>
+    <div class="terminal-dot dot-yellow"></div>
+    <div class="terminal-dot dot-green"></div>
+    <span class="terminal-title">Terminal interactif</span>
+    <button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;font-size:0.8rem;">✕</button>
+  </div>
+  <div class="term-interactive-body" id="term-output"></div>
+  <div class="term-input-line">
+    <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+    <input type="text" id="term-input" class="term-input" placeholder="tape une commande..." autocomplete="off" spellcheck="false"/>
+  </div>
+</div>
+<button class="term-toggle-btn" id="term-toggle" title="Terminal interactif">&gt;_</button>
+
+<script src="js/main.js"></script>
+<script src="js/terminal.js"></script>
+</body>
+</html>

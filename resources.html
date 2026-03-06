@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ressources — Alex171</title>
+    <meta name="description"
+        content="Ressources cybersécurité sélectionnées par Alex171 — outils, cheatsheets, plateformes, références." />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+    <nav class="navbar">
+        <a class="nav-logo" href="index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a><a href="about.html">À propos</a>
+            <a href="writeups.html">Writeups</a><a href="certifications.html">Certifications</a>
+            <a href="projects.html">Projets</a><a href="resources.html" class="active">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html">Accueil</a><a href="about.html">À propos</a>
+        <a href="writeups.html">Writeups</a><a href="certifications.html">Certifications</a>
+        <a href="projects.html">Projets</a><a href="resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div class="section-header fade-in">
+                    <div class="section-label">Cheatsheets & Outils</div>
+                    <h1 class="section-title">Mes <span>Ressources</span></h1>
+                    <p style="color:var(--text-secondary);margin-top:0.75rem;font-size:0.95rem;">
+                        Les ressources que j'utilise au quotidien pour apprendre et pratiquer la cybersécurité.
+                    </p>
+                </div>
+
+                <div class="resources-grid">
+
+                    <!-- Plateformes -->
+                    <div class="card fade-in">
+                        <div class="resource-category-title">🎓 Plateformes d'entraînement</div>
+                        <div class="resource-links">
+                            <a href="https://tryhackme.com" target="_blank" class="resource-link">
+                                <span>TryHackMe</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://portswigger.net/web-security" target="_blank" class="resource-link">
+                                <span>PortSwigger Web Academy</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://www.hackthebox.com" target="_blank" class="resource-link">
+                                <span>HackTheBox</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://ctftime.org" target="_blank" class="resource-link">
+                                <span>CTFtime — Compétitions CTF</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://pentesterlab.com" target="_blank" class="resource-link">
+                                <span>PentesterLab</span><span class="resource-link-icon">↗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Payloads & Refs -->
+                    <div class="card fade-in fade-in-delay-1">
+                        <div class="resource-category-title">💉 Payloads & Références</div>
+                        <div class="resource-links">
+                            <a href="https://github.com/swisskyrepo/PayloadsAllTheThings" target="_blank"
+                                class="resource-link">
+                                <span>PayloadsAllTheThings</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://gtfobins.github.io" target="_blank" class="resource-link">
+                                <span>GTFOBins — Privilege Escalation</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://book.hacktricks.xyz" target="_blank" class="resource-link">
+                                <span>HackTricks</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://exploit.education" target="_blank" class="resource-link">
+                                <span>Exploit.education</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://lolbas-project.github.io" target="_blank" class="resource-link">
+                                <span>LOLBAS (Windows)</span><span class="resource-link-icon">↗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Outils -->
+                    <div class="card fade-in fade-in-delay-2">
+                        <div class="resource-category-title">🔧 Outils essentiels</div>
+                        <div class="resource-links">
+                            <a href="https://portswigger.net/burp" target="_blank" class="resource-link">
+                                <span>Burp Suite</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://nmap.org" target="_blank" class="resource-link">
+                                <span>Nmap</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://sqlmap.org" target="_blank" class="resource-link">
+                                <span>SQLmap</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://www.metasploit.com" target="_blank" class="resource-link">
+                                <span>Metasploit Framework</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://github.com/OJ/gobuster" target="_blank" class="resource-link">
+                                <span>Gobuster</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://github.com/ffuf/ffuf" target="_blank" class="resource-link">
+                                <span>ffuf — Web Fuzzer</span><span class="resource-link-icon">↗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CVE & Vulns -->
+                    <div class="card fade-in">
+                        <div class="resource-category-title">🔍 CVE & Vulnerabilités</div>
+                        <div class="resource-links">
+                            <a href="https://nvd.nist.gov" target="_blank" class="resource-link">
+                                <span>NVD — National Vulnerability Database</span><span
+                                    class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://www.exploit-db.com" target="_blank" class="resource-link">
+                                <span>Exploit-DB</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://cve.mitre.org" target="_blank" class="resource-link">
+                                <span>CVE MITRE</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://www.cvedetails.com" target="_blank" class="resource-link">
+                                <span>CVE Details</span><span class="resource-link-icon">↗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Crypto & Hashing -->
+                    <div class="card fade-in fade-in-delay-1">
+                        <div class="resource-category-title">🔑 Crypto & Hash Cracking</div>
+                        <div class="resource-links">
+                            <a href="https://hashes.com/en/tools/hash_identifier" target="_blank" class="resource-link">
+                                <span>Hash Identifier — hashes.com</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://crackstation.net" target="_blank" class="resource-link">
+                                <span>CrackStation</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://gchq.github.io/CyberChef/" target="_blank" class="resource-link">
+                                <span>CyberChef</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://www.openwall.com/john/" target="_blank" class="resource-link">
+                                <span>John The Ripper</span><span class="resource-link-icon">↗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- OSINT -->
+                    <div class="card fade-in fade-in-delay-2">
+                        <div class="resource-category-title">🌐 OSINT & Reconnaissance</div>
+                        <div class="resource-links">
+                            <a href="https://www.shodan.io" target="_blank" class="resource-link">
+                                <span>Shodan</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://censys.io" target="_blank" class="resource-link">
+                                <span>Censys</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://dnsdumpster.com" target="_blank" class="resource-link">
+                                <span>DNSDumpster</span><span class="resource-link-icon">↗</span>
+                            </a>
+                            <a href="https://www.whois.com/whois/" target="_blank" class="resource-link">
+                                <span>WHOIS Lookup</span><span class="resource-link-icon">↗</span>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- CHEATSHEETS REF -->
+                <div class="card fade-in" style="margin-top:2rem;">
+                    <div class="section-label" style="margin-bottom:1rem;">Quick Cheatsheet — Commandes fréquentes</div>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;">
+                        <div class="code-block">
+                            <div class="code-block-header"><span>nmap.sh</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">nmap</span> -sC -sV -A -p- target.thm
+<span class="hl-bash">nmap</span> -sC -sV -sS target.thm</pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>gobuster.sh</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-bash">gobuster</span> dir -u http://target.thm \
+  -w /usr/share/wordlists/seclists/\
+Discovery/Web-Content/common.txt</pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>sqlmap.sh</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-bash">sqlmap</span> -r request.txt \
+  --dbms=mysql --dump --batch</pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>john.sh</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">john</span> --format=Raw-SHA256 \
+  --wordlist=/usr/share/wordlists/\
+rockyou.txt hash.txt</pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>revshell.sh</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-comment"># Listener</span>
+<span class="hl-bash">nc</span> -lvnp 9001
+<span class="hl-comment"># Stabilisation</span>
+python3 -c <span class="hl-out">'import pty;pty.spawn("/bin/bash")'</span></pre>
+                        </div>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>privesc.sh</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre><span class="hl-bash">sudo</span> -l
+<span class="hl-bash">find</span> / -perm -4000 -type f 2>/dev/null
+<span class="hl-bash">cat</span> /etc/crontab</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links"><a href="writeups.html">Writeups</a><a
+                        href="certifications.html">Certifications</a></div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+    <script src="js/main.js"></script>
+    <script src="js/terminal.js"></script>
+</body>
+
+</html>

