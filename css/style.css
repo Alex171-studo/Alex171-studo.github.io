@@ -1020,6 +1020,10 @@ pre code {
 }
 
 /* ── WRITEUP CONTENT ── */
+.writeup-content {
+  min-width: 0;
+}
+
 .writeup-content h2 {
   font-size: 1.5rem;
   font-weight: 700;
