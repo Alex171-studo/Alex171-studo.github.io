@@ -6,18 +6,18 @@
 const TERMINAL_COMMANDS = {
     help: {
         fn: () => `
-<span class="t-success">Commandes disponibles :</span>
-<span class="t-key">whoami</span>       → À propos d'Alex
-<span class="t-key">projects</span>     → Voir les projets
-<span class="t-key">writeups</span>     → Writeups CTF & Labs
-<span class="t-key">certs</span>        → Certifications
-<span class="t-key">resources</span>    → Ressources & outils
-<span class="t-key">skills</span>       → Stack technique
-<span class="t-key">contact</span>      → Me contacter
-<span class="t-key">clear</span>        → Effacer le terminal
-<span class="t-key">ls</span>           → Lister les pages
-<span class="t-key">cat about</span>    → Infos rapides
-<span class="t-key">exit</span>         → Fermer le terminal`,
+<span class="t-success">Commandes disponibles :</span><br>
+<span class="t-key" style="display:inline-block;width:80px">whoami</span> → À propos d'Alex<br>
+<span class="t-key" style="display:inline-block;width:80px">projects</span> → Voir les projets<br>
+<span class="t-key" style="display:inline-block;width:80px">writeups</span> → Writeups CTF & Labs<br>
+<span class="t-key" style="display:inline-block;width:80px">certs</span>    → Certifications<br>
+<span class="t-key" style="display:inline-block;width:80px">resources</span>→ Ressources & outils<br>
+<span class="t-key" style="display:inline-block;width:80px">skills</span>   → Stack technique<br>
+<span class="t-key" style="display:inline-block;width:80px">contact</span>  → Me contacter<br>
+<span class="t-key" style="display:inline-block;width:80px">clear</span>    → Effacer le terminal<br>
+<span class="t-key" style="display:inline-block;width:80px">ls</span>       → Lister les pages<br>
+<span class="t-key" style="display:inline-block;width:80px">cat about</span>→ Infos rapides<br>
+<span class="t-key" style="display:inline-block;width:80px">exit</span>     → Fermer le terminal`,
     },
 
     whoami: {
@@ -220,8 +220,7 @@ class InteractiveTerminal {
     }
 
     scrollBottom() {
-        const body = this.output.parentElement;
-        body.scrollTop = body.scrollHeight;
+        this.output.scrollTop = this.output.scrollHeight;
     }
 
     escape(str) {

