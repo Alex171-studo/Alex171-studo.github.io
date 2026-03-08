@@ -609,9 +609,12 @@ main {
 
 .term-interactive-body {
   padding: 1rem 1.25rem;
-  min-height: 200px;
   max-height: 350px;
   overflow-y: auto;
+}
+
+#interactive-terminal .term-interactive-body {
+  min-height: 200px;
 }
 
 .term-input-line {

