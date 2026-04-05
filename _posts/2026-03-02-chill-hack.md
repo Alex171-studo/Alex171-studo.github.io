@@ -2,10 +2,11 @@
 title: "Chill Hack - Writeup"
 date: 2026-03-02
 categorie: [TryHackMe, CTF]
-tags: [FTP, Reverse Shell, Sudo, SUID]
+layout: post
 difficulty: Easy
+platform: TryHackMe
+tags: [Command Injection, Bash Bypass, Stégano, Docker]
 ---
-
 ## Objectif
 L'objectif de cette machine est d'obtenir un accès initial au système, de récupérer le flag utilisateur, puis d'élever ses privilèges afin de devenir `root` et lire le flag final.
 
@@ -126,11 +127,11 @@ On a un dossier caché très interessant : `secret`
 
 On se rend à l’adresse `http://chillhack.thm/secret` 
 
-![image.png](attachment:886dd5f8-55af-4cc3-8a5a-9f5b0dfc18f5:image.png)
+![Image 1](/assets/chill-hack/1.png)
 
 Dans le champ command on peut y insérer des commandes mais aucune ne marches. Quand on utilise des commandes systèmes on obtient une page Are you a hacker ? 
 
-![image.png](attachment:12032e38-5743-4631-9b38-701f0c4d07aa:image.png)
+![Image 2](/assets/chill-hack/2.png)
 
 Rappellons nous que la note nous disais que le filtre ne marche pas très bien. Un peut donc essayer de lister le répertoire courant en contournant le filtre
 
@@ -140,7 +141,7 @@ l${abc}s
 
 On utilise la variable d’environnement ${abc}. Etant donné qu’elle n’existe pas le système le remplace par une chaine vide et la commande `ls` s’exécute donc 
 
-![image.png](attachment:1a7b30b6-2d40-4f98-ae04-42b491153ce5:image.png)
+![Image 3](/assets/chill-hack/3.png)
 
 **Pourquoi ça marche ?** 
 
@@ -281,7 +282,7 @@ ssh -L 9001:localhost:9001 apaar@chillhack.thm -i id_rsa
 
 Ensuite dans notre navigateur on peut se rendre sur `http://localhost:9001` . On tombe sur un portail de connexion
 
-![image.png](attachment:3248227f-a706-42b5-89b3-38e4a72fbca5:image.png)
+![Image 4](/assets/chill-hack/4.png)
 
 On peut essayer de lister les dossiers chachés
 

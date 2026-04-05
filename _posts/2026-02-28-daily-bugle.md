@@ -2,10 +2,11 @@
 title: "Daily Bugle - TryHackMe Writeup"
 date: 2026-02-28
 categorie: [TryHackMe, CTF]
-tags: [SQLi, Joomla, John, Privilege Escalation]
+layout: post
 difficulty: Hard
+platform: TryHackMe
+tags: [Joomla, CVE-2017-8917, John, bcrypt]
 ---
-
 ### Objectif
 
 Compromettre un compte Joomla CMS via une injection SQL, récupérer des hashs de mot de passe à casser puis faire une escalade de prvilèges en tirant parti de yum.
@@ -24,11 +25,11 @@ Task2: Obtain user and root
 
 Nous avons détecter la présence du fichier robots.txt 
 
-![image.png](attachment:2df2806d-e3bc-4d9a-b8b3-aab14d123c0c:image.png)
+![Image 1](/assets/daily-bugle/1.png)
 
 En ouvrant ce répertoire, nous avons découvert qu'une instance de Joomla était exécutée sur ce site web.
 
-![image.png](attachment:5b5515a5-8f14-40a7-96a7-f05cd66f86bd:image.png)
+![Image 2](/assets/daily-bugle/2.png)
 
 Nous avons donc exécuté joomscan sur ce site web et découvert que la version 3.7.0 était utilisée.
 
@@ -97,7 +98,7 @@ Ensuite on utiliser [`https://hashes.com/en/tools/hash_identifier`](https://hash
 john --format=bcrypt --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
 ```
 
-![image.png](attachment:5dee9590-be4b-4ef4-95db-fff8446d9349:image.png)
+![Image 3](/assets/daily-bugle/3.png)
 
 Nous avons reçu des identifiants en clair. 
 

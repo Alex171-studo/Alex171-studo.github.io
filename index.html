@@ -1,43 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alex171 | Cybersec & AI Security</title>
-  <meta name="description" content="Portfolio de Alex171-studo — Étudiant en prépa, passionné de pentest web, TryHackMe et PortSwigger. Writeups, certifications et ressources cybersécurité."/>
-  <link rel="stylesheet" href="css/style.css"/>
-  <link rel="stylesheet" href="css/animations.css"/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>"/>
-</head>
-<body>
-<canvas id="matrix-canvas"></canvas>
-<div class="grid-bg"></div>
-
-<!-- NAVBAR -->
-<nav class="navbar">
-  <a class="nav-logo" href="index">&gt;_<span> alex171</span></a>
-  <div class="nav-links">
-    <a href="index" class="active">Accueil</a>
-    <a href="about">À propos</a>
-    <a href="writeups">Writeups</a>
-    <a href="certifications">Certifications</a>
-    <a href="projects">Projets</a>
-    <a href="resources">Ressources</a>
-  </div>
-  <div class="hamburger" id="hamburger">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
-<div class="mobile-menu" id="mobile-menu">
-  <a href="index">Accueil</a>
-  <a href="about">À propos</a>
-  <a href="writeups">Writeups</a>
-  <a href="certifications">Certifications</a>
-  <a href="projects">Projets</a>
-  <a href="resources">Ressources</a>
-</div>
-
-<main>
+---
+layout: default
+title: "Alex171"
+---
 <!-- ══════════════ HERO ══════════════ -->
 <section class="hero section">
   <div class="hero-glow"></div>
@@ -125,54 +89,25 @@
       <h2 class="section-title">Writeups <span>récents</span></h2>
     </div>
     <div class="writeup-grid">
-      <!-- Skynet -->
-      <article class="card writeup-card fade-in" data-platform="thm" data-tags="smb,rfi,tar,wildcard,linux">
+      {% for post in site.posts limit:5 %}
+      <article class="card writeup-card fade-in" data-platform="{{ post.platform | downcase }}" style="cursor: pointer;" onclick="window.location.href='{{ post.url | relative_url }}'">
         <div class="writeup-card-header">
-          <span class="writeup-platform">TryHackMe</span>
-          <span class="diff diff-medium">Medium</span>
+          <span class="writeup-platform">{{ post.platform }}</span>
+          <span class="diff diff-{{ post.difficulty | downcase }}">{{ post.difficulty }}</span>
         </div>
-        <h3 class="writeup-title">Skynet</h3>
-        <p class="writeup-desc">Enumération SMB, bruteforce SquirrelMail, RFI via Cuppa CMS, escalade par Tar Wildcard Injection.</p>
+        <h3 class="writeup-title">{{ post.title }}</h3>
+        <p class="writeup-desc">{{ post.description | default: post.excerpt | strip_html | truncatewords: 20 }}</p>
         <div class="writeup-tags">
-          <span class="tag">SMB</span><span class="tag">RFI</span><span class="tag">Tar Wildcard</span><span class="tag">Linux</span>
+          {% for tag in post.tags limit:4 %}
+            <span class="tag">{{ tag }}</span>
+          {% endfor %}
         </div>
         <div class="writeup-footer">
-          <span>05 Mar 2026</span>
-          <a href="writeups/skynet" class="writeup-link">Lire →</a>
+          <span>{{ post.date | date: "%d %b %Y" }}</span>
+          <span class="writeup-link">Lire →</span>
         </div>
       </article>
-      <!-- Blog -->
-      <article class="card writeup-card fade-in fade-in-delay-1" data-platform="thm" data-tags="wordpress,rce,suid,linux">
-        <div class="writeup-card-header">
-          <span class="writeup-platform">TryHackMe</span>
-          <span class="diff diff-medium">Medium</span>
-        </div>
-        <h3 class="writeup-title">Blog</h3>
-        <p class="writeup-desc">WordPress 5.0, exploitation CVE-2019-8942 via Metasploit, SUID binary avec variable d'env.</p>
-        <div class="writeup-tags">
-          <span class="tag">WordPress</span><span class="tag">RCE</span><span class="tag">SUID</span>
-        </div>
-        <div class="writeup-footer">
-          <span>04 Mar 2026</span>
-          <a href="writeups/blog" class="writeup-link">Lire →</a>
-        </div>
-      </article>
-      <!-- Chill Hack -->
-      <article class="card writeup-card fade-in fade-in-delay-2" data-platform="thm" data-tags="ftp,command injection,docker,linux">
-        <div class="writeup-card-header">
-          <span class="writeup-platform">TryHackMe</span>
-          <span class="diff diff-easy">Easy</span>
-        </div>
-        <h3 class="writeup-title">Chill Hack</h3>
-        <p class="writeup-desc">Contournement de filtre bash, command injection via variable vide, stéganographie, escalade Docker.</p>
-        <div class="writeup-tags">
-          <span class="tag">Command Injection</span><span class="tag">Stéganographie</span><span class="tag">Docker</span>
-        </div>
-        <div class="writeup-footer">
-          <span>02 Mar 2026</span>
-          <a href="writeups/chill-hack" class="writeup-link">Lire →</a>
-        </div>
-      </article>
+      {% endfor %}
     </div>
     <div style="text-align:center;margin-top:2rem;" class="fade-in">
       <a href="writeups" class="btn btn-outline">Voir tous les writeups →</a>
@@ -265,42 +200,4 @@
     </div>
   </div>
 </section>
-</main>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-name">&gt;_ alex171-studo</div>
-      <div class="footer-links">
-        <a href="https://github.com/Alex171-studo" target="_blank">GitHub</a>
-        <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
-        <a href="writeups">Writeups</a>
-        <a href="resources">Ressources</a>
-      </div>
-      <div class="footer-copy">© 2026 Alex171-studo — Cybersec Portfolio</div>
-    </div>
-  </div>
-</footer>
-
-<!-- INTERACTIVE TERMINAL -->
-<div id="interactive-terminal" class="terminal-window">
-  <div class="terminal-titlebar">
-    <div class="terminal-dot dot-red"></div>
-    <div class="terminal-dot dot-yellow"></div>
-    <div class="terminal-dot dot-green"></div>
-    <span class="terminal-title">Terminal interactif</span>
-    <button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;font-size:0.8rem;">✕</button>
-  </div>
-  <div class="term-interactive-body" id="term-output"></div>
-  <div class="term-input-line">
-    <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
-    <input type="text" id="term-input" class="term-input" placeholder="tape une commande..." autocomplete="off" spellcheck="false"/>
-  </div>
-</div>
-<button class="term-toggle-btn" id="term-toggle" title="Terminal interactif">&gt;_</button>
-
-<script src="js/main.js"></script>
-<script src="js/terminal.js"></script>
-</body>
-</html>

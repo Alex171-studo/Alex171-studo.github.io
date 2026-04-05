@@ -1,0 +1,15 @@
+<div id="interactive-terminal" class="terminal-window">
+  <div class="terminal-titlebar">
+    <div class="terminal-dot dot-red"></div>
+    <div class="terminal-dot dot-yellow"></div>
+    <div class="terminal-dot dot-green"></div>
+    <span class="terminal-title">Terminal interactif</span>
+    <button id="term-close" style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;font-size:0.8rem;">✕</button>
+  </div>
+  <div class="term-interactive-body" id="term-output"></div>
+  <div class="term-input-line">
+    <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
+    <input type="text" id="term-input" class="term-input" placeholder="tape une commande..." autocomplete="off" spellcheck="false"/>
+  </div>
+</div>
+<button class="term-toggle-btn" id="term-toggle" title="Terminal interactif">&gt;_</button>

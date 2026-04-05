@@ -1,37 +1,7 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ressources — Alex171</title>
-    <meta name="description"
-        content="Ressources cybersécurité sélectionnées par Alex171 — outils, cheatsheets, plateformes, références." />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/animations.css" />
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
-</head>
-
-<body>
-    <canvas id="matrix-canvas"></canvas>
-    <div class="grid-bg"></div>
-    <nav class="navbar">
-        <a class="nav-logo" href="index">&gt;_<span> alex171</span></a>
-        <div class="nav-links">
-            <a href="index">Accueil</a><a href="about">À propos</a>
-            <a href="writeups">Writeups</a><a href="certifications">Certifications</a>
-            <a href="projects">Projets</a><a href="resources" class="active">Ressources</a>
-        </div>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-    </nav>
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="index">Accueil</a><a href="about">À propos</a>
-        <a href="writeups">Writeups</a><a href="certifications">Certifications</a>
-        <a href="projects">Projets</a><a href="resources">Ressources</a>
-    </div>
-
-    <main>
+---
+layout: default
+title: "Ressources"
+---
         <section class="section">
             <div class="container">
                 <div class="section-header fade-in">
@@ -223,38 +193,3 @@ python3 -c <span class="hl-out">'import pty;pty.spawn("/bin/bash")'</span></pre>
                 </div>
             </div>
         </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <div class="footer-name">&gt;_ alex171-studo</div>
-                <div class="footer-links"><a href="writeups">Writeups</a><a
-                        href="certifications">Certifications</a></div>
-                <div class="footer-copy">© 2026 Alex171-studo</div>
-            </div>
-        </div>
-    </footer>
-
-    <div id="interactive-terminal" class="terminal-window">
-        <div class="terminal-titlebar">
-            <div class="terminal-dot dot-red"></div>
-            <div class="terminal-dot dot-yellow"></div>
-            <div class="terminal-dot dot-green"></div>
-            <span class="terminal-title">Terminal interactif</span>
-            <button id="term-close"
-                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
-        </div>
-        <div class="term-interactive-body" id="term-output"></div>
-        <div class="term-input-line">
-            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
-            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
-                spellcheck="false" />
-        </div>
-    </div>
-    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
-    <script src="js/main.js"></script>
-    <script src="js/terminal.js"></script>
-</body>
-
-</html>

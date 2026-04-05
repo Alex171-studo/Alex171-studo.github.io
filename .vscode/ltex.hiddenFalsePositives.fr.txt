@@ -1,0 +1,19 @@
+{"rule":"PRONSUJ_NONVERBE","sentence":"^\\QOn entre les identifiants qu'on avait obtenus et on se retrouve sur une page d'administration\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QLes entrées utilisateur non sanitisées sont écrites dans les fichiers de config de Motion, permettant à un attaquant authentifié (admin) d'exécuter du code arbitraire au redémarrage de Motion.\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QLa version actuelle de motionEye utilisée est \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q.\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QMotionEye vulnerability exploitation\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QLe NVD référence un PoC complet sur cette vulnérabilité mais le script que nous allons utiliser est celui de  \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q disponible sur github\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QLe NVD référence un PoC complet sur cette vulnérabilité, mais le script que nous allons utiliser est celui de \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q disponible sur github\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QNous allons déterminer notre adresse IP puis lancer un écouteur sur notre machine pour obtenir un revershell\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QEnsuite nous pouvons lancer le script pour obtenir un shell as root.\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\Q\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q pour indiquer le lien du portail de MotionEye\n\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q et —password pour l'username et le password de connexion\n\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q pour indiquer notre adresse IP\n\\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q pour indiquer le port sur lequel tourne notre écouteur\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QOn obtient ainsi un shell root\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QGetting User and Root flags\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QNous avons obtenu les deux flags\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\Q⛳ Flags obtenus :\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QIdentifiants par défaut (ZoneMinder): Changer les credentials \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q et appliquer une politique de mot de passe forte.\\E$"}
+{"rule":"PLURIEL_AL","sentence":"^\\QIdentifiants par défaut (ZoneMinder): Changer les credentials \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q et appliquer une politique de mot de passe forte.\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QInjection SQL (CVE-2024-51482) : Mettre à jour ZoneMinder vers la version ≥ 1.37.65 qui corrige cette grosse faille de sécurité\nCredentials en clair dans un fichier de config: Ne jamais stocker des mots de passe en clair dans les fichiers de configuration lisibles.\\E$"}
+{"rule":"FR_SPELLING_RULE","sentence":"^\\QUtiliser des permissions restrictives et des variables d'environnement\nOS Command Injection (CVE-2025-60787): Mettre à jour MotionEye vers une version corrigée\nPrivilège Escalation: Appliquer le principe du moindre privilège pour motioneye.service en ne lui donnant que les droits dont il a besoin\\E$"}
+{"rule":"ESPACE_APRES_POINT","sentence":"^\\QUtiliser des permissions restrictives et des variables d'environnement\nOS Command Injection (CVE-2025-60787): Mettre à jour MotionEye vers une version corrigée\nPrivilège Escalation: Appliquer le principe du moindre privilège pour motioneye.service en ne lui donnant que les droits dont il a besoin\\E$"}
+{"rule":"FRENCH_WHITESPACE","sentence":"^\\QUtiliser des permissions restrictives et des variables d'environnement\nOS Command Injection (CVE-2025-60787): Mettre à jour MotionEye vers une version corrigée\nPrivilège Escalation: Appliquer le principe du moindre privilège pour motioneye.service en ne lui donnant que les droits dont il a besoin\\E$"}

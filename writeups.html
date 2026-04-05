@@ -1,263 +1,163 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Writeups CTF — Alex171</title>
-    <meta name="description" content="Writeups CTF et labs de Alex171 — TryHackMe, PortSwigger, pentest web." />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/animations.css" />
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>" />
-</head>
-
-<body>
-    <canvas id="matrix-canvas"></canvas>
-    <div class="grid-bg"></div>
-
-    <nav class="navbar">
-        <a class="nav-logo" href="index">&gt;_<span> alex171</span></a>
-        <div class="nav-links">
-            <a href="index">Accueil</a>
-            <a href="about">À propos</a>
-            <a href="writeups" class="active">Writeups</a>
-            <a href="certifications">Certifications</a>
-            <a href="projects">Projets</a>
-            <a href="resources">Ressources</a>
+---
+layout: default
+title: "Writeups CTF"
+---
+<section class="section">
+    <div class="container">
+        <div class="section-header fade-in">
+            <div class="section-label">CTF & Labs</div>
+            <h1 class="section-title">Mes <span>Writeups</span></h1>
+            <p style="color:var(--text-secondary);margin-top:0.75rem;font-size:0.95rem;">
+                Documentation de mes labs sur TryHackMe et PortSwigger — techniques, payloads, leçons apprises.
+            </p>
         </div>
-        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-    </nav>
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="index">Accueil</a><a href="about">À propos</a>
-        <a href="writeups">Writeups</a><a href="certifications">Certifications</a>
-        <a href="projects">Projets</a><a href="resources">Ressources</a>
-    </div>
 
-    <main>
-        <section class="section">
-            <div class="container">
-                <div class="section-header fade-in">
-                    <div class="section-label">CTF & Labs</div>
-                    <h1 class="section-title">Mes <span>Writeups</span></h1>
-                    <p style="color:var(--text-secondary);margin-top:0.75rem;font-size:0.95rem;">
-                        Documentation de mes labs sur TryHackMe et PortSwigger — techniques, payloads, leçons apprises.
-                    </p>
-                </div>
-
-                <!-- SEARCH + FILTERS -->
-                <div style="margin-bottom:1.5rem;" class="fade-in">
-                    <div style="position:relative;margin-bottom:1rem;">
-                        <input type="text" id="search-writeups" placeholder="🔍  Rechercher par nom, tag, technique..."
-                            style="width:100%;padding:0.75rem 1rem 0.75rem 1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-family:var(--font-mono);font-size:0.85rem;outline:none;transition:var(--transition);"
-                            onfocus="this.style.borderColor='var(--border-hover)'"
-                            onblur="this.style.borderColor='var(--border)'" />
-                    </div>
-                    <div class="filters">
-                        <button class="filter-btn active" data-filter="all">Tous (7)</button>
-                        <button class="filter-btn" data-filter="thm">TryHackMe</button>
-                        <button class="filter-btn" data-filter="portswigger">PortSwigger</button>
-                        <button class="filter-btn" data-filter="easy">Easy</button>
-                        <button class="filter-btn" data-filter="medium">Medium</button>
-                        <button class="filter-btn" data-filter="hard">Hard</button>
-                        <button class="filter-btn" data-filter="sqli">SQLi</button>
-                        <button class="filter-btn" data-filter="xss">XSS</button>
-                        <button class="filter-btn" data-filter="lfi">LFI/RFI</button>
-                    </div>
-                </div>
-
-                <!-- WRITEUP CARDS -->
-                <div class="writeup-grid">
-
-                    <!-- Skynet -->
-                    <article class="card writeup-card fade-in" data-platform="thm"
-                        data-tags="smb rfi tar wildcard linux medium">
-                        <div class="writeup-card-header">
-                            <span class="writeup-platform">TryHackMe</span>
-                            <span class="diff diff-medium">Medium</span>
-                        </div>
-                        <h2 class="writeup-title">Skynet</h2>
-                        <p class="writeup-desc">Enumération SMB, bruteforce SquirrelMail, exploitation RFI sur Cuppa
-                            CMS, escalade par Tar Wildcard Injection via cron root.</p>
-                        <div class="writeup-tags">
-                            <span class="tag">SMB</span><span class="tag">RFI</span><span class="tag">Tar
-                                Wildcard</span><span class="tag">Linux</span><span class="tag">Cron</span>
-                        </div>
-                        <div class="writeup-footer">
-                            <span>05 Mar 2026</span>
-                            <a href="writeups/skynet" class="writeup-link">Lire le writeup →</a>
-                        </div>
-                    </article>
-
-                    <!-- Blog -->
-                    <article class="card writeup-card fade-in fade-in-delay-1" data-platform="thm"
-                        data-tags="wordpress rce suid linux medium">
-                        <div class="writeup-card-header">
-                            <span class="writeup-platform">TryHackMe</span>
-                            <span class="diff diff-medium">Medium</span>
-                        </div>
-                        <h2 class="writeup-title">Blog</h2>
-                        <p class="writeup-desc">WordPress 5.0 — CVE-2019-8942 via Metasploit, escalade via SUID binary
-                            checker analysé avec Ghidra.</p>
-                        <div class="writeup-tags">
-                            <span class="tag">WordPress</span><span class="tag">RCE</span><span
-                                class="tag">SUID</span><span class="tag">Ghidra</span>
-                        </div>
-                        <div class="writeup-footer">
-                            <span>04 Mar 2026</span>
-                            <a href="writeups/blog" class="writeup-link">Lire le writeup →</a>
-                        </div>
-                    </article>
-
-                    <!-- Chill Hack -->
-                    <article class="card writeup-card fade-in fade-in-delay-2" data-platform="thm"
-                        data-tags="ftp command injection docker stéganographie linux easy">
-                        <div class="writeup-card-header">
-                            <span class="writeup-platform">TryHackMe</span>
-                            <span class="diff diff-easy">Easy</span>
-                        </div>
-                        <h2 class="writeup-title">Chill Hack</h2>
-                        <p class="writeup-desc">Contournement de filtre bash via variable vide, command injection web,
-                            stéganographie, escalade privesc Docker.</p>
-                        <div class="writeup-tags">
-                            <span class="tag">Command Injection</span><span class="tag">Bash Bypass</span><span
-                                class="tag">Stégano</span><span class="tag">Docker</span>
-                        </div>
-                        <div class="writeup-footer">
-                            <span>02 Mar 2026</span>
-                            <a href="writeups/chill-hack" class="writeup-link">Lire le writeup →</a>
-                        </div>
-                    </article>
-
-                    <!-- Game Zone -->
-                    <article class="card writeup-card fade-in" data-platform="thm"
-                        data-tags="sqli sqlmap ssh metasploit linux medium">
-                        <div class="writeup-card-header">
-                            <span class="writeup-platform">TryHackMe</span>
-                            <span class="diff diff-medium">Medium</span>
-                        </div>
-                        <h2 class="writeup-title">Game Zone</h2>
-                        <p class="writeup-desc">SQLi pour bypass auth, dump DB via SQLmap, crack SHA-256 avec John, SSH
-                            tunnel, escalade Webmin via Metasploit.</p>
-                        <div class="writeup-tags">
-                            <span class="tag">SQLi</span><span class="tag">SQLmap</span><span
-                                class="tag">John</span><span class="tag">Metasploit</span>
-                        </div>
-                        <div class="writeup-footer">
-                            <span>01 Mar 2026</span>
-                            <a href="writeups/gamezone" class="writeup-link">Lire le writeup →</a>
-                        </div>
-                    </article>
-
-                    <!-- Daily Bugle -->
-                    <article class="card writeup-card fade-in fade-in-delay-1" data-platform="thm"
-                        data-tags="sqli joomla john privilege escalation hard">
-                        <div class="writeup-card-header">
-                            <span class="writeup-platform">TryHackMe</span>
-                            <span class="diff diff-hard">Hard</span>
-                        </div>
-                        <h2 class="writeup-title">Daily Bugle</h2>
-                        <p class="writeup-desc">Joomla 3.7.0 — CVE-2017-8917, dump SQL via script Python, crack bcrypt
-                            avec John, escalade via yum.</p>
-                        <div class="writeup-tags">
-                            <span class="tag">Joomla</span><span class="tag purple">CVE-2017-8917</span><span
-                                class="tag">John</span><span class="tag red">bcrypt</span>
-                        </div>
-                        <div class="writeup-footer">
-                            <span>28 Fév 2026</span>
-                            <a href="writeups/daily-bugle" class="writeup-link">Lire le writeup →</a>
-                        </div>
-                    </article>
-
-                    <!-- Bookstore -->
-                    <article class="card writeup-card fade-in fade-in-delay-2" data-platform="thm"
-                        data-tags="lfi api python rce ssh medium">
-                        <div class="writeup-card-header">
-                            <span class="writeup-platform">TryHackMe</span>
-                            <span class="diff diff-medium">Medium</span>
-                        </div>
-                        <h2 class="writeup-title">Bookstore</h2>
-                        <p class="writeup-desc">Enumération API REST, LFI sur paramètre `show`, récupération du PIN
-                            Werkzeug via /proc/self/environ, RCE console Python, escalade binaire SUID.</p>
-                        <div class="writeup-tags">
-                            <span class="tag">LFI</span><span class="tag blue">API REST</span><span
-                                class="tag">Werkzeug</span><span class="tag">SUID</span>
-                        </div>
-                        <div class="writeup-footer">
-                            <span>03 Fév 2026</span>
-                            <a href="writeups/bookstore" class="writeup-link">Lire le writeup →</a>
-                        </div>
-                    </article>
-
-                    <!-- Easy CTF -->
-                    <article class="card writeup-card fade-in" data-platform="thm"
-                        data-tags="ftp sqli vim privilege escalation easy">
-                        <div class="writeup-card-header">
-                            <span class="writeup-platform">TryHackMe</span>
-                            <span class="diff diff-easy">Easy</span>
-                        </div>
-                        <h2 class="writeup-title">Easy CTF</h2>
-                        <p class="writeup-desc">FTP anonyme, CMS Made Simple SQLi CVE-2019-9053, crack MD5+salt, SSH,
-                            escalade via sudo vim NOPASSWD.</p>
-                        <div class="writeup-tags">
-                            <span class="tag">FTP</span><span class="tag">SQLi</span><span
-                                class="tag purple">CVE-2019-9053</span><span class="tag">Sudo vim</span>
-                        </div>
-                        <div class="writeup-footer">
-                            <span>27 Fév 2026</span>
-                            <a href="writeups/easy-ctf" class="writeup-link">Lire le writeup →</a>
-                        </div>
-                    </article>
-
-                </div><!-- /writeup-grid -->
-
-                <!-- STATS BOTTOM -->
-                <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:3rem;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);"
-                    class="fade-in">
-                    <div class="stat"><span class="stat-number">7</span><span class="stat-label">Writeups publiés</span>
-                    </div>
-                    <div class="stat"><span class="stat-number">6</span><span class="stat-label">Labs THM</span></div>
-                    <div class="stat"><span class="stat-number">1</span><span class="stat-label">Lab Hard</span></div>
-                    <div class="stat"><span class="stat-number">+</span><span class="stat-label">En cours...</span>
-                    </div>
-                </div>
+        <!-- SEARCH + FILTERS -->
+        <div style="margin-bottom:1.5rem;" class="fade-in">
+            <div style="position:relative;margin-bottom:1rem;">
+                <input type="text" id="search-writeups" placeholder="🔍  Rechercher par nom, tag, technique..."
+                    style="width:100%;padding:0.75rem 1rem 0.75rem 1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-family:var(--font-mono);font-size:0.85rem;outline:none;transition:var(--transition);"
+                    onfocus="this.style.borderColor='var(--border-hover)'"
+                    onblur="this.style.borderColor='var(--border)'" />
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-inner">
-                <div class="footer-name">&gt;_ alex171-studo</div>
-                <div class="footer-links">
-                    <a href="https://github.com/Alex171-studo" target="_blank">GitHub</a>
-                    <a href="certifications">Certifications</a>
-                    <a href="resources">Ressources</a>
-                </div>
-                <div class="footer-copy">© 2026 Alex171-studo</div>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Tous ({{ site.posts.size }})</button>
+                <button class="filter-btn" data-filter="thm">TryHackMe</button>
+                <button class="filter-btn" data-filter="htb">HackTheBox</button>
+                <button class="filter-btn" data-filter="portswigger">PortSwigger</button>
+                <button class="filter-btn" data-filter="easy">Easy</button>
+                <button class="filter-btn" data-filter="medium">Medium</button>
+                <button class="filter-btn" data-filter="hard">Hard</button>
             </div>
         </div>
-    </footer>
 
-    <div id="interactive-terminal" class="terminal-window">
-        <div class="terminal-titlebar">
-            <div class="terminal-dot dot-red"></div>
-            <div class="terminal-dot dot-yellow"></div>
-            <div class="terminal-dot dot-green"></div>
-            <span class="terminal-title">Terminal interactif</span>
-            <button id="term-close"
-                style="background:none;border:none;color:var(--text-muted);cursor:pointer;margin-left:auto;">✕</button>
+        <!-- WRITEUP CARDS (JS INJECTED) -->
+        <div class="writeup-grid" id="writeups-container">
+            <!-- Loading... -->
         </div>
-        <div class="term-interactive-body" id="term-output"></div>
-        <div class="term-input-line">
-            <span class="t-prompt" style="white-space:nowrap;font-size:0.8rem;">alex@portfolio:~$</span>
-            <input type="text" id="term-input" class="term-input" placeholder="help" autocomplete="off"
-                spellcheck="false" />
+
+        <script>
+            // Génération du jeu de données depuis Jekyll (sécurisée avec jsonify)
+            const postsData = [
+                {% for post in site.posts %}
+                {
+                    "title": {{ post.title | jsonify }},
+                    "url": {{ post.url | relative_url | jsonify }},
+                    "date": {{ post.date | date: '%d %b %Y' | jsonify }},
+                    "difficulty": {{ post.difficulty | default: 'Easy' | jsonify }},
+                    "platform": {{ post.platform | default: 'CTF' | jsonify }},
+                    "desc": {{ post.description | default: post.excerpt | strip_html | truncatewords: 25 | jsonify }},
+                    "tags": {{ post.tags | jsonify }}
+                }{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+            ];
+
+            const container = document.getElementById('writeups-container');
+            const searchInput = document.getElementById('search-writeups');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            let currentFilter = 'all';
+            let searchQuery = '';
+
+            function renderPosts() {
+                container.innerHTML = '';
+                
+                const filtered = postsData.filter(post => {
+                    const searchTerm = searchQuery.toLowerCase();
+                    const matchesSearch = post.title.toLowerCase().includes(searchTerm) || 
+                                          post.desc.toLowerCase().includes(searchTerm) || 
+                                          post.tags.some(t => t.toLowerCase().includes(searchTerm));
+                                          
+                    let matchesFilter = true;
+                    if (currentFilter !== 'all') {
+                        const filterVal = currentFilter.toLowerCase();
+                        const isDiff = ['easy', 'medium', 'hard'].includes(filterVal);
+                        if (isDiff) {
+                            matchesFilter = post.difficulty.toLowerCase() === filterVal;
+                        } else {
+                            // match platform (thm -> tryhackme)
+                            let platQuery = filterVal;
+                            if (platQuery === 'thm') platQuery = 'tryhackme';
+                            if (platQuery === 'htb') platQuery = 'hackthebox';
+                            matchesFilter = post.platform.toLowerCase().includes(platQuery);
+                        }
+                    }
+                    
+                    return matchesSearch && matchesFilter;
+                });
+
+                if (filtered.length === 0) {
+                    container.innerHTML = '<div style="color:var(--text-muted); grid-column: 1/-1; padding: 2rem; border: 1px dashed var(--border); border-radius: var(--radius); text-align: center;">Aucun writeup trouvé pour cette recherche.</div>';
+                    return;
+                }
+
+                filtered.forEach((post, index) => {
+                    const delay = index * 0.05;
+                    const diffLower = post.difficulty.toLowerCase();
+                    const tagsHtml = post.tags.slice(0, 4).map(t => `<span class="tag">${t}</span>`).join('');
+                    
+                    const card = document.createElement('article');
+                    card.className = 'card writeup-card fade-in';
+                    card.style.animationDelay = delay + 's';
+                    card.style.cursor = 'pointer';
+                    card.onclick = () => window.location.href = post.url;
+                    
+                    card.innerHTML = `
+                        <div class="writeup-card-header">
+                            <span class="writeup-platform">${post.platform}</span>
+                            <span class="diff diff-${diffLower}">${post.difficulty}</span>
+                        </div>
+                        <h2 class="writeup-title">${post.title}</h2>
+                        <p class="writeup-desc" style="flex:1;">${post.desc}</p>
+                        <div class="writeup-tags">${tagsHtml}</div>
+                        <div class="writeup-footer" style="margin-top:1.5rem;">
+                            <span>${post.date}</span>
+                            <span class="writeup-link">Lire le writeup →</span>
+                        </div>
+                    `;
+                    card.style.display = 'flex';
+                    card.style.flexDirection = 'column';
+                    container.appendChild(card);
+                });
+            }
+
+            // Event Listeners
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderPosts();
+            });
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    renderPosts();
+                });
+            });
+
+            // Handle URL params for fake terminal interactions
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('difficulty')) {
+                const diff = params.get('difficulty').toLowerCase();
+                const btn = document.querySelector(`.filter-btn[data-filter="${diff}"]`);
+                if (btn) {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = diff;
+                }
+            }
+
+            renderPosts();
+        </script>
+
+        <!-- STATS BOTTOM -->
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:3rem;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);"
+            class="fade-in">
+            <div class="stat"><span class="stat-number">{{ site.posts.size }}</span><span class="stat-label">Writeups publiés</span>
+            </div>
+            <div class="stat"><span class="stat-number">+</span><span class="stat-label">En cours...</span>
+            </div>
         </div>
     </div>
-    <button class="term-toggle-btn" id="term-toggle">&gt;_</button>
-    <script src="js/main.js"></script>
-    <script src="js/terminal.js"></script>
-</body>
-
-</html>
+</section>

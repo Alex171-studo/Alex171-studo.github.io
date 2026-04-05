@@ -1,13 +1,14 @@
 ---
-layout: post
 title: "Bookstore - TryHackMe"
 author: "Alex171"
 date: 2026-02-03
 categories: [CTF, TryHackMe]
-tags: [Linux, Web, API, SQL Injection, Privilege Escalation]
 image: /assets/images/bookstore.png
+layout: post
+difficulty: Medium
+platform: TryHackMe
+tags: [LFI, API REST, Werkzeug, SUID]
 ---
-
 **Objectif**: Exploiter une faille dans une api rest pour avoir un accès à la machine cible puis réaliser une escalade de privilèges
 
 ## Configuration
@@ -47,7 +48,7 @@ Ports ouverts :
 
 En nous rendant à la page d’acceuil `http://bookstore.thm` on a la page suivante
 
-![image.png](attachment:dca97124-ff10-4010-87fb-ac0c677c277c:image.png)
+![Image 1](/assets/bookstore/1.png)
 
 Nous allons lister les dossiers cachés à l’aide de `gobuster`
 

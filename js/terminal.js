@@ -10,6 +10,9 @@ const TERMINAL_COMMANDS = {
 <span class="t-key" style="display:inline-block;width:80px">whoami</span> → À propos d'Alex<br>
 <span class="t-key" style="display:inline-block;width:80px">projects</span> → Voir les projets<br>
 <span class="t-key" style="display:inline-block;width:80px">writeups</span> → Writeups CTF & Labs<br>
+<span class="t-key" style="display:inline-block;width:80px">show w..</span> → (Secret) Accès magique<br>
+<span class="t-key" style="display:inline-block;width:80px">filter x</span> → (Secret) Filtrer par diff<br>
+<span class="t-key" style="display:inline-block;width:80px">open xxx</span> → (Secret) Ouvrir page web<br>
 <span class="t-key" style="display:inline-block;width:80px">certs</span>    → Certifications<br>
 <span class="t-key" style="display:inline-block;width:80px">resources</span>→ Ressources & outils<br>
 <span class="t-key" style="display:inline-block;width:80px">skills</span>   → Stack technique<br>
@@ -115,6 +118,13 @@ const TERMINAL_COMMANDS = {
 <span class="t-output">Labs    : TryHackMe · PortSwigger Web Academy</span>`,
     },
 
+    'show writeups': { fn: () => '__NAV__writeups.html' },
+    'show projects': { fn: () => '__NAV__projects.html' },
+    'show certs': { fn: () => '__NAV__certifications.html' },
+    'filter easy': { fn: () => '__NAV__writeups.html?difficulty=easy' },
+    'filter medium': { fn: () => '__NAV__writeups.html?difficulty=medium' },
+    'filter hard': { fn: () => '__NAV__writeups.html?difficulty=hard' },
+
     clear: { fn: () => null },
     exit: { fn: () => '__CLOSE__' },
 };
@@ -195,12 +205,27 @@ class InteractiveTerminal {
         const lower = cmd.toLowerCase();
         const command = TERMINAL_COMMANDS[lower] || TERMINAL_COMMANDS[cmd];
         if (!command) {
+            if (lower.startsWith('open ')) {
+                const target = lower.split(' ')[1];
+                this.appendOutput(`<span class="t-success">Vérification de l'existence du writeup ${target}...</span>`);
+                setTimeout(() => window.location.href = `writeups/${target}`, 800);
+                this.scrollBottom();
+                return;
+            }
             this.appendOutput(`<span class="t-error">Commande introuvable : <b>${cmd}</b>. Tape <span class="t-key">help</span> pour l'aide.</span>`);
+            this.scrollBottom();
             return;
         }
         const result = command.fn();
         if (result === '__CLOSE__') { this.close(); return; }
         if (result === null) { this.output.innerHTML = ''; this.printWelcome(); return; }
+        if (result && result.startsWith('__NAV__')) {
+            const url = result.split('__NAV__')[1];
+            this.appendOutput(`<span class="t-success">Exécution de la directive système. Redirection en cours...</span>`);
+            setTimeout(() => window.location.href = url, 800);
+            this.scrollBottom();
+            return;
+        }
         this.appendOutput(result);
         this.scrollBottom();
     }
