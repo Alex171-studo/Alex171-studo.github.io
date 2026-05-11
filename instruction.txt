@@ -1,0 +1,157 @@
+Tu es un expert Jekyll, GitHub Pages et design cybersécurité.
+
+## SITUATION ACTUELLE
+J'ai un portfolio Jekyll qui existe déjà mais qui est raté (mélange HTML/CSS custom mal organisé).
+Je veux un REBUILD COMPLET, propre, professionnel.
+
+Mon dépôt actuel contient :
+- index.html, about.html, certifications.html, projects.html, writeups.html, resources.html
+- _layouts/post.html
+- _includes/navbar.html, footer.html, terminal.html
+- css/style.css, css/animations.css
+- js/main.js, js/terminal.js
+- _config.yml
+- _posts/ (12 writeups en .md)
+- assets/ (images par machine : silentium/, kobold/, cctv/, etc.)
+
+## CE QUE JE VEUX
+Un site dark/hacker BANGER avec :
+1. Design cohérent sur toutes les pages (une seule source de vérité CSS)
+2. Chaque nouveau .md ajouté dans _posts/ hérite AUTOMATIQUEMENT du bon style
+3. Navigation propre entre toutes les pages
+4. Pages writeups avec cards par machine (difficulty badge, date, tags)
+5. Page d'accueil avec : hero section, stats HTB, derniers writeups, compétences
+6. Page about avec parcours, skills, certifs
+7. Aucun JS inutile, aucun CSS dupliqué
+
+## ARCHITECTURE CIBLE À CRÉER
+
+### _config.yml
+```yaml
+title: "Alex171 | Security Researcher"
+description: "HTB Writeups & Cybersecurity Journey"
+baseurl: ""
+url: "https://Alex171-studo.github.io"
+author:
+  name: "Alex171"
+  email: ""
+  github: "Alex171-studo"
+  htb: ""        # ton pseudo HTB ici
+  tryhackme: ""  # si tu en as un
+
+theme: minima   # on va override avec notre propre layout
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+defaults:
+  - scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Alex171"
+```
+
+### _layouts/ (fichiers à créer)
+- default.html   → layout de base (head, navbar, footer)
+- post.html      → layout writeup (hérite de default)
+- page.html      → layout pages statiques (hérite de default)
+
+### _includes/
+- head.html      → meta, CSS links
+- navbar.html    → navigation responsive
+- footer.html    → footer
+- card-writeup.html → composant card réutilisable pour les writeups
+
+### Pages principales
+- index.md (pas .html !)
+- about.md
+- writeups.md
+- certifications.md
+- projects.md
+- resources.md
+
+### Front matter standard pour chaque writeup dans _posts/
+```yaml
+---
+layout: post
+title: "Nom Machine - HTB/THM"
+date: YYYY-MM-DD
+platform: HackTheBox     # ou TryHackMe
+difficulty: Easy         # Easy / Medium / Hard / Insane
+category: [Linux, Web, Privilege Escalation]   # tags libres
+image: /assets/nom-machine/avatar.png
+description: "Courte description de la machine"
+---
+```
+
+## DESIGN SYSTEM À APPLIQUER (tout dans un seul style.css)
+
+Palette :
+- Background : #0a0a0a (noir profond)
+- Surface : #111111 / #1a1a1a (cards, panels)
+- Accent primaire : #00ff41 (vert terminal)
+- Accent secondaire : #ff6b35 (orange)
+- Text principal : #e0e0e0
+- Text secondaire : #888888
+- Borders : #222222
+
+Typographie :
+- Monospace pour les titres et code : 'JetBrains Mono' ou 'Fira Code' (Google Fonts)
+- Sans-serif pour le corps : 'Inter'
+
+Composants à définir une seule fois :
+- .card (writeup cards)
+- .badge-difficulty (Easy=vert, Medium=orange, Hard=rouge, Insane=violet)
+- .badge-platform
+- .skill-bar
+- .terminal-block (pour les blocs de code dans les writeups)
+- .btn
+
+## ORDRE D'EXÉCUTION
+
+ÉTAPE 1 — Demande-moi de confirmer ces infos avant de commencer :
+- Mon pseudo HTB exact
+- Mon pseudo TryHackMe (si j'en ai un)
+- 3 skills principaux que je veux afficher
+- Est-ce que j'ai des certifications ? lesquelles ?
+- Un titre/accroche pour la page d'accueil (ex: "Étudiant en cybersécurité | CTF Player")
+
+ÉTAPE 2 — Génère dans cet ordre EXACT (un fichier à la fois, attends ma confirmation) :
+1. _config.yml complet
+2. _layouts/default.html (le layout maître avec tout le HTML/head/nav/footer)
+3. css/style.css (TOUT le CSS centralisé ici, rien ailleurs)
+4. _includes/navbar.html
+5. _includes/footer.html
+6. _includes/card-writeup.html
+7. _layouts/post.html (layout writeup qui hérite de default)
+8. _layouts/page.html
+9. index.md
+10. about.md
+11. writeups.md
+12. Un exemple de front matter corrigé pour mes _posts existants
+
+ÉTAPE 3 — Donne-moi la commande pour supprimer les anciens fichiers HTML et CSS proprement :
+```bash
+rm index.html about.html certifications.html projects.html writeups.html resources.html
+rm css/animations.css
+rm js/terminal.js  # si inutile
+```
+
+ÉTAPE 4 — Donne-moi les commandes git pour pusher et tester :
+```bash
+git add .
+git commit -m "rebuild: full Jekyll redesign"
+git push origin main
+```
+
+## CONTRAINTES ABSOLUES
+- ZÉRO CSS dans les fichiers HTML/Markdown (tout dans style.css)
+- ZÉRO duplication de navbar/footer (tout via _includes)
+- Chaque nouveau _posts/YYYY-MM-DD-machine.md → style automatique, rien à toucher
+- Compatible GitHub Pages natif (pas de plugins custom non supportés)
+- Mobile responsive obligatoire
+
+Commence par l'ÉTAPE 1 et pose-moi les questions.

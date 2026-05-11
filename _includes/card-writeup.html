@@ -1,0 +1,21 @@
+<div class="card writeup-card fade-in">
+  {% if post.image %}
+  <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+  {% endif %}
+  
+  <div class="meta">
+    <span class="badge badge-platform">{{ post.platform }}</span>
+    <span class="badge badge-difficulty badge-{{ post.difficulty | downcase }}">{{ post.difficulty }}</span>
+  </div>
+
+  <a href="{{ post.url | relative_url }}" class="title font-mono">{{ post.title }}</a>
+  
+  <p class="text-secondary" style="font-size: 0.9rem; margin-bottom: 1rem;">
+    {{ post.description | truncate: 120 }}
+  </p>
+
+  <div style="display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-secondary);">
+    <span>{{ post.date | date: "%B %d, %Y" }}</span>
+    <a href="{{ post.url | relative_url }}" class="text-green">Read More _</a>
+  </div>
+</div>

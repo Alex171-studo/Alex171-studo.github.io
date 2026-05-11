@@ -1,8 +1,40 @@
-title: "Alex | Pentest & AI Security"
-description: "Write-ups TryHackMe, PortSwigger labs et sécurité offensive"
-author: "Alex171-studo"
+title: "Alex171 | Security Researcher"
+description: "HTB Writeups & Cybersecurity Journey"
+baseurl: ""
+url: "https://Alex171-studo.github.io"
+author:
+  name: "Alex171"
+  email: ""
+  github: "Alex171-studo"
+  htb: "Alex171"
+  tryhackme: "Ghost0x"
+
 theme: minima
 
 plugins:
   - jekyll-feed
-future: true
+  - jekyll-seo-tag
+
+defaults:
+  - scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Alex171"
+
+# Custom variables for the theme
+skills:
+  - name: "Pentest Web"
+    level: 85
+  - name: "Linux / Bash"
+    level: 75
+  - name: "Python / AI Security"
+    level: 70
+  - name: "Privilege Escalation"
+    level: 65
+
+social:
+  github: Alex171-studo
+  htb: Alex171
+  tryhackme: Ghost0x

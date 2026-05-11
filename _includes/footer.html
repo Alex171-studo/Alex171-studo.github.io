@@ -1,14 +1,18 @@
 <footer>
   <div class="container">
-    <div class="footer-inner">
-      <div class="footer-name">&gt;_ alex171-studo</div>
-      <div class="footer-links">
-        <a href="https://github.com/Alex171-studo" target="_blank">GitHub</a>
-        <a href="https://tryhackme.com" target="_blank">TryHackMe</a>
-        <a href="{{ site.baseurl }}/writeups">Writeups</a>
-        <a href="{{ site.baseurl }}/resources">Ressources</a>
-      </div>
-      <div class="footer-copy">© 2026 Alex171-studo — Cybersec Portfolio</div>
+    <div class="footer-socials">
+      {% if site.author.github %}
+      <a href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener">GitHub</a>
+      {% endif %}
+      {% if site.author.htb %}
+      <a href="https://app.hackthebox.com/users/{{ site.author.htb }}" target="_blank" rel="noopener">HTB</a>
+      {% endif %}
+      {% if site.author.tryhackme %}
+      <a href="https://tryhackme.com/p/{{ site.author.tryhackme }}" target="_blank" rel="noopener">THM</a>
+      {% endif %}
+    </div>
+    <div class="footer-copy">
+      &copy; {{ "now" | date: "%Y" }} {{ site.author.name }} | Built with Jekyll & Terminal Vibes
     </div>
   </div>
 </footer>

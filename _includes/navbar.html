@@ -1,22 +1,16 @@
 <nav class="navbar">
-  <a class="nav-logo" href="{{ site.baseurl }}/">&gt;_<span> alex171</span></a>
-  <div class="nav-links">
-    <a href="{{ site.baseurl }}/" {% if page.url == '/' or page.url == '/index.html' %}class="active"{% endif %}>Accueil</a>
-    <a href="{{ site.baseurl }}/about" {% if page.url contains 'about' %}class="active"{% endif %}>À propos</a>
-    <a href="{{ site.baseurl }}/writeups" {% if page.url contains 'writeups' %}class="active"{% endif %}>Writeups</a>
-    <a href="{{ site.baseurl }}/certifications" {% if page.url contains 'certifications' %}class="active"{% endif %}>Certifications</a>
-    <a href="{{ site.baseurl }}/projects" {% if page.url contains 'projects' %}class="active"{% endif %}>Projets</a>
-    <a href="{{ site.baseurl }}/resources" {% if page.url contains 'resources' %}class="active"{% endif %}>Ressources</a>
-  </div>
-  <div class="hamburger" id="hamburger">
-    <span></span><span></span><span></span>
+  <div class="container nav-container">
+    <a href="{{ '/' | relative_url }}" class="nav-logo">
+      ALEX171<span>.SH</span>
+    </a>
+    
+    <div class="nav-links">
+      <a href="{{ '/' | relative_url }}" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
+      <a href="{{ '/about' | relative_url }}" {% if page.url contains "/about" %}class="active"{% endif %}>About</a>
+      <a href="{{ '/writeups' | relative_url }}" {% if page.url contains "/writeups" %}class="active"{% endif %}>Writeups</a>
+      <a href="{{ '/certifications' | relative_url }}" {% if page.url contains "/certifications" %}class="active"{% endif %}>Certs</a>
+      <a href="{{ '/projects' | relative_url }}" {% if page.url contains "/projects" %}class="active"{% endif %}>Projects</a>
+      <a href="{{ '/resources' | relative_url }}" {% if page.url contains "/resources" %}class="active"{% endif %}>Resources</a>
+    </div>
   </div>
 </nav>
-<div class="mobile-menu" id="mobile-menu">
-  <a href="{{ site.baseurl }}/">Accueil</a>
-  <a href="{{ site.baseurl }}/about">À propos</a>
-  <a href="{{ site.baseurl }}/writeups">Writeups</a>
-  <a href="{{ site.baseurl }}/certifications">Certifications</a>
-  <a href="{{ site.baseurl }}/projects">Projets</a>
-  <a href="{{ site.baseurl }}/resources">Ressources</a>
-</div>
