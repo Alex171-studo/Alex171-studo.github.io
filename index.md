@@ -23,7 +23,7 @@ title: "Home"
       </div>
     </div>
     
-    <h1>Étudiant en <span>Cybersécurité</span></h1>
+    <h1>Étudiant en <span id="typing-text" data-texts='["> Cybersécurité", "> Pentesting", "> IA Security"]'>Cybersécurité</span></h1>
     <p>CTF Player & Security Researcher. Passionné par l'offensif et la sécurité des systèmes IA.</p>
     
     <div class="hero-cta">

@@ -10,10 +10,16 @@ const mobileMenu = document.querySelector('.mobile-menu');
 
 // Active link detection
 function setActiveLink() {
-    const page = location.pathname.split('/').pop() || 'index.html';
+    const path = location.pathname;
     document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === page ||
-            (page === '' && a.getAttribute('href') === 'index.html'));
+        const href = a.getAttribute('href');
+        if (href === '/' && path === '/') {
+            a.classList.add('active');
+        } else if (href !== '/' && path.startsWith(href)) {
+            a.classList.add('active');
+        } else {
+            a.classList.remove('active');
+        }
     });
 }
 setActiveLink();

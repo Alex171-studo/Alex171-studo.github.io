@@ -12,5 +12,20 @@
       <a href="{{ '/projects' | relative_url }}" {% if page.url contains "/projects" %}class="active"{% endif %}>Projects</a>
       <a href="{{ '/resources' | relative_url }}" {% if page.url contains "/resources" %}class="active"{% endif %}>Resources</a>
     </div>
+
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <div class="mobile-menu">
+    <a href="{{ '/' | relative_url }}">Home</a>
+    <a href="{{ '/about' | relative_url }}">About</a>
+    <a href="{{ '/writeups' | relative_url }}">Writeups</a>
+    <a href="{{ '/certifications' | relative_url }}">Certs</a>
+    <a href="{{ '/projects' | relative_url }}">Projects</a>
+    <a href="{{ '/resources' | relative_url }}">Resources</a>
   </div>
 </nav>
