@@ -1,11 +1,12 @@
 ---
-title: "Daily Bugle - TryHackMe Writeup"
-date: 2026-02-28
-categorie: [TryHackMe, CTF]
 layout: post
-difficulty: Hard
-platform: TryHackMe
-tags: [Joomla, CVE-2017-8917, John, bcrypt]
+title: "Daily Bugle - TryHackMe"
+date: 2026-02-28
+platform: "TryHackMe"
+difficulty: "Hard"
+category: [Joomla, CVE-2017-8917, John, bcrypt]
+image: "/assets/daily-bugle/avatar.png"
+description: "Compromettre un compte Joomla CMS via une injection SQL, récupérer des hashs de mot de passe à casser puis faire une escalade de privilèges via yum."
 ---
 ### Objectif
 
@@ -39,7 +40,7 @@ joomscan -u http://lab.thm
    (_  _)(  _  )(  _  )(  \/  )/ __) / __)  /__\  ( \( )
   .-_)(   )(_)(  )(_)(  )    ( \__ \( (__  /(__)\  )  ( 
   \____) (_____)(_____)(_/\/\_)(___/ \___)(__)(__)(_)\_)
-			(1337.today)
+                        (1337.today)
    
     --=[OWASP JoomScan
     +---++---==[Version : 0.0.7
