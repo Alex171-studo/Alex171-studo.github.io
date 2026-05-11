@@ -1,64 +1,70 @@
-# Alex171-studo — Cybersec Portfolio 🔐
+# Alex171 | Security Researcher Portfolio 🔐
 
-Portfolio cybersécurité de **Alex171-studo** — étudiant en 2ème année de CPGE, futur ingénieur IA Security.
+Portfolio cybersécurité de **Alex171** — étudiant en 2ème année de CPGE, futur ingénieur IA Security.
+Refonte complète sous **Jekyll** pour une gestion propre et professionnelle du contenu.
 
-**Site live** : [alex171-studo.github.io](https://alex171-studo.github.io)
+**Site live** : [Alex171-studo.github.io](https://Alex171-studo.github.io)
 
 ---
 
-## Structure du projet
+## 🏗️ Structure du Projet (Jekyll)
 
 ```
 Alex171-studo.github.io/
-├── index.html              # Accueil
-├── about.html              # À propos
-├── writeups.html           # Liste des writeups
-├── certifications.html     # Certifications THM + PortSwigger
-├── projects.html           # Projets
-├── resources.html          # Ressources & Cheatsheets
+├── _posts/                 # ✍️ TOUS les writeups (Markdown)
+├── _layouts/               # 📐 Templates (default, post, page)
+├── _includes/              # 🧩 Composants réutilisables (navbar, footer, card)
+├── _config.yml             # ⚙️ Configuration du site
+├── assets/                 # 🖼️ Images par machine (avatar.png, screenshots)
 ├── css/
-│   ├── style.css           # Design system cybersec dark theme
-│   └── animations.css      # Matrix, glitch, pulse animations
+│   └── style.css           # 🎨 Design System centralisé (Dark Hacker)
 ├── js/
-│   ├── main.js             # Navigation, counters, filters, matrix canvas
-│   └── terminal.js         # Terminal interactif
-├── writeups/
-│   ├── gamezone.html
-│   ├── easy-ctf.html
-│   ├── chill-hack.html
-│   ├── blog.html
-│   ├── daily-bugle.html
-│   ├── bookstore.html
-│   └── skynet.html
-├── _posts/                 # Sources Markdown originales
-└── .nojekyll               # Désactive Jekyll sur GitHub Pages
+│   └── main.js             # ⌨️ Logique interactive (Matrix, Typing, Search)
+├── index.md                # 🏠 Accueil
+├── about.md                # 👤 À propos
+├── writeups.md             # 🔍 Hub des writeups avec recherche
+├── certifications.md       # 🏆 Certifications THM + PortSwigger
+├── projects.md             # 💻 Projets personnels
+└── resources.md            # 📚 Ressources & Cheatsheets
 ```
 
-## Writeups publiés
+## 📝 Ajouter un nouveau Writeup
 
-| Lab | Difficulté | Techniques principales |
-|-----|-----------|----------------------|
-| Game Zone | Medium | SQLi, SQLmap, John, SSH Tunnel, Metasploit |
-| Easy CTF | Easy | FTP, SQLi CVE-2019-9053, sudo vim |
-| Chill Hack | Easy | Command Injection, Stéganographie, Docker |
-| Blog | Medium | WordPress RCE CVE-2019-8942, SUID |
-| Daily Bugle | Hard | Joomla SQLi CVE-2017-8917, bcrypt, yum |
-| Bookstore | Medium | LFI, API REST, Werkzeug, Python RCE |
-| Skynet | Medium | SMB, RFI, Tar Wildcard Injection |
+Pour ajouter un walkthrough, crée un fichier `.md` dans `_posts/` avec le format suivant :
 
-## Fonctionnalités
+```yaml
+---
+layout: post
+title: "Nom Machine - HTB/THM"
+date: YYYY-MM-DD
+platform: HackTheBox     # ou TryHackMe
+difficulty: Easy         # Easy / Medium / Hard / Insane
+category: [Linux, Web, PrivEsc]
+image: /assets/nom-machine/avatar.png
+description: "Courte description de l'exploitation"
+---
+```
 
-- 🌙 **Dark cybersec theme** — Matrix rain CSS, glassmorphism, scanlines
-- ⌨️ **Terminal interactif** — widget flottant avec commandes
-- 🔍 **Filtres dynamiques** — par plateforme, difficulté, technique
-- 📱 **Responsive** — mobile-first, hamburger menu
-- ⚡ **Animations** — fade-in, typing effect, counters, glitch
-- 📑 **Table des matières** — sticky sidebar sur chaque writeup
+## 🚀 Fonctionnalités
 
-## Déploiement
+- 🟢 **Design Hacker** — Arrière-plan Matrix rain, thème sombre profond, typo JetBrains Mono.
+- 📱 **Responsive** — Navigation fluide sur mobile via menu hamburger.
+- 🔍 **Recherche temps-réel** — Filtrage instantané des machines par nom ou technologie.
+- ⚡ **Automatisation** — Déploiement via GitHub Actions à chaque push sur `main`.
+- ⌨️ **Typing Effect** — Animation terminal sur la page d'accueil.
+
+## 🛠️ Développement Local
+
+```bash
+bundle exec jekyll serve
+```
+
+## 📦 Déploiement
+
+Le site est automatiquement construit et déployé par **GitHub Actions**. Il suffit de pusher sur la branche `main`.
 
 ```bash
 git add .
-git commit -m "Portfolio cybersec v1"
+git commit -m "feat: add new writeup"
 git push origin main
 ```
