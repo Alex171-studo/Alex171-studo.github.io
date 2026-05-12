@@ -9,10 +9,19 @@ author:
   htb: "Alex171"
   tryhackme: "Ghost0x"
 
-# theme: minima   # Removed to use custom layouts exclusively
+remote_theme: pages-themes/minima
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .github
+  - .vscode
+  - instruction.txt
+  - AI_PROMPT_TEMPLATE.md
 
 plugins:
-  - jekyll-feed
   - jekyll-seo-tag
 
 defaults:
