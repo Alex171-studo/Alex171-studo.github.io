@@ -9,7 +9,7 @@ author:
   htb: "Alex171"
   tryhackme: "Ghost0x"
 
-theme: minima
+# theme: minima   # Removed to use custom layouts exclusively
 
 plugins:
   - jekyll-feed

@@ -228,12 +228,51 @@ document.addEventListener('click', (e) => {
 
 // ── SEARCH (writeups page) ───────────────────────
 const searchInput = document.getElementById('search-writeups');
-if (searchInput) {
-    searchInput.addEventListener('input', () => {
-        const q = searchInput.value.toLowerCase();
-        document.querySelectorAll('.writeup-card').forEach(card => {
-            const text = card.textContent.toLowerCase();
-            card.style.display = text.includes(q) ? '' : 'none';
-        });
+// ── INTERACTIVE TERMINAL ─────────────────────────
+const TERMINAL_COMMANDS = {
+    help: () => `
+        <span style="color:var(--accent-secondary)">Commandes disponibles :</span><br>
+        - <span style="color:var(--accent-primary)">whoami</span> : À propos d'Alex<br>
+        - <span style="color:var(--accent-primary)">writeups</span> : Voir les derniers writeups<br>
+        - <span style="color:var(--accent-primary)">clear</span> : Effacer le terminal<br>
+        - <span style="color:var(--accent-primary)">exit</span> : Fermer le terminal
+    `,
+    whoami: () => `Alex171 - Étudiant en Cybersécurité & CTF Player. Spécialisé en Pentest Web.`,
+    writeups: () => `Derniers writeups : Silentium, Kobold, WingData, Facts... Tape 'open writeups' pour voir tout.`,
+    clear: () => { document.getElementById('term-output').innerHTML = ''; return ''; },
+    exit: () => { document.getElementById('interactive-terminal').classList.remove('open'); return ''; }
+};
+
+const termInput = document.getElementById('term-input');
+const termOutput = document.getElementById('term-output');
+const termWindow = document.getElementById('interactive-terminal');
+const termToggle = document.getElementById('term-toggle');
+const termClose = document.getElementById('term-close');
+
+if (termToggle) {
+    termToggle.addEventListener('click', () => {
+        termWindow.classList.toggle('open');
+        if (termWindow.classList.contains('open')) termInput.focus();
+    });
+}
+
+if (termClose) {
+    termClose.addEventListener('click', () => termWindow.classList.remove('open'));
+}
+
+if (termInput) {
+    termInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            const cmd = termInput.value.trim().toLowerCase();
+            const response = TERMINAL_COMMANDS[cmd] ? TERMINAL_COMMANDS[cmd]() : `Commande inconnue : ${cmd}. Tape 'help' pour voir la liste.`;
+            
+            if (response !== '') {
+                termOutput.innerHTML += `<div><span style="color:var(--accent-primary)">alex@portfolio:~$</span> ${cmd}</div>`;
+                termOutput.innerHTML += `<div style="margin-bottom:0.5rem">${response}</div>`;
+            }
+            
+            termInput.value = '';
+            termOutput.scrollTop = termOutput.scrollHeight;
+        }
     });
 }

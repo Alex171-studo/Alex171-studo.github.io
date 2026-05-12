@@ -1,157 +1,118 @@
-Tu es un expert Jekyll, GitHub Pages et design cybersécurité.
+1- fix: add GitHub Actions workflow for Jekyll deployment #1
+Invalid workflow file: .github/workflows/jekyll.yml#L1
+(Line: 50, Col: 12): Unexpected symbol: 'steps:deployment'. Located at position 1 within expression: steps:deployment.outputs.page_url
 
-## SITUATION ACTUELLE
-J'ai un portfolio Jekyll qui existe déjà mais qui est raté (mélange HTML/CSS custom mal organisé).
-Je veux un REBUILD COMPLET, propre, professionnel.
+2- Fix: syntax error in workflow (dot instead of colon) #2
+Annotations
+1 error and 1 warning
+build
+ Logging at level: debug Configuration file: /github/workspace/./_config.yml Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 GitHub Pages: github-pages v232 GitHub Pages: jekyll v3.10.0 Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-coffeescript Requiring: jekyll-commonmark-ghpages Requiring: jekyll-gist Requiring: jekyll-github-metadata Requiring: jekyll-paginate Requiring: jekyll-relative-links Requiring: jekyll-optional-front-matter Requiring: jekyll-readme-index Requiring: jekyll-default-layout Requiring: jekyll-titles-from-headings GitHub Metadata: Initializing... Source: /github/workspace/./ Destination: /github/workspace/./_site Incremental build: disabled. Enable with --incremental Generating... Reading: _posts/2026-02-03-bookstore.md Reading: _posts/2026-02-27-easy-ctf.md Reading: _posts/2026-02-28-daily-bugle.md Reading: _posts/2026-03-01-game-zone.md Reading: _posts/2026-03-02-chill-hack.md Reading: _posts/2026-03-04-blog.md Reading: _posts/2026-03-05-skynet.md Generating: JekyllOptionalFrontMatter::Generator finished in 0.000183073 seconds. Generating: JekyllReadmeIndex::Generator finished in 0.001592154 seconds. Jekyll Feed: Generating feed for posts Generating: JekyllFeed::Generator finished in 0.00067209 seconds. Generating: Jekyll::Paginate::Pagination finished in 5.25e-06 seconds. Generating: JekyllRelativeLinks::Generator finished in 0.000574967 seconds. Generating: JekyllDefaultLayout::Generator finished in 0.000753552 seconds. Requiring: kramdown-parser-gfm Generating: JekyllTitlesFromHeadings::Generator finished in 0.008379179 seconds. Rendering: _posts/2026-03-01-game-zone.md Pre-Render Hooks: _posts/2026-03-01-game-zone.md Rendering Markup: _posts/2026-03-01-game-zone.md Rendering Layout: _posts/2026-03-01-game-zone.md Layout source: site Rendering: _posts/2026-03-01-game-zone.md/#excerpt Pre-Render Hooks: _posts/2026-03-01-game-zone.md/#excerpt Rendering Markup: _posts/2026-03-01-game-zone.md/#excerpt Rendering: _posts/2026-02-03-bookstore.md Pre-Render Hooks: _posts/2026-02-03-bookstore.md Rendering Markup: _posts/2026-02-03-bookstore.md Rendering Layout: _posts/2026-02-03-bookstore.md Layout source: site Rendering: _posts/2026-02-03-bookstore.md/#excerpt Pre-Render Hooks: _posts/2026-02-03-bookstore.md/#excerpt Rendering Markup: _posts/2026-02-03-bookstore.md/#excerpt Rendering: _posts/2026-02-27-easy-ctf.md Pre-Render Hooks: _posts/2026-02-27-easy-ctf.md Rendering Markup: _posts/2026-02-27-easy-ctf.md Rendering Layout: _posts/2026-02-27-easy-ctf.md Layout source: site Rendering: _posts/2026-02-27-easy-ctf.md/#excerpt Pre-Render Hooks: _posts/2026-02-27-easy-ctf.md/#excerpt Rendering Markup: _posts/2026-02-27-easy-ctf.md/#excerpt Rendering: _posts/2026-02-28-daily-bugle.md Pre-Render Hooks: _posts/2026-02-28-daily-bugle.md Rendering Markup: _posts/2026-02-28-daily-bugle.md Rendering Layout: _posts/2026-02-28-daily-bugle.md Layout source: site Rendering: _posts/2026-02-28-daily-bugle.md/#excerpt Pre-Render Hooks: _posts/2026-02-28-daily-bugle.md/#excerpt Rendering Markup: _posts/2026-02-28-daily-bugle.md/#excerpt Rendering: _posts/2026-03-02-chill-hack.md Pre-Render Hooks: _posts/2026-03-02-chill-hack.md Rendering Markup: _posts/2026-03-02-chill-hack.md Rendering Layout: _posts/2026-03-02-chill-hack.md Layout source: site Rendering: _posts/2026-03-02-chill-hack.md/#excerpt Pre-Render Hooks: _posts/2026-03-02-chill-hack.md/#excerpt Rendering Markup: _posts/2026-03-02-chill-hack.md/#excerpt Rendering: _posts/2026-03-04-blog.md Pre-Render Hooks: _posts/2026-03-04-blog.md Rendering Markup: _posts/2026-03-04-blog.md Rendering Layout: _posts/2026-03-04-blog.md Layout source: site Rendering: _posts/2026-03-04-blog.md/#excerpt Pre-Render Hooks: _posts/2026-03-04-blog.md/#excerpt Rendering Markup: _posts/2026-03-04-blog.md/#excerpt Rendering: _posts/2026-03-05-skynet.md Pre-Render Hooks: _posts/2026-03-05-skynet.md Rendering Markup: _posts/2026-03-05-skynet.m
+build
+Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/configure-pages@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 
-Mon dépôt actuel contient :
-- index.html, about.html, certifications.html, projects.html, writeups.html, resources.html
-- _layouts/post.html
-- _includes/navbar.html, footer.html, terminal.html
-- css/style.css, css/animations.css
-- js/main.js, js/terminal.js
-- _config.yml
-- _posts/ (12 writeups en .md)
-- assets/ (images par machine : silentium/, kobold/, cctv/, etc.)
 
-## CE QUE JE VEUX
-Un site dark/hacker BANGER avec :
-1. Design cohérent sur toutes les pages (une seule source de vérité CSS)
-2. Chaque nouveau .md ajouté dans _posts/ hérite AUTOMATIQUEMENT du bon style
-3. Navigation propre entre toutes les pages
-4. Pages writeups avec cards par machine (difficulty badge, date, tags)
-5. Page d'accueil avec : hero section, stats HTB, derniers writeups, compétences
-6. Page about avec parcours, skills, certifs
-7. Aucun JS inutile, aucun CSS dupliqué
+3- fix: untrack _posts from gitignore and standardize front matter #3
+Annotations
+1 error and 1 warning
+build
+ Logging at level: debug Configuration file: /github/workspace/./_config.yml Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 GitHub Pages: github-pages v232 GitHub Pages: jekyll v3.10.0 Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-coffeescript Requiring: jekyll-commonmark-ghpages Requiring: jekyll-gist Requiring: jekyll-github-metadata Requiring: jekyll-paginate Requiring: jekyll-relative-links Requiring: jekyll-optional-front-matter Requiring: jekyll-readme-index Requiring: jekyll-default-layout Requiring: jekyll-titles-from-headings GitHub Metadata: Initializing... Source: /github/workspace/./ Destination: /github/workspace/./_site Incremental build: disabled. Enable with --incremental Generating... Reading: _posts/2026-02-03-bookstore.md Reading: _posts/2026-02-27-easy-ctf.md Reading: _posts/2026-02-28-daily-bugle.md Reading: _posts/2026-03-01-game-zone.md Reading: _posts/2026-03-02-chill-hack.md Reading: _posts/2026-03-04-blog.md Reading: _posts/2026-03-05-skynet.md Reading: _posts/2026-03-31-cctv.md Reading: _posts/2026-04-01-facts.md Reading: _posts/2026-04-04-kobold.md Reading: _posts/2026-04-06-wingdata.md Reading: _posts/2026-04-15-silentium-htb.md Generating: JekyllOptionalFrontMatter::Generator finished in 0.000159387 seconds. Generating: JekyllReadmeIndex::Generator finished in 0.001621138 seconds. Jekyll Feed: Generating feed for posts Generating: JekyllFeed::Generator finished in 0.000547207 seconds. Generating: Jekyll::Paginate::Pagination finished in 5.934e-06 seconds. Generating: JekyllRelativeLinks::Generator finished in 0.00060567 seconds. Generating: JekyllDefaultLayout::Generator finished in 0.000577386 seconds. Requiring: kramdown-parser-gfm Generating: JekyllTitlesFromHeadings::Generator finished in 0.007082566 seconds. Rendering: _posts/2026-02-03-bookstore.md Pre-Render Hooks: _posts/2026-02-03-bookstore.md Rendering Markup: _posts/2026-02-03-bookstore.md Rendering Layout: _posts/2026-02-03-bookstore.md Layout source: site Rendering: _posts/2026-02-27-easy-ctf.md Pre-Render Hooks: _posts/2026-02-27-easy-ctf.md Rendering Markup: _posts/2026-02-27-easy-ctf.md Rendering Layout: _posts/2026-02-27-easy-ctf.md Layout source: site Rendering: _posts/2026-02-28-daily-bugle.md Pre-Render Hooks: _posts/2026-02-28-daily-bugle.md Rendering Markup: _posts/2026-02-28-daily-bugle.md Rendering Layout: _posts/2026-02-28-daily-bugle.md Layout source: site Rendering: _posts/2026-03-01-game-zone.md Pre-Render Hooks: _posts/2026-03-01-game-zone.md Rendering Markup: _posts/2026-03-01-game-zone.md Rendering Layout: _posts/2026-03-01-game-zone.md Layout source: site Rendering: _posts/2026-03-02-chill-hack.md Pre-Render Hooks: _posts/2026-03-02-chill-hack.md Rendering Markup: _posts/2026-03-02-chill-hack.md Rendering Layout: _posts/2026-03-02-chill-hack.md Layout source: site Rendering: _posts/2026-03-04-blog.md Pre-Render Hooks: _posts/2026-03-04-blog.md Rendering Markup: _posts/2026-03-04-blog.md Rendering Layout: _posts/2026-03-04-blog.md Layout source: site Rendering: _posts/2026-03-05-skynet.md Pre-Render Hooks: _posts/2026-03-05-skynet.md Rendering Markup: _posts/2026-03-05-skynet.md Rendering Layout: _posts/2026-03-05-skynet.md Layout source: site Rendering: _posts/2026-03-31-cctv.md Pre-Render Hooks: _posts/2026-03-31-cctv.md Rendering Markup: _posts/2026-03-31-cctv.md Rendering Layout: _posts/2026-03-31-cctv.md Layout source: site Rendering: _posts/2026-04-01-facts.md Pre-Render Hooks: _posts/2026-04-01-facts.md Rendering Markup: _posts/2026-04-01-facts.md Rendering Layout: _posts/2026-04-01-facts.md Layout source: site Rendering: _posts/2026-04-04-kobold.md Pre-Render Hooks: _posts/2026-04-04-kobold.md Rendering Markup: _posts/2026-04-04-kobold.md Rendering Layout: _posts/2026-04-04-kobold.md Layout source: site Rendering: _posts/2026-04-06-wingdata.md Pre-Render Hooks: _posts/2026-04-06-wingdata.md Rendering Markup: _posts/2026-04-06-wingdata.md Rendering Layout:
+build
+Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/configure-pages@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 
-## ARCHITECTURE CIBLE À CRÉER
 
-### _config.yml
-```yaml
-title: "Alex171 | Security Researcher"
-description: "HTB Writeups & Cybersecurity Journey"
-baseurl: ""
-url: "https://Alex171-studo.github.io"
-author:
-  name: "Alex171"
-  email: ""
-  github: "Alex171-studo"
-  htb: ""        # ton pseudo HTB ici
-  tryhackme: ""  # si tu en as un
+4- feat: restore original content for projects and resources #4
+Annotations
+1 error and 1 warning
+build
+ Logging at level: debug Configuration file: /github/workspace/./_config.yml Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 GitHub Pages: github-pages v232 GitHub Pages: jekyll v3.10.0 Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-coffeescript Requiring: jekyll-commonmark-ghpages Requiring: jekyll-gist Requiring: jekyll-github-metadata Requiring: jekyll-paginate Requiring: jekyll-relative-links Requiring: jekyll-optional-front-matter Requiring: jekyll-readme-index Requiring: jekyll-default-layout Requiring: jekyll-titles-from-headings GitHub Metadata: Initializing... Source: /github/workspace/./ Destination: /github/workspace/./_site Incremental build: disabled. Enable with --incremental Generating... Reading: _posts/2026-02-03-bookstore.md Reading: _posts/2026-02-27-easy-ctf.md Reading: _posts/2026-02-28-daily-bugle.md Reading: _posts/2026-03-01-game-zone.md Reading: _posts/2026-03-02-chill-hack.md Reading: _posts/2026-03-04-blog.md Reading: _posts/2026-03-05-skynet.md Reading: _posts/2026-03-31-cctv.md Reading: _posts/2026-04-01-facts.md Reading: _posts/2026-04-04-kobold.md Reading: _posts/2026-04-06-wingdata.md Reading: _posts/2026-04-15-silentium-htb.md Generating: JekyllOptionalFrontMatter::Generator finished in 0.000179216 seconds. Generating: JekyllReadmeIndex::Generator finished in 0.001642303 seconds. Jekyll Feed: Generating feed for posts Generating: JekyllFeed::Generator finished in 0.000649425 seconds. Generating: Jekyll::Paginate::Pagination finished in 5.61e-06 seconds. Generating: JekyllRelativeLinks::Generator finished in 0.000689991 seconds. Generating: JekyllDefaultLayout::Generator finished in 0.000701733 seconds. Requiring: kramdown-parser-gfm Generating: JekyllTitlesFromHeadings::Generator finished in 0.008324017 seconds. Rendering: _posts/2026-02-03-bookstore.md Pre-Render Hooks: _posts/2026-02-03-bookstore.md Rendering Markup: _posts/2026-02-03-bookstore.md Rendering Layout: _posts/2026-02-03-bookstore.md Layout source: site Rendering: _posts/2026-02-27-easy-ctf.md Pre-Render Hooks: _posts/2026-02-27-easy-ctf.md Rendering Markup: _posts/2026-02-27-easy-ctf.md Rendering Layout: _posts/2026-02-27-easy-ctf.md Layout source: site Rendering: _posts/2026-02-28-daily-bugle.md Pre-Render Hooks: _posts/2026-02-28-daily-bugle.md Rendering Markup: _posts/2026-02-28-daily-bugle.md Rendering Layout: _posts/2026-02-28-daily-bugle.md Layout source: site Rendering: _posts/2026-03-01-game-zone.md Pre-Render Hooks: _posts/2026-03-01-game-zone.md Rendering Markup: _posts/2026-03-01-game-zone.md Rendering Layout: _posts/2026-03-01-game-zone.md Layout source: site Rendering: _posts/2026-03-02-chill-hack.md Pre-Render Hooks: _posts/2026-03-02-chill-hack.md Rendering Markup: _posts/2026-03-02-chill-hack.md Rendering Layout: _posts/2026-03-02-chill-hack.md Layout source: site Rendering: _posts/2026-03-04-blog.md Pre-Render Hooks: _posts/2026-03-04-blog.md Rendering Markup: _posts/2026-03-04-blog.md Rendering Layout: _posts/2026-03-04-blog.md Layout source: site Rendering: _posts/2026-03-05-skynet.md Pre-Render Hooks: _posts/2026-03-05-skynet.md Rendering Markup: _posts/2026-03-05-skynet.md Rendering Layout: _posts/2026-03-05-skynet.md Layout source: site Rendering: _posts/2026-03-31-cctv.md Pre-Render Hooks: _posts/2026-03-31-cctv.md Rendering Markup: _posts/2026-03-31-cctv.md Rendering Layout: _posts/2026-03-31-cctv.md Layout source: site Rendering: _posts/2026-04-01-facts.md Pre-Render Hooks: _posts/2026-04-01-facts.md Rendering Markup: _posts/2026-04-01-facts.md Rendering Layout: _posts/2026-04-01-facts.md Layout source: site Rendering: _posts/2026-04-04-kobold.md Pre-Render Hooks: _posts/2026-04-04-kobold.md Rendering Markup: _posts/2026-04-04-kobold.md Rendering Layout: _posts/2026-04-04-kobold.md Layout source: site Rendering: _posts/2026-04-06-wingdata.md Pre-Render Hooks: _posts/2026-04-06-wingdata.md Rendering Markup: _posts/2026-04-06-wingdata.md Rendering Layout:
+build
+Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/configure-pages@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 
-theme: minima   # on va override avec notre propre layout
 
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
+5- style: final design polish with matrix, typing effect and restored co… #5
+Annotations
+1 error and 1 warning
+build
+ Logging at level: debug Configuration file: /github/workspace/./_config.yml Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 GitHub Pages: github-pages v232 GitHub Pages: jekyll v3.10.0 Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-coffeescript Requiring: jekyll-commonmark-ghpages Requiring: jekyll-gist Requiring: jekyll-github-metadata Requiring: jekyll-paginate Requiring: jekyll-relative-links Requiring: jekyll-optional-front-matter Requiring: jekyll-readme-index Requiring: jekyll-default-layout Requiring: jekyll-titles-from-headings GitHub Metadata: Initializing... Source: /github/workspace/./ Destination: /github/workspace/./_site Incremental build: disabled. Enable with --incremental Generating... Reading: _posts/2026-02-03-bookstore.md Reading: _posts/2026-02-27-easy-ctf.md Reading: _posts/2026-02-28-daily-bugle.md Reading: _posts/2026-03-01-game-zone.md Reading: _posts/2026-03-02-chill-hack.md Reading: _posts/2026-03-04-blog.md Reading: _posts/2026-03-05-skynet.md Reading: _posts/2026-03-31-cctv.md Reading: _posts/2026-04-01-facts.md Reading: _posts/2026-04-04-kobold.md Reading: _posts/2026-04-06-wingdata.md Reading: _posts/2026-04-15-silentium-htb.md Generating: JekyllOptionalFrontMatter::Generator finished in 0.000199448 seconds. Generating: JekyllReadmeIndex::Generator finished in 0.001811645 seconds. Jekyll Feed: Generating feed for posts Generating: JekyllFeed::Generator finished in 0.000699421 seconds. Generating: Jekyll::Paginate::Pagination finished in 6.071e-06 seconds. Generating: JekyllRelativeLinks::Generator finished in 0.000932865 seconds. Generating: JekyllDefaultLayout::Generator finished in 0.000692827 seconds. Requiring: kramdown-parser-gfm Generating: JekyllTitlesFromHeadings::Generator finished in 0.008401946 seconds. Rendering: _posts/2026-02-03-bookstore.md Pre-Render Hooks: _posts/2026-02-03-bookstore.md Rendering Markup: _posts/2026-02-03-bookstore.md Rendering Layout: _posts/2026-02-03-bookstore.md Layout source: site Rendering: _posts/2026-02-27-easy-ctf.md Pre-Render Hooks: _posts/2026-02-27-easy-ctf.md Rendering Markup: _posts/2026-02-27-easy-ctf.md Rendering Layout: _posts/2026-02-27-easy-ctf.md Layout source: site Rendering: _posts/2026-02-28-daily-bugle.md Pre-Render Hooks: _posts/2026-02-28-daily-bugle.md Rendering Markup: _posts/2026-02-28-daily-bugle.md Rendering Layout: _posts/2026-02-28-daily-bugle.md Layout source: site Rendering: _posts/2026-03-01-game-zone.md Pre-Render Hooks: _posts/2026-03-01-game-zone.md Rendering Markup: _posts/2026-03-01-game-zone.md Rendering Layout: _posts/2026-03-01-game-zone.md Layout source: site Rendering: _posts/2026-03-02-chill-hack.md Pre-Render Hooks: _posts/2026-03-02-chill-hack.md Rendering Markup: _posts/2026-03-02-chill-hack.md Rendering Layout: _posts/2026-03-02-chill-hack.md Layout source: site Rendering: _posts/2026-03-04-blog.md Pre-Render Hooks: _posts/2026-03-04-blog.md Rendering Markup: _posts/2026-03-04-blog.md Rendering Layout: _posts/2026-03-04-blog.md Layout source: site Rendering: _posts/2026-03-05-skynet.md Pre-Render Hooks: _posts/2026-03-05-skynet.md Rendering Markup: _posts/2026-03-05-skynet.md Rendering Layout: _posts/2026-03-05-skynet.md Layout source: site Rendering: _posts/2026-03-31-cctv.md Pre-Render Hooks: _posts/2026-03-31-cctv.md Rendering Markup: _posts/2026-03-31-cctv.md Rendering Layout: _posts/2026-03-31-cctv.md Layout source: site Rendering: _posts/2026-04-01-facts.md Pre-Render Hooks: _posts/2026-04-01-facts.md Rendering Markup: _posts/2026-04-01-facts.md Rendering Layout: _posts/2026-04-01-facts.md Layout source: site Rendering: _posts/2026-04-04-kobold.md Pre-Render Hooks: _posts/2026-04-04-kobold.md Rendering Markup: _posts/2026-04-04-kobold.md Rendering Layout: _posts/2026-04-04-kobold.md Layout source: site Rendering: _posts/2026-04-06-wingdata.md Pre-Render Hooks: _posts/2026-04-06-wingdata.md Rendering Markup: _posts/2026-04-06-wingdata.md Rendering Layout
+build
+Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/configure-pages@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 
-defaults:
-  - scope:
-      path: "_posts"
-      type: "posts"
-    values:
-      layout: "post"
-      author: "Alex171"
-```
 
-### _layouts/ (fichiers à créer)
-- default.html   → layout de base (head, navbar, footer)
-- post.html      → layout writeup (hérite de default)
-- page.html      → layout pages statiques (hérite de default)
+6- style: final search bar and matrix refinements #6
+Annotations
+1 error and 1 warning
+build
+ Logging at level: debug Configuration file: /github/workspace/./_config.yml Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 GitHub Pages: github-pages v232 GitHub Pages: jekyll v3.10.0 Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-coffeescript Requiring: jekyll-commonmark-ghpages Requiring: jekyll-gist Requiring: jekyll-github-metadata Requiring: jekyll-paginate Requiring: jekyll-relative-links Requiring: jekyll-optional-front-matter Requiring: jekyll-readme-index Requiring: jekyll-default-layout Requiring: jekyll-titles-from-headings GitHub Metadata: Initializing... Source: /github/workspace/./ Destination: /github/workspace/./_site Incremental build: disabled. Enable with --incremental Generating... Reading: _posts/2026-02-03-bookstore.md Reading: _posts/2026-02-27-easy-ctf.md Reading: _posts/2026-02-28-daily-bugle.md Reading: _posts/2026-03-01-game-zone.md Reading: _posts/2026-03-02-chill-hack.md Reading: _posts/2026-03-04-blog.md Reading: _posts/2026-03-05-skynet.md Reading: _posts/2026-03-31-cctv.md Reading: _posts/2026-04-01-facts.md Reading: _posts/2026-04-04-kobold.md Reading: _posts/2026-04-06-wingdata.md Reading: _posts/2026-04-15-silentium-htb.md Generating: JekyllOptionalFrontMatter::Generator finished in 0.000140101 seconds. Generating: JekyllReadmeIndex::Generator finished in 0.001331656 seconds. Jekyll Feed: Generating feed for posts Generating: JekyllFeed::Generator finished in 0.000553694 seconds. Generating: Jekyll::Paginate::Pagination finished in 3.976e-06 seconds. Generating: JekyllRelativeLinks::Generator finished in 0.000689589 seconds. Generating: JekyllDefaultLayout::Generator finished in 0.000469287 seconds. Requiring: kramdown-parser-gfm Generating: JekyllTitlesFromHeadings::Generator finished in 0.006731344 seconds. Rendering: _posts/2026-02-03-bookstore.md Pre-Render Hooks: _posts/2026-02-03-bookstore.md Rendering Markup: _posts/2026-02-03-bookstore.md Rendering Layout: _posts/2026-02-03-bookstore.md Layout source: site Rendering: _posts/2026-02-27-easy-ctf.md Pre-Render Hooks: _posts/2026-02-27-easy-ctf.md Rendering Markup: _posts/2026-02-27-easy-ctf.md Rendering Layout: _posts/2026-02-27-easy-ctf.md Layout source: site Rendering: _posts/2026-02-28-daily-bugle.md Pre-Render Hooks: _posts/2026-02-28-daily-bugle.md Rendering Markup: _posts/2026-02-28-daily-bugle.md Rendering Layout: _posts/2026-02-28-daily-bugle.md Layout source: site Rendering: _posts/2026-03-01-game-zone.md Pre-Render Hooks: _posts/2026-03-01-game-zone.md Rendering Markup: _posts/2026-03-01-game-zone.md Rendering Layout: _posts/2026-03-01-game-zone.md Layout source: site Rendering: _posts/2026-03-02-chill-hack.md Pre-Render Hooks: _posts/2026-03-02-chill-hack.md Rendering Markup: _posts/2026-03-02-chill-hack.md Rendering Layout: _posts/2026-03-02-chill-hack.md Layout source: site Rendering: _posts/2026-03-04-blog.md Pre-Render Hooks: _posts/2026-03-04-blog.md Rendering Markup: _posts/2026-03-04-blog.md Rendering Layout: _posts/2026-03-04-blog.md Layout source: site Rendering: _posts/2026-03-05-skynet.md Pre-Render Hooks: _posts/2026-03-05-skynet.md Rendering Markup: _posts/2026-03-05-skynet.md Rendering Layout: _posts/2026-03-05-skynet.md Layout source: site Rendering: _posts/2026-03-31-cctv.md Pre-Render Hooks: _posts/2026-03-31-cctv.md Rendering Markup: _posts/2026-03-31-cctv.md Rendering Layout: _posts/2026-03-31-cctv.md Layout source: site Rendering: _posts/2026-04-01-facts.md Pre-Render Hooks: _posts/2026-04-01-facts.md Rendering Markup: _posts/2026-04-01-facts.md Rendering Layout: _posts/2026-04-01-facts.md Layout source: site Rendering: _posts/2026-04-04-kobold.md Pre-Render Hooks: _posts/2026-04-04-kobold.md Rendering Markup: _posts/2026-04-04-kobold.md Rendering Layout: _posts/2026-04-04-kobold.md Layout source: site Rendering: _posts/2026-04-06-wingdata.md Pre-Render Hooks: _posts/2026-04-06-wingdata.md Rendering Markup: _posts/2026-04-06-wingdata.md Rendering Layout
+build
+Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/configure-pages@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 
-### _includes/
-- head.html      → meta, CSS links
-- navbar.html    → navigation responsive
-- footer.html    → footer
-- card-writeup.html → composant card réutilisable pour les writeups
 
-### Pages principales
-- index.md (pas .html !)
-- about.md
-- writeups.md
-- certifications.md
-- projects.md
-- resources.md
+Annotations
+1 error and 1 warning
+build
+ Logging at level: debug Configuration file: /github/workspace/./_config.yml Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 GitHub Pages: github-pages v232 GitHub Pages: jekyll v3.10.0 Theme: minima Theme source: /usr/local/bundle/gems/minima-2.5.1 Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-feed Requiring: jekyll-seo-tag Requiring: jekyll-coffeescript Requiring: jekyll-commonmark-ghpages Requiring: jekyll-gist Requiring: jekyll-github-metadata Requiring: jekyll-paginate Requiring: jekyll-relative-links Requiring: jekyll-optional-front-matter Requiring: jekyll-readme-index Requiring: jekyll-default-layout Requiring: jekyll-titles-from-headings GitHub Metadata: Initializing... Source: /github/workspace/./ Destination: /github/workspace/./_site Incremental build: disabled. Enable with --incremental Generating... Reading: _posts/2026-02-03-bookstore.md Reading: _posts/2026-02-27-easy-ctf.md Reading: _posts/2026-02-28-daily-bugle.md Reading: _posts/2026-03-01-game-zone.md Reading: _posts/2026-03-02-chill-hack.md Reading: _posts/2026-03-04-blog.md Reading: _posts/2026-03-05-skynet.md Reading: _posts/2026-03-31-cctv.md Reading: _posts/2026-04-01-facts.md Reading: _posts/2026-04-04-kobold.md Reading: _posts/2026-04-06-wingdata.md Reading: _posts/2026-04-15-silentium-htb.md Generating: JekyllOptionalFrontMatter::Generator finished in 0.000147593 seconds. Generating: JekyllReadmeIndex::Generator finished in 0.001230864 seconds. Jekyll Feed: Generating feed for posts Generating: JekyllFeed::Generator finished in 0.000516408 seconds. Generating: Jekyll::Paginate::Pagination finished in 3.496e-06 seconds. Generating: JekyllRelativeLinks::Generator finished in 0.000681417 seconds. Generating: JekyllDefaultLayout::Generator finished in 0.000479692 seconds. Requiring: kramdown-parser-gfm Generating: JekyllTitlesFromHeadings::Generator finished in 0.006541676 seconds. Rendering: _posts/2026-02-03-bookstore.md Pre-Render Hooks: _posts/2026-02-03-bookstore.md Rendering Markup: _posts/2026-02-03-bookstore.md Rendering Layout: _posts/2026-02-03-bookstore.md Layout source: site Rendering: _posts/2026-02-27-easy-ctf.md Pre-Render Hooks: _posts/2026-02-27-easy-ctf.md Rendering Markup: _posts/2026-02-27-easy-ctf.md Rendering Layout: _posts/2026-02-27-easy-ctf.md Layout source: site Rendering: _posts/2026-02-28-daily-bugle.md Pre-Render Hooks: _posts/2026-02-28-daily-bugle.md Rendering Markup: _posts/2026-02-28-daily-bugle.md Rendering Layout: _posts/2026-02-28-daily-bugle.md Layout source: site Rendering: _posts/2026-03-01-game-zone.md Pre-Render Hooks: _posts/2026-03-01-game-zone.md Rendering Markup: _posts/2026-03-01-game-zone.md Rendering Layout: _posts/2026-03-01-game-zone.md Layout source: site Rendering: _posts/2026-03-02-chill-hack.md Pre-Render Hooks: _posts/2026-03-02-chill-hack.md Rendering Markup: _posts/2026-03-02-chill-hack.md Rendering Layout: _posts/2026-03-02-chill-hack.md Layout source: site Rendering: _posts/2026-03-04-blog.md Pre-Render Hooks: _posts/2026-03-04-blog.md Rendering Markup: _posts/2026-03-04-blog.md Rendering Layout: _posts/2026-03-04-blog.md Layout source: site Rendering: _posts/2026-03-05-skynet.md Pre-Render Hooks: _posts/2026-03-05-skynet.md Rendering Markup: _posts/2026-03-05-skynet.md Rendering Layout: _posts/2026-03-05-skynet.md Layout source: site Rendering: _posts/2026-03-31-cctv.md Pre-Render Hooks: _posts/2026-03-31-cctv.md Rendering Markup: _posts/2026-03-31-cctv.md Rendering Layout: _posts/2026-03-31-cctv.md Layout source: site Rendering: _posts/2026-04-01-facts.md Pre-Render Hooks: _posts/2026-04-01-facts.md Rendering Markup: _posts/2026-04-01-facts.md Rendering Layout: _posts/2026-04-01-facts.md Layout source: site Rendering: _posts/2026-04-04-kobold.md Pre-Render Hooks: _posts/2026-04-04-kobold.md Rendering Markup: _posts/2026-04-04-kobold.md Rendering Layout: _posts/2026-04-04-kobold.md Layout source: site Rendering: _posts/2026-04-06-wingdata.md Pre-Render Hooks: _posts/2026-04-06-wingdata.md Rendering Markup: _posts/2026-04-06-wingdata.md Rendering Layout
+build
+Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4, actions/configure-pages@v5. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
 
-### Front matter standard pour chaque writeup dans _posts/
-```yaml
----
-layout: post
-title: "Nom Machine - HTB/THM"
-date: YYYY-MM-DD
-platform: HackTheBox     # ou TryHackMe
-difficulty: Easy         # Easy / Medium / Hard / Insane
-category: [Linux, Web, Privilege Escalation]   # tags libres
-image: /assets/nom-machine/avatar.png
-description: "Courte description de la machine"
----
-```
 
-## DESIGN SYSTEM À APPLIQUER (tout dans un seul style.css)
 
-Palette :
-- Background : #0a0a0a (noir profond)
-- Surface : #111111 / #1a1a1a (cards, panels)
-- Accent primaire : #00ff41 (vert terminal)
-- Accent secondaire : #ff6b35 (orange)
-- Text principal : #e0e0e0
-- Text secondaire : #888888
-- Borders : #222222
 
-Typographie :
-- Monospace pour les titres et code : 'JetBrains Mono' ou 'Fira Code' (Google Fonts)
-- Sans-serif pour le corps : 'Inter'
+Workflow file for this run
+.github/workflows/jekyll.yml at e4fdb0a
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
 
-Composants à définir une seule fois :
-- .card (writeup cards)
-- .badge-difficulty (Easy=vert, Medium=orange, Hard=rouge, Insane=violet)
-- .badge-platform
-- .skill-bar
-- .terminal-block (pour les blocs de code dans les writeups)
-- .btn
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
-## ORDRE D'EXÉCUTION
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
 
-ÉTAPE 1 — Demande-moi de confirmer ces infos avant de commencer :
-- Mon pseudo HTB exact
-- Mon pseudo TryHackMe (si j'en ai un)
-- 3 skills principaux que je veux afficher
-- Est-ce que j'ai des certifications ? lesquelles ?
-- Un titre/accroche pour la page d'accueil (ex: "Étudiant en cybersécurité | CTF Player")
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
-ÉTAPE 2 — Génère dans cet ordre EXACT (un fichier à la fois, attends ma confirmation) :
-1. _config.yml complet
-2. _layouts/default.html (le layout maître avec tout le HTML/head/nav/footer)
-3. css/style.css (TOUT le CSS centralisé ici, rien ailleurs)
-4. _includes/navbar.html
-5. _includes/footer.html
-6. _includes/card-writeup.html
-7. _layouts/post.html (layout writeup qui hérite de default)
-8. _layouts/page.html
-9. index.md
-10. about.md
-11. writeups.md
-12. Un exemple de front matter corrigé pour mes _posts existants
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-ÉTAPE 3 — Donne-moi la commande pour supprimer les anciens fichiers HTML et CSS proprement :
-```bash
-rm index.html about.html certifications.html projects.html writeups.html resources.html
-rm css/animations.css
-rm js/terminal.js  # si inutile
-```
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
-ÉTAPE 4 — Donne-moi les commandes git pour pusher et tester :
-```bash
-git add .
-git commit -m "rebuild: full Jekyll redesign"
-git push origin main
-```
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
 
-## CONTRAINTES ABSOLUES
-- ZÉRO CSS dans les fichiers HTML/Markdown (tout dans style.css)
-- ZÉRO duplication de navbar/footer (tout via _includes)
-- Chaque nouveau _posts/YYYY-MM-DD-machine.md → style automatique, rien à toucher
-- Compatible GitHub Pages natif (pas de plugins custom non supportés)
-- Mobile responsive obligatoire
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
-Commence par l'ÉTAPE 1 et pose-moi les questions.
