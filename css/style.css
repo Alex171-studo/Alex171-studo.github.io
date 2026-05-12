@@ -405,11 +405,11 @@ footer {
   width: 100%;
   height: 100%;
   z-index: -1;
-  opacity: 0.15;
+  opacity: 0.25; /* Increased opacity for better matrix visibility */
   pointer-events: none;
 }
 
-/* Scanline Effect */
+/* Scanline Effect - Subtle version */
 body::before {
   content: " ";
   display: block;
@@ -418,10 +418,48 @@ body::before {
   left: 0;
   bottom: 0;
   right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
   z-index: 9999;
-  background-size: 100% 2px, 3px 100%;
+  background-size: 100% 4px; /* Thinner lines */
   pointer-events: none;
+  opacity: 0.3;
+}
+
+/* ── HERO ENHANCEMENTS ── */
+.hero {
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-name {
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--accent-primary);
+  letter-spacing: -2px;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  text-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.terminal-box {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--accent-primary);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* Custom Scrollbar */

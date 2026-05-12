@@ -5,65 +5,62 @@ title: "Home"
 
 <section class="hero fade-in">
   <div class="container">
-    <div class="terminal-block" style="max-width: 600px; margin: 0 auto 2rem; text-align: left;">
-      <div class="terminal-header">
+    <div class="terminal-box">
+      <div class="terminal-header" style="justify-content: flex-start; margin-bottom: 1.5rem;">
         <div class="terminal-dot" style="background: #ff5f56;"></div>
         <div class="terminal-dot" style="background: #ffbd2e;"></div>
         <div class="terminal-dot" style="background: #27c93f;"></div>
+        <span class="terminal-title" style="margin-left: 1rem; color: #555;">~/godwill-alexis</span>
       </div>
-      <div class="terminal-body font-mono">
-        <span style="color: #888;"># Initializing personal profile...</span><br>
-        <span style="color: var(--accent-primary);">$</span> cat profile.json<br>
-        {<br>
-          &nbsp;&nbsp;"name": "Alex171",<br>
-          &nbsp;&nbsp;"role": "Security Researcher",<br>
-          &nbsp;&nbsp;"focus": ["Web Pentest", "AI Security"],<br>
-          &nbsp;&nbsp;"status": "Learning & Hacking"<br>
-        }
+      
+      <h1 class="hero-name">Godwill Alexis AGUEMON</h1>
+      <div class="hero-subtitle">
+        <span id="typing-text" data-texts='["> Security Researcher", "> Web Pentester", "> CTF Player", "> OSCP Aspirant"]'>> Security Researcher</span>
       </div>
-    </div>
-    
-    <h1>Étudiant en <span id="typing-text" data-texts='["> Cybersécurité", "> Pentesting", "> IA Security"]'>Cybersécurité</span></h1>
-    <p>CTF Player & Security Researcher. Passionné par l'offensif et la sécurité des systèmes IA.</p>
-    
-    <div class="hero-cta">
-      <a href="{{ '/writeups' | relative_url }}" class="btn btn-primary">View Writeups</a>
-      <a href="{{ '/about' | relative_url }}" class="btn btn-outline">About Me</a>
+      
+      <p style="max-width: 600px; margin: 0 auto 2.5rem; color: var(--text-primary); font-size: 1.1rem; line-height: 1.8;">
+        Passionné par la cybersécurité offensive et l'analyse de vulnérabilités. 
+        Bienvenue dans mon environnement de travail numérique.
+      </p>
+      
+      <div class="hero-cta" style="display: flex; gap: 1rem; justify-content: center;">
+        <a href="{{ '/writeups' | relative_url }}" class="btn btn-primary" style="padding: 1rem 2rem; background: var(--accent-primary); color: #000; font-weight: bold; border-radius: 4px;">Explore Writeups</a>
+        <a href="{{ '/about' | relative_url }}" class="btn btn-outline" style="padding: 1rem 2rem; border: 1px solid var(--accent-primary); color: var(--accent-primary); border-radius: 4px;">More About Me</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="skills" style="background: var(--bg-surface);">
+<section id="latest-writeups" style="padding: 6rem 0;">
   <div class="container">
-    <h2 class="font-mono" style="text-align: center; margin-bottom: 3rem;">Technical _<span>Skills</span></h2>
-    
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-      {% for skill in site.skills %}
-      <div class="skill-bar-container">
-        <div class="skill-info">
-          <span>{{ skill.name }}</span>
-          <span>{{ skill.level }}%</span>
-        </div>
-        <div class="skill-bar">
-          <div class="skill-progress" style="width: {{ skill.level }}%"></div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<section id="latest-writeups">
-  <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
-      <h2 class="font-mono">Latest _<span>Writeups</span></h2>
-      <a href="{{ '/writeups' | relative_url }}" class="text-green font-mono">View All -></a>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4rem;">
+      <h2 class="font-mono" style="font-size: 2rem; color: var(--accent-primary);">0x01_Latest_Writeups</h2>
+      <a href="{{ '/writeups' | relative_url }}" class="text-green font-mono" style="border-bottom: 1px solid var(--accent-primary);">View_All_Archives()</a>
     </div>
     
     <div class="writeup-grid">
       {% for post in site.posts limit:3 %}
         {% include card-writeup.html %}
       {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="status-terminal" style="padding: 4rem 0; background: rgba(0,255,65,0.02);">
+  <div class="container">
+    <div class="terminal-block" style="border: 1px solid rgba(0,255,65,0.2);">
+      <div class="terminal-body font-mono" style="color: #aaa;">
+        <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+          <div>
+            <span style="color: var(--accent-primary);">[ STATUS ]</span> Active<br>
+            <span style="color: var(--accent-primary);">[ TARGET ]</span> Web Security / AD Pentest<br>
+          </div>
+          <div>
+            <span style="color: var(--accent-primary);">[ TOOLS  ]</span> BurpSuite, Metasploit, Nmap, Python<br>
+            <span style="color: var(--accent-primary);">[ LOC    ]</span> West Africa / Remote<br>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
