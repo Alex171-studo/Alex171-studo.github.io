@@ -228,19 +228,78 @@ document.addEventListener('click', (e) => {
 
 // ── SEARCH (writeups page) ───────────────────────
 const searchInput = document.getElementById('search-writeups');
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        const cards = document.querySelectorAll('.writeup-card');
+        cards.forEach(card => {
+            const title = card.querySelector('.title').textContent.toLowerCase();
+            const desc = card.querySelector('p').textContent.toLowerCase();
+            const platform = card.dataset.platform ? card.dataset.platform.toLowerCase() : '';
+            const tags = card.dataset.tags ? card.dataset.tags.toLowerCase() : '';
+            
+            const match = title.includes(query) || desc.includes(query) || platform.includes(query) || tags.includes(query);
+            card.style.display = match ? '' : 'none';
+        });
+    });
+}
+
+// ── ADAPTIVE THEME ───────────────────────────────
+function initAdaptiveTheme() {
+    const cards = document.querySelectorAll('.writeup-card');
+    // On listing page, we don't change global theme, but on post page we do
+    const isPostPage = document.querySelector('.writeup-content');
+    if (isPostPage) {
+        const platformBadge = document.querySelector('.badge-platform');
+        if (platformBadge) {
+            const platform = platformBadge.textContent.trim().toLowerCase();
+            if (platform.includes('htb') || platform.includes('hackthebox')) {
+                document.body.classList.add('theme-htb');
+            } else if (platform.includes('thm') || platform.includes('tryhackme')) {
+                document.body.classList.add('theme-thm');
+            }
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', initAdaptiveTheme);
+
 // ── INTERACTIVE TERMINAL ─────────────────────────
 const TERMINAL_COMMANDS = {
     help: () => `
-        <span style="color:var(--accent-secondary)">Commandes disponibles :</span><br>
-        - <span style="color:var(--accent-primary)">whoami</span> : À propos d'Alex<br>
-        - <span style="color:var(--accent-primary)">writeups</span> : Voir les derniers writeups<br>
-        - <span style="color:var(--accent-primary)">clear</span> : Effacer le terminal<br>
-        - <span style="color:var(--accent-primary)">exit</span> : Fermer le terminal
+        <div class="term-help">
+            <span style="color:var(--accent-secondary)">Système de Navigation AlexOS v1.0.2</span><br>
+            -------------------------------------------<br>
+            - <span style="color:var(--accent-primary)">whoami</span>      : Affiche l'identité de l'opérateur<br>
+            - <span style="color:var(--accent-primary)">ls</span>          : Liste les sections du site<br>
+            - <span style="color:var(--accent-primary)">cat [file]</span>   : Lit le contenu d'un fichier/section<br>
+            - <span style="color:var(--accent-primary)">writeups</span>    : Accès direct à la base de données machines<br>
+            - <span style="color:var(--accent-primary)">clear</span>       : Nettoie la console<br>
+            - <span style="color:var(--accent-primary)">exit</span>        : Termine la session<br>
+            -------------------------------------------
+        </div>
     `,
-    whoami: () => `Alex171 - Étudiant en Cybersécurité & CTF Player. Spécialisé en Pentest Web.`,
-    writeups: () => `Derniers writeups : Silentium, Kobold, WingData, Facts... Tape 'open writeups' pour voir tout.`,
-    clear: () => { document.getElementById('term-output').innerHTML = ''; return ''; },
-    exit: () => { document.getElementById('interactive-terminal').classList.remove('open'); return ''; }
+    whoami: () => `Alex171 - Security Researcher. Expert in Web Pentesting & OSCP Aspirant.`,
+    ls: () => `
+        <span style="color:var(--accent-secondary)">Index des répertoires :</span><br>
+        -rw-r--r--  <a href="/about.html" style="color:inherit">about.md</a><br>
+        -rw-r--r--  <a href="/projects.html" style="color:inherit">projects.md</a><br>
+        drwxr-xr-x  <a href="/writeups.html" style="color:inherit">writeups/</a><br>
+        -rw-r--r--  <a href="/certifications.html" style="color:inherit">certifications.md</a>
+    `,
+    cat: (args) => {
+        if (!args) return "Usage: cat [filename]";
+        const file = args.toLowerCase();
+        if (file.includes('about')) { setTimeout(() => window.location.href = '/about.html', 800); return "Lecture de about.md..."; }
+        if (file.includes('project')) { setTimeout(() => window.location.href = '/projects.html', 800); return "Lecture de projects.md..."; }
+        if (file.includes('cert')) { setTimeout(() => window.location.href = '/certifications.html', 800); return "Lecture de certifications.md..."; }
+        return `Fichier '${args}' introuvable ou accès refusé.`;
+    },
+    writeups: () => {
+        setTimeout(() => window.location.href = '/writeups.html', 1000);
+        return "Accès à la base de données... Redirection en cours...";
+    },
+    clear: () => { termOutput.innerHTML = ''; return ''; },
+    exit: () => { termWindow.classList.remove('open'); return ''; }
 };
 
 const termInput = document.getElementById('term-input');
@@ -252,7 +311,12 @@ const termClose = document.getElementById('term-close');
 if (termToggle) {
     termToggle.addEventListener('click', () => {
         termWindow.classList.toggle('open');
-        if (termWindow.classList.contains('open')) termInput.focus();
+        if (termWindow.classList.contains('open')) {
+            termInput.focus();
+            if (termOutput.innerHTML === '') {
+                termOutput.innerHTML = '<div>Bienvenue sur AlexOS. Tapez <span style="color:var(--accent-primary)">\'help\'</span> pour commencer.</div>';
+            }
+        }
     });
 }
 
@@ -263,11 +327,16 @@ if (termClose) {
 if (termInput) {
     termInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            const cmd = termInput.value.trim().toLowerCase();
-            const response = TERMINAL_COMMANDS[cmd] ? TERMINAL_COMMANDS[cmd]() : `Commande inconnue : ${cmd}. Tape 'help' pour voir la liste.`;
+            const fullCmd = termInput.value.trim();
+            const parts = fullCmd.split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1).join(' ');
+            
+            termOutput.innerHTML += `<div><span style="color:var(--accent-primary)">alex@portfolio:~$</span> ${fullCmd}</div>`;
+            
+            const response = TERMINAL_COMMANDS[cmd] ? TERMINAL_COMMANDS[cmd](args) : `Commande inconnue : ${cmd}. Tape 'help' pour voir la liste.`;
             
             if (response !== '') {
-                termOutput.innerHTML += `<div><span style="color:var(--accent-primary)">alex@portfolio:~$</span> ${cmd}</div>`;
                 termOutput.innerHTML += `<div style="margin-bottom:0.5rem">${response}</div>`;
             }
             

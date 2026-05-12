@@ -397,6 +397,59 @@ footer {
   color: var(--text-primary);
 }
 
+/* ── MATRIX BACKGROUND ── */
+#matrix-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* Scanline Effect */
+body::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 9999;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* Text Glow */
+.font-mono.text-green, .title.font-mono {
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+}
+
+/* Adaptive background colors */
+body.theme-htb { --accent-primary: #9fef00; }
+body.theme-thm { --accent-primary: #cc0000; }
+body.theme-htb #matrix-canvas { filter: hue-rotate(40deg); }
+body.theme-thm #matrix-canvas { filter: hue-rotate(300deg); }
+
 #search-writeups:focus {
   border-color: var(--accent-primary);
   box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);

@@ -1,4 +1,4 @@
-<div class="card writeup-card fade-in">
+<div class="card writeup-card fade-in" data-platform="{{ post.platform }}" data-tags="{{ post.tags | join: ',' }}">
   {% if post.image %}
   <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
   {% endif %}
