@@ -9,7 +9,7 @@ author:
   htb: "Alex171"
   tryhackme: "Ghost0x"
 
-remote_theme: pages-themes/minima
+theme: minima
 
 exclude:
   - Gemfile
